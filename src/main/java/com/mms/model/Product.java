@@ -11,6 +11,19 @@ public class Product {
     private int size;
     private String description;
     private int number;
+    private int price;
+
+    public Product(String name, String category, String brandName, String color, int weight, int size, String description, int number, int price) {
+        this.name = name;
+        this.category = category;
+        this.brandName = brandName;
+        this.color = color;
+        this.weight = weight;
+        this.size = size;
+        this.description = description;
+        this.number = number;
+        this.price = price;
+    }
 
     public int getId() {
         return id;
@@ -84,17 +97,11 @@ public class Product {
         this.number = number;
     }
 
-    @Override
-    public String toString() {
-        return "Product{" +
-                "name='" + name + '\'' +
-                ", category='" + category + '\'' +
-                ", brandName='" + brandName + '\'' +
-                ", color='" + color + '\'' +
-                ", weight=" + weight +
-                ", size=" + size +
-                ", description='" + description + '\'' +
-                ", number=" + number +
-                '}';
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
     }
 }
