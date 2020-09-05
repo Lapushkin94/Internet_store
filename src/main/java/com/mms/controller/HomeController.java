@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -38,11 +39,16 @@ public class HomeController {
 
     // redirects to products catalog page, will show all products and some links
     @RequestMapping(value = "/catalog", method = RequestMethod.GET)
-    public ModelAndView catalog() {
-        List<Product> productList = mmsService.allProducts();
+    public ModelAndView catalog(@RequestParam(defaultValue = "1") int page) {
+        List<Product> productList = mmsService.allProducts(page);
+        int productsCount = mmsService.productsCount();
+        int pagesCount = (productsCount + 9)/10;
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("catalog");
+        modelAndView.addObject("page", page);
         modelAndView.addObject("allProducts", productList);
+        modelAndView.addObject("productsCount", productsCount);
+        modelAndView.addObject("pagesCount", pagesCount);
         return modelAndView;
     }
 

@@ -20,8 +20,14 @@ public class MmsServiceImpl implements MmsService {
 
     @Override
     @Transactional
-    public List<Product> allProducts() {
-        return mmsDAO.allProducts();
+    public List<Product> allProducts(int page) {
+        return mmsDAO.allProducts(page);
+    }
+
+    @Override
+    @Transactional
+    public int productsCount() {
+        return mmsDAO.productsCount();
     }
 
     @Override

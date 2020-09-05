@@ -5,11 +5,12 @@
     <link href="<c:url value="/style/catalog.css"/>" rel="stylesheet" type="text/css"/>
     <title>Catalog</title>
 </head>
-<body>
-<h2>Product list</h2>
+<body bgcolor="#ffebcd">
 
 <table>
+    <caption>Product list</caption>
     <tr>
+        <th>№</th>
         <th>Id</th>
         <th>Name</th>
         <th>Category</th>
@@ -17,10 +18,11 @@
         <th>Number</th>
         <th>Price</th>
         <th>Info</th>
-        <th>Action</th>
+        <th colspan="3">Action</th>
     </tr>
-    <c:forEach var="product" items="${allProducts}">
+    <c:forEach var="product" items="${allProducts}" varStatus="i">
         <tr>
+            <td>${i.index + 1 + (page - 1) * 10}</td>
             <td>${product.id}</td>
             <td>${product.name}</td>
             <td>${product.category}</td>
@@ -32,16 +34,19 @@
             </td>
             <td>
                 <a href="/get/${product.id}">Get it</a>
-
-                <!-- Administrator only -->
                 <a href="/catalog/edit/${product.id}">Edit product</a>
                 <a href="/catalog/delete/${product.id}">Delete product</a>
             </td>
         </tr>
     </c:forEach>
     <tr>
-        <td>
+        <td colspan="7">
             <a href="/catalog/add">Add new product</a>
+            <c:forEach begin="${1}" end="${pagesCount}" step="1" varStatus="i">
+                <c:url value="/catalog" var="url">
+                    <c:param name="page" value="${i.index}"/>
+                </c:url>
+            </c:forEach>
         </td>
     </tr>
 </table>

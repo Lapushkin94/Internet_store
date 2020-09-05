@@ -20,9 +20,15 @@ public class MmsDAOImpl implements MmsDAO {
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<Product> allProducts() {
+    public List<Product> allProducts(int page) {
         Session session = sessionFactory.getCurrentSession();
-        return session.createQuery("from Product").list();
+        return session.createQuery("from Product").setFirstResult(10 * (page - 1)).setMaxResults(10).list();
+    }
+
+    @Override
+    public int productsCount() {
+        Session session = sessionFactory.getCurrentSession();
+        return session.createQuery("select count(*) from Product", Number.class).getSingleResult().intValue();
     }
 
     @Override
