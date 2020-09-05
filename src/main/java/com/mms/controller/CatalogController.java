@@ -2,7 +2,6 @@ package com.mms.controller;
 
 import com.mms.model.Product;
 import com.mms.service.MmsService;
-import com.mms.service.MmsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -22,6 +21,7 @@ public class CatalogController {
         this.mmsService = mmsService;
     }
 
+    // shows detail information about chosen product
     @RequestMapping(value = "/details/{id}", method = RequestMethod.GET)
     public ModelAndView getDetails(@PathVariable("id") int id) {
         Product product = mmsService.getById(id);
@@ -31,6 +31,7 @@ public class CatalogController {
         return modelAndView;
     }
 
+    // redirects to edit-page of chosen product
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
     public ModelAndView editPage(@PathVariable("id") int id) {
         Product product = mmsService.getById(id);
@@ -40,6 +41,7 @@ public class CatalogController {
         return modelAndView;
     }
 
+    // allows edit chosen product
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
     public ModelAndView editProduct(@ModelAttribute("product") Product product) {
         ModelAndView modelAndView = new ModelAndView();
@@ -48,6 +50,7 @@ public class CatalogController {
         return modelAndView;
     }
 
+    // redirect to add-page
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     public ModelAndView addPage() {
         ModelAndView modelAndView = new ModelAndView();
@@ -55,6 +58,7 @@ public class CatalogController {
         return modelAndView;
     }
 
+    // allows to add a new product
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public ModelAndView addProduct(@ModelAttribute("product") Product product) {
         ModelAndView modelAndView = new ModelAndView();
@@ -63,6 +67,7 @@ public class CatalogController {
         return modelAndView;
     }
 
+    // deletes chosen product
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public ModelAndView deleteProduct(@PathVariable("id") int id) {
         ModelAndView modelAndView = new ModelAndView();

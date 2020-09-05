@@ -1,29 +1,33 @@
 package com.mms.model;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "products")
 public class Product {
 
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Column(name = "name")
     private String name;
+    @Column(name = "category")
     private String category;
+    @Column(name = "brandName")
     private String brandName;
+    @Column(name = "color")
     private String color;
+    @Column(name = "weight")
     private int weight;
+    @Column(name = "size")
     private int size;
+    @Column(name = "description")
     private String description;
+    @Column(name = "number")
     private int number;
+    @Column(name = "price")
     private int price;
-
-    public Product(String name, String category, String brandName, String color, int weight, int size, String description, int number, int price) {
-        this.name = name;
-        this.category = category;
-        this.brandName = brandName;
-        this.color = color;
-        this.weight = weight;
-        this.size = size;
-        this.description = description;
-        this.number = number;
-        this.price = price;
-    }
 
     public int getId() {
         return id;
