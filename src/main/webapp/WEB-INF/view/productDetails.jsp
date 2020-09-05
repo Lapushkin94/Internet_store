@@ -3,10 +3,10 @@
 
 <html>
 <head>
-    <title>Catalog</title>
+    <title>Details</title>
 </head>
 <body>
-<h2>Product list</h2>
+<h2>Product details</h2>
 
 <table>
     <tr>
