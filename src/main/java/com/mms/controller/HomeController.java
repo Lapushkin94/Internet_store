@@ -52,4 +52,20 @@ public class HomeController {
         return modelAndView;
     }
 
+    @RequestMapping(value = "/aboutUs", method = RequestMethod.GET)
+    public ModelAndView aboutUs() {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("aboutUs");
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/contacts", method = RequestMethod.GET)
+    public ModelAndView contacts() {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("contacts");
+        return modelAndView;
+    }
+
+
+
 }

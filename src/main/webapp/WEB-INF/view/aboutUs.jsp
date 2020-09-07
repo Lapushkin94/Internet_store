@@ -6,10 +6,7 @@
     <title>Internet shop</title>
 </head>
 <body bgcolor="#e9967a">
-<div class="flame" id="fire">Test some styles</div>
-<h2><a href="/profile">Profile reference (not working yet)</a></h2>
-<h2><a href="/catalog">Catalog reference</a></h2>
-<h2><a href="/aboutUs">About us</a></h2>
-<h2><a href="/contacts">Contacts</a></h2>
+<div class="flame" id="fire">About us. Info: ...</div>
+
 </body>
 </html>
