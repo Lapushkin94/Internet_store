@@ -28,7 +28,7 @@ public class HibernateConfig {
         this.environment = environment;
     }
 
-    // object "properties" contains hibernate properties
+    // returned object "properties" contains hibernate properties
     private Properties hibernateProperties() {
         Properties properties = new Properties();
         properties.put("hibernate.dialect", environment.getRequiredProperty("hibernate.dialect"));
@@ -47,7 +47,7 @@ public class HibernateConfig {
         return dataSource;
     }
 
-    // create session which interact with entitys
+    // create session which interact with entities
     @Bean
     public LocalSessionFactoryBean sessionFactory() {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();

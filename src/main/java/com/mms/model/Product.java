@@ -16,18 +16,34 @@ public class Product {
     private String category;
     @Column(name = "brandName")
     private String brandName;
-    @Column(name = "color")
-    private String color;
-    @Column(name = "weight")
-    private int weight;
-    @Column(name = "size")
-    private int size;
-    @Column(name = "description")
-    private String description;
     @Column(name = "number")
     private int number;
     @Column(name = "price")
     private int price;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "product_details_id")
+    private ProductDetails productDetails;
+
+    public Product() {
+
+    }
+
+    public Product(String name, String category, String brandName, int number, int price, ProductDetails productDetails) {
+        this.name = name;
+        this.category = category;
+        this.brandName = brandName;
+        this.number = number;
+        this.price = price;
+        this.productDetails = productDetails;
+    }
+
+    public ProductDetails getProductDetails() {
+        return productDetails;
+    }
+
+    public void setProductDetails(ProductDetails productDetails) {
+        this.productDetails = productDetails;
+    }
 
     public int getId() {
         return id;
@@ -59,38 +75,6 @@ public class Product {
 
     public void setBrandName(String brandName) {
         this.brandName = brandName;
-    }
-
-    public String getColor() {
-        return color;
-    }
-
-    public void setColor(String color) {
-        this.color = color;
-    }
-
-    public int getWeight() {
-        return weight;
-    }
-
-    public void setWeight(int weight) {
-        this.weight = weight;
-    }
-
-    public int getSize() {
-        return size;
-    }
-
-    public void setSize(int size) {
-        this.size = size;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public int getNumber() {

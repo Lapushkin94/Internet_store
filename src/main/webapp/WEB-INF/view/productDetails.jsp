@@ -30,7 +30,7 @@
             <td>${product.brandName}</td>
             <td>${product.color}</td>
             <td>${product.weight}</td>
-            <td>${product.size}</td>
+            <td>${product.country}</td>
             <td>${product.description}</td>
             <td>${product.number}</td>
             <td>${product.price}</td>
