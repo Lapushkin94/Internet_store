@@ -30,8 +30,8 @@
     <input type="text" name="color" id="color">
     <label for="weight">Weight</label>
     <input type="text" name="weight" id="weight">
-    <label for="size">Size</label>
-    <input type="text" name="size" id="size">
+    <label for="country">Country</label>
+    <input type="text" name="country" id="country">
     <label for="description">Description</label>
     <input type="text" name="description" id="description">
     <label for="number">Number</label>

@@ -1,6 +1,7 @@
 package com.mms.controller;
 
 import com.mms.model.Product;
+import com.mms.model.ProductDetails;
 import com.mms.service.MmsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,9 +26,11 @@ public class CatalogController {
     @RequestMapping(value = "/details/{id}", method = RequestMethod.GET)
     public ModelAndView getDetails(@PathVariable("id") int id) {
         Product product = mmsService.getById(id);
+        ProductDetails productDetails = product.getProductDetails();
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("productDetails");
         modelAndView.addObject("product", product);
+        modelAndView.addObject("productDetails", productDetails);
         return modelAndView;
     }
 
@@ -60,9 +63,12 @@ public class CatalogController {
 
     // allows to add a new product
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public ModelAndView addProduct(@ModelAttribute("product") Product product) {
+    public ModelAndView addProduct(
+            @ModelAttribute("product") Product product,
+            @ModelAttribute("productDetails")ProductDetails productDetails) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("redirect:/catalog");
+        product.setProductDetails(productDetails);
         mmsService.add(product);
         return modelAndView;
     }

@@ -1,6 +1,7 @@
 package com.mms.dao;
 
 import com.mms.model.Product;
+import com.mms.model.ProductDetails;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;

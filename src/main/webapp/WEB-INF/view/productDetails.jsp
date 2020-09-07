@@ -16,7 +16,7 @@
         <th>Brand name</th>
         <th>Color</th>
         <th>Weight</th>
-        <th>Size</th>
+        <th>Country</th>
         <th>Description</th>
         <th>Number</th>
         <th>Price</th>
@@ -28,10 +28,10 @@
             <td>${product.name}</td>
             <td>${product.category}</td>
             <td>${product.brandName}</td>
-            <td>${product.color}</td>
-            <td>${product.weight}</td>
-            <td>${product.country}</td>
-            <td>${product.description}</td>
+            <td>${productDetails.color}</td>
+            <td>${productDetails.weight}</td>
+            <td>${productDetails.country}</td>
+            <td>${productDetails.description}</td>
             <td>${product.number}</td>
             <td>${product.price}</td>
             <td>

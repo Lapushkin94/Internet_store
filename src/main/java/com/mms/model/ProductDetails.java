@@ -15,7 +15,7 @@ public class ProductDetails {
     @Column(name = "weight")
     private int weight;
     @Column(name = "country")
-    private int country;
+    private String country;
     @Column(name = "description")
     private String description;
 
@@ -23,7 +23,7 @@ public class ProductDetails {
 
     }
 
-    public ProductDetails(String color, int weight, int country, String description) {
+    public ProductDetails(String color, int weight, String country, String description) {
         this.color = color;
         this.weight = weight;
         this.country = country;
@@ -54,11 +54,11 @@ public class ProductDetails {
         this.weight = weight;
     }
 
-    public int getCountry() {
+    public String getCountry() {
         return country;
     }
 
-    public void setCountry(int country) {
+    public void setCountry(String country) {
         this.country = country;
     }
 
