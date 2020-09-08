@@ -3,6 +3,7 @@
 
 <html>
 <head>
+    <link href="<c:url value="/style/catalog.css"/>" rel="stylesheet" type="text/css"/>
     <title>Details</title>
 </head>
 <body>

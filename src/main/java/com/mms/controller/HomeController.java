@@ -1,15 +1,12 @@
 package com.mms.controller;
 
-import com.mms.model.Product;
 import com.mms.service.MmsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.List;
 
 @Controller
 public class HomeController {
@@ -37,7 +34,7 @@ public class HomeController {
         return modelAndView;
     }
 
-
+    // some info about the shop
     @RequestMapping(value = "/aboutUs", method = RequestMethod.GET)
     public ModelAndView aboutUs() {
         ModelAndView modelAndView = new ModelAndView();
@@ -45,6 +42,7 @@ public class HomeController {
         return modelAndView;
     }
 
+    // company contacts (email, mobile number, etc.)
     @RequestMapping(value = "/contacts", method = RequestMethod.GET)
     public ModelAndView contacts() {
         ModelAndView modelAndView = new ModelAndView();

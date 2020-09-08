@@ -71,7 +71,7 @@ public class CatalogController {
         return modelAndView;
     }
 
-    // redirect to add-page
+    // redirect to add-page (page for adding products)
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     public ModelAndView addPage() {
         ModelAndView modelAndView = new ModelAndView();
@@ -79,7 +79,7 @@ public class CatalogController {
         return modelAndView;
     }
 
-    // allows to add a new product
+    // allows to add a new product and productDetails
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public ModelAndView addProduct(
             @ModelAttribute("product") Product product,
