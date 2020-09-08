@@ -23,23 +23,30 @@
         <th>Action</th>
     </tr>
 
-        <tr>
-            <td>${product.id}</td>
-            <td>${product.name}</td>
-            <td>${product.category}</td>
-            <td>${product.brandName}</td>
-            <td>${productDetails.color}</td>
-            <td>${productDetails.weight}</td>
-            <td>${productDetails.country}</td>
-            <td>${productDetails.description}</td>
-            <td>${product.number}</td>
-            <td>${product.price}</td>
-            <td>
-                <a href="/catalog/get/${product.id}">Get it</a>
-                <a href="/catalog/edit/${product.id}">Edit product</a>
-                <a href="/catalog/delete/${product.id}">Delete product</a>
-            </td>
-        </tr>
+    <tr>
+        <td>${product.id}</td>
+        <td>${product.name}</td>
+        <td>${product.category}</td>
+        <td>${product.brandName}</td>
+        <td>${productDetails.color}</td>
+        <td>${productDetails.weight}</td>
+        <td>${productDetails.country}</td>
+        <td>${productDetails.description}</td>
+        <td>${product.number}</td>
+        <td>${product.price}</td>
+        <td>
+            <a href="/catalog/get/${product.id}">Get it</a>
+            <a href="/catalog/edit/${product.id}">Edit product</a>
+            <a href="/catalog/delete/${product.id}">Delete product</a>
+        </td>
+    </tr>
+
+    <tr>
+        <c:url value="/catalog" var="url">
+            <c:param name="page" value="${page}"/>
+        </c:url>
+        <a href="${url}">Back</a>
+    </tr>
 
 </table>
 

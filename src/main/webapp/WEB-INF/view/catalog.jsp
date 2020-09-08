@@ -40,12 +40,15 @@
         </tr>
     </c:forEach>
     <tr>
-        <td colspan="7">
+        <td colspan="4">
             <a href="/catalog/add">Add new product</a>
-            <c:forEach begin="${1}" end="${pagesCount}" step="1" varStatus="i">
+        </td>
+        <td>
+            <c:forEach begin="1" end="${pagesCount}" step="1" varStatus="i">
                 <c:url value="/catalog" var="url">
                     <c:param name="page" value="${i.index}"/>
                 </c:url>
+                <a href="${url}">${i.index}</a>
             </c:forEach>
         </td>
     </tr>

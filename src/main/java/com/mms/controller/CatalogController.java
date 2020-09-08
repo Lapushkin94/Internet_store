@@ -5,21 +5,37 @@ import com.mms.model.ProductDetails;
 import com.mms.service.MmsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.List;
 
 @Controller
 @RequestMapping(value = "/catalog")
 public class CatalogController {
 
     private MmsService mmsService;
+    private int page;
 
     @Autowired
     public void setMmsService(MmsService mmsService) {
         this.mmsService = mmsService;
+    }
+
+    // redirects to products catalog page, will show all products and some links
+    @RequestMapping(method = RequestMethod.GET)
+    public ModelAndView catalog(@RequestParam(defaultValue = "1") int page) {
+        List<Product> productList = mmsService.allProducts(page);
+        this.page = page;
+        int productsCount = mmsService.productsCount();
+        int pagesCount = (productsCount + 9)/10;
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("catalog");
+        modelAndView.addObject("page", page);
+        modelAndView.addObject("allProducts", productList);
+        modelAndView.addObject("productsCount", productsCount);
+        modelAndView.addObject("pagesCount", pagesCount);
+        return modelAndView;
     }
 
     // shows detail information about chosen product
@@ -29,6 +45,7 @@ public class CatalogController {
         ProductDetails productDetails = product.getProductDetails();
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("productDetails");
+        modelAndView.addObject("page", page);
         modelAndView.addObject("product", product);
         modelAndView.addObject("productDetails", productDetails);
         return modelAndView;
@@ -40,6 +57,7 @@ public class CatalogController {
         Product product = mmsService.getById(id);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("editPage");
+        modelAndView.addObject("page", page);
         modelAndView.addObject("product", product);
         return modelAndView;
     }
@@ -48,7 +66,7 @@ public class CatalogController {
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
     public ModelAndView editProduct(@ModelAttribute("product") Product product) {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("redirect:/catalog");
+        modelAndView.setViewName("redirect:/catalog/?page=" + this.page);
         mmsService.edit(product);
         return modelAndView;
     }
@@ -67,7 +85,7 @@ public class CatalogController {
             @ModelAttribute("product") Product product,
             @ModelAttribute("productDetails")ProductDetails productDetails) {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("redirect:/catalog");
+        modelAndView.setViewName("redirect:/catalog/?page=" + this.page);
         product.setProductDetails(productDetails);
         mmsService.add(product);
         return modelAndView;
@@ -77,7 +95,7 @@ public class CatalogController {
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public ModelAndView deleteProduct(@PathVariable("id") int id) {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("redirect:/catalog");
+        modelAndView.setViewName("redirect:/catalog/?page=" + this.page);
         Product product = mmsService.getById(id);
         mmsService.delete(product);
         return modelAndView;
