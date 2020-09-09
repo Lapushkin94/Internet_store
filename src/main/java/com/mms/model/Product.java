@@ -20,7 +20,7 @@ public class Product {
     private int number;
     @Column(name = "price")
     private int price;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "product_details_id")
     private ProductDetails productDetails;
 
