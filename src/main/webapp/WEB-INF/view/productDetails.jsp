@@ -5,7 +5,6 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link href="<c:url value="/style/fire.css"/>" rel="stylesheet" type="text/css"/>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <title>Details</title>
 </head>
@@ -16,27 +15,27 @@
     <tr>
         <th>Id</th>
         <th>Name</th>
+        <th>Alternative name</th>
         <th>Category</th>
         <th>Brand name</th>
         <th>Color</th>
         <th>Weight</th>
         <th>Country</th>
         <th>Description</th>
-        <th>Number</th>
         <th>Price</th>
-        <th>Action</th>
+        <th>Actions</th>
     </tr>
 
     <tr>
         <td>${product.id}</td>
         <td>${product.name}</td>
-        <td>${product.category}</td>
+        <td>${product.alternative_name}</td>
+        <td>${category.name}</td>
         <td>${product.brandName}</td>
         <td>${productDetails.color}</td>
         <td>${productDetails.weight}</td>
         <td>${productDetails.country}</td>
         <td>${productDetails.description}</td>
-        <td>${product.number}</td>
         <td>${product.price}</td>
         <td>
             <a href="/catalog/get/${product.id}">Get it</a>
@@ -47,7 +46,7 @@
 
     <tr>
         <c:url value="/catalog" var="url">
-            <c:param name="page" value="${page}"/>
+            <c:param name="productListPage" value="${productListPage}"/>
         </c:url>
         <a href="${url}">Back</a>
     </tr>

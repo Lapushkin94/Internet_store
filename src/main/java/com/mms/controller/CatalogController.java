@@ -1,8 +1,9 @@
 package com.mms.controller;
 
-import com.mms.model.Product;
-import com.mms.model.ProductDetails;
-import com.mms.service.MmsService;
+import com.mms.dto.ProductDTO;
+import com.mms.dto.ProductDetailsDTO;
+import com.mms.dto.ProductInBascetDTO;
+import com.mms.service.interfaces.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -10,94 +11,138 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
+import static com.mms.dto.converter.ProductDetailsConverter.toEntity;
+
 @Controller
 @RequestMapping(value = "/catalog")
 public class CatalogController {
 
-    private MmsService mmsService;
-    private int page;
+    private ProductService productService;
+    private ProductInBascetService productInBascetService;
+    private OrderService orderService;
+    private ClientService clientService;
+    private CategoryService categoryService;
+
+    private int productListPage;
+    private int productInBascetListPage;
+    private int orderListPage;
+    private int clientListPage;
+    private int categoryListPage;
 
     @Autowired
-    public void setMmsService(MmsService mmsService) {
-        this.mmsService = mmsService;
+    public void setProductService(ProductService productService) {
+        this.productService = productService;
     }
 
-    // redirects to products catalog page, will show all products and some links
-    @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView catalog(@RequestParam(defaultValue = "1") int page) {
-        List<Product> productList = mmsService.allProducts(page);
-        this.page = page;
-        int productsCount = mmsService.productsCount();
-        int pagesCount = (productsCount + 9)/10;
+    @Autowired
+    public void setProductInBascetService(ProductInBascetService productInBascetService) {
+        this.productInBascetService = productInBascetService;
+    }
+
+    @Autowired
+    public void setOrderService(OrderService orderService) {
+        this.orderService = orderService;
+    }
+
+    @Autowired
+    public void setClientService(ClientService clientService) {
+        this.clientService = clientService;
+    }
+
+    @Autowired
+    public void setCategoryService(CategoryService categoryService) {
+        this.categoryService = categoryService;
+    }
+
+    /**
+     * @param productListPage
+     * @return
+     */
+    @GetMapping
+    public ModelAndView catalog(@RequestParam(defaultValue = "1") int productListPage,
+                                @RequestParam(defaultValue = "1") int productInBascetListPage) {
+        List<ProductDTO> productList = productService.getAllProducts(productListPage);
+        this.productListPage = productListPage;
+        int productsCount = productService.getProductCount();
+        int productPagesCount = (productsCount + 9) / 10;
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("catalog");
-        modelAndView.addObject("page", page);
-        modelAndView.addObject("allProducts", productList);
+        modelAndView.addObject("productListPage", productListPage);
+        modelAndView.addObject("productList", productList);
         modelAndView.addObject("productsCount", productsCount);
-        modelAndView.addObject("pagesCount", pagesCount);
+        modelAndView.addObject("productPagesCount", productPagesCount);
+
+        List<ProductInBascetDTO> productInBascetList = productInBascetService.getAllProductsInBascet(productInBascetListPage);
+        this.productInBascetListPage = productInBascetListPage;
+        int productsInBascetCount = productInBascetService.getProductCount();
+        int productInBascetPagesCount = (productsInBascetCount + 9) / 10;
+        modelAndView.addObject("productInBascetListPage", productInBascetListPage);
+        modelAndView.addObject("productInBascetList", productInBascetList);
+        modelAndView.addObject("productsInBascetCount", productsInBascetCount);
+        modelAndView.addObject("productInBascetPagesCount", productInBascetPagesCount);
+
         return modelAndView;
     }
 
     // shows detail information about chosen product
-    @RequestMapping(value = "/details/{id}", method = RequestMethod.GET)
+    @GetMapping(value = "/productDetails/{id}")
     public ModelAndView getDetails(@PathVariable("id") int id) {
-        Product product = mmsService.getById(id);
-        ProductDetails productDetails = product.getProductDetails();
+        ProductDTO product = productService.getProduct(id);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("productDetails");
-        modelAndView.addObject("page", page);
+        modelAndView.addObject("productListPage", productListPage);
         modelAndView.addObject("product", product);
-        modelAndView.addObject("productDetails", productDetails);
+        modelAndView.addObject("productDetails", product.getProductDetails());
+        modelAndView.addObject("category", product.getCategory());
         return modelAndView;
     }
 
     // redirects to edit-page of chosen product
-    @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
+    @GetMapping(value = "/editProduct/{id}")
     public ModelAndView editPage(@PathVariable("id") int id) {
-        Product product = mmsService.getById(id);
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("editPage");
-        modelAndView.addObject("page", page);
-        modelAndView.addObject("product", product);
+        modelAndView.setViewName("editProduct");
+        modelAndView.addObject("productListPage", productListPage);
+        modelAndView.addObject("product", productService.getProduct(id));
         return modelAndView;
     }
 
     // allows edit chosen product
-    @RequestMapping(value = "/edit", method = RequestMethod.POST)
-    public ModelAndView editProduct(@ModelAttribute("product") Product product) {
+    @PostMapping(value = "/editProduct")
+    public ModelAndView editProduct(@ModelAttribute("product") ProductDTO product) {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("redirect:/catalog/?page=" + this.page);
-        mmsService.edit(product);
+        modelAndView.setViewName("redirect:/catalog/?productListPage=" + this.productListPage);
+        productService.editProduct(product);
         return modelAndView;
     }
 
     // redirect to add-page (page for adding products)
-    @RequestMapping(value = "/add", method = RequestMethod.GET)
+    @GetMapping(value = "/addProduct")
     public ModelAndView addPage() {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("editPage");
+        modelAndView.setViewName("editProduct");
         return modelAndView;
     }
 
     // allows to add a new product and productDetails
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    @PostMapping(value = "/add")
     public ModelAndView addProduct(
-            @ModelAttribute("product") Product product,
-            @ModelAttribute("productDetails")ProductDetails productDetails) {
+            @ModelAttribute("product") ProductDTO product,
+            @ModelAttribute("productDetails") ProductDetailsDTO productDetails) {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("redirect:/catalog/?page=" + this.page);
-        product.setProductDetails(productDetails);
-        mmsService.add(product);
+        modelAndView.setViewName("redirect:/catalog/?productListPage=" + this.productListPage);
+        product.setProductDetails(toEntity(productDetails));
+        productService.addProduct(product);
         return modelAndView;
     }
 
     // deletes chosen product
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
+    // try DeleteMapping
+    @GetMapping(value = "/delete/{id}")
     public ModelAndView deleteProduct(@PathVariable("id") int id) {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("redirect:/catalog/?page=" + this.page);
-        Product product = mmsService.getById(id);
-        mmsService.delete(product);
+        modelAndView.setViewName("redirect:/catalog/?productListPage=" + this.productListPage);
+        productService.deleteProduct(productService.getProduct(id));
         return modelAndView;
     }
 

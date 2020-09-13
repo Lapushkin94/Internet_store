@@ -1,6 +1,6 @@
 package com.mms.controller;
 
-import com.mms.service.MmsService;
+import com.mms.service.interfaces.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,11 +11,11 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class HomeController {
 
-    private MmsService mmsService;
+    private ProductService productService;
 
     @Autowired
-    public void setMmsService(MmsService mmsService) {
-        this.mmsService = mmsService;
+    public void setProductService(ProductService productService) {
+        this.productService = productService;
     }
 
     // home page, contains several links

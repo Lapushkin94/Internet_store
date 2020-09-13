@@ -30,8 +30,8 @@
 
     <label for="name">Name</label>
     <input type="text" name="name" id="name">
-    <label for="category">Category</label>
-    <input type="text" name="category" id="category">
+    <label for="alternative_name">Alternative name</label>
+    <input type="text" name="alternative_name" id="alternative_name">
     <label for="brandName">Brand name</label>
     <input type="text" name="brandName" id="brandName">
     <label for="color">Color</label>
@@ -42,8 +42,6 @@
     <input type="text" name="country" id="country">
     <label for="description">Description</label>
     <input type="text" name="description" id="description">
-    <label for="number">Number</label>
-    <input type="number" name="number" id="number">
     <label for="price">Price</label>
     <input type="text" name="price" id="price">
 
@@ -55,7 +53,7 @@
     </c:if>
 
     <c:url value="/catalog" var="url">
-        <c:param name="page" value="${page}"/>
+        <c:param name="productListPage" value="${page}"/>
     </c:url>
     <a href="${url}">Back</a>
 
