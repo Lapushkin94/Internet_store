@@ -23,19 +23,19 @@
         <th>Country</th>
         <th>Description</th>
         <th>Price</th>
-        <th>Actions</th>
+        <th>Action</th>
     </tr>
 
     <tr>
         <td>${product.id}</td>
         <td>${product.name}</td>
         <td>${product.alternative_name}</td>
-        <td>${category.name}</td>
+        <td>${product.category.name}</td>
         <td>${product.brandName}</td>
-        <td>${productDetails.color}</td>
-        <td>${productDetails.weight}</td>
-        <td>${productDetails.country}</td>
-        <td>${productDetails.description}</td>
+        <td>${product.productDetails.color}</td>
+        <td>${product.productDetails.weight}</td>
+        <td>${product.productDetails.country}</td>
+        <td>${product.productDetails.description}</td>
         <td>${product.price}</td>
         <td>
             <a href="/catalog/get/${product.id}">Get it</a>
@@ -46,7 +46,7 @@
 
     <tr>
         <c:url value="/catalog" var="url">
-            <c:param name="productListPage" value="${productListPage}"/>
+            <c:param name="productListPage" value="${existingProductListPage}"/>
         </c:url>
         <a href="${url}">Back</a>
     </tr>

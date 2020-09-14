@@ -23,7 +23,7 @@ public class CatalogController {
     private ClientService clientService;
     private CategoryService categoryService;
 
-    private int productListPage;
+    private int existingProductListPage;
     private int productInBascetListPage;
     private int orderListPage;
     private int clientListPage;
@@ -61,8 +61,8 @@ public class CatalogController {
     @GetMapping
     public ModelAndView catalog(@RequestParam(defaultValue = "1") int productListPage,
                                 @RequestParam(defaultValue = "1") int productInBascetListPage) {
-        List<ProductDTO> productList = productService.getAllProducts(productListPage);
-        this.productListPage = productListPage;
+        List<ProductDTO> productList = productService.getAllExistingProducts(productListPage);
+        this.existingProductListPage = productListPage;
         int productsCount = productService.getProductCount();
         int productPagesCount = (productsCount + 9) / 10;
         ModelAndView modelAndView = new ModelAndView();
@@ -87,13 +87,10 @@ public class CatalogController {
     // shows detail information about chosen product
     @GetMapping(value = "/productDetails/{id}")
     public ModelAndView getDetails(@PathVariable("id") int id) {
-        ProductDTO product = productService.getProduct(id);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("productDetails");
-        modelAndView.addObject("productListPage", productListPage);
-        modelAndView.addObject("product", product);
-        modelAndView.addObject("productDetails", product.getProductDetails());
-        modelAndView.addObject("category", product.getCategory());
+        modelAndView.addObject("existingProductListPage", existingProductListPage);
+        modelAndView.addObject("product", productService.getProduct(id));
         return modelAndView;
     }
 
@@ -102,7 +99,7 @@ public class CatalogController {
     public ModelAndView editPage(@PathVariable("id") int id) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("editProduct");
-        modelAndView.addObject("productListPage", productListPage);
+        modelAndView.addObject("existingProductListPage", existingProductListPage);
         modelAndView.addObject("product", productService.getProduct(id));
         return modelAndView;
     }
@@ -111,7 +108,7 @@ public class CatalogController {
     @PostMapping(value = "/editProduct")
     public ModelAndView editProduct(@ModelAttribute("product") ProductDTO product) {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("redirect:/catalog/?productListPage=" + this.productListPage);
+        modelAndView.setViewName("redirect:/catalog/?existingProductListPage=" + this.existingProductListPage);
         productService.editProduct(product);
         return modelAndView;
     }
@@ -130,7 +127,7 @@ public class CatalogController {
             @ModelAttribute("product") ProductDTO product,
             @ModelAttribute("productDetails") ProductDetailsDTO productDetails) {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("redirect:/catalog/?productListPage=" + this.productListPage);
+        modelAndView.setViewName("redirect:/catalog/?existingProductListPage=" + this.existingProductListPage);
         product.setProductDetails(toEntity(productDetails));
         productService.addProduct(product);
         return modelAndView;
@@ -141,7 +138,7 @@ public class CatalogController {
     @GetMapping(value = "/delete/{id}")
     public ModelAndView deleteProduct(@PathVariable("id") int id) {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("redirect:/catalog/?productListPage=" + this.productListPage);
+        modelAndView.setViewName("redirect:/catalog/?existingProductListPage=" + this.existingProductListPage);
         productService.deleteProduct(productService.getProduct(id));
         return modelAndView;
     }

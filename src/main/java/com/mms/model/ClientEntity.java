@@ -28,20 +28,11 @@ public class ClientEntity {
     private String email;
     @Column(name = "password")
     private String password;
-
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "address_id")
     private ClientAddressEntity clientAddress;
-
-
-
-
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<OrderEntity> orders = new HashSet<>();
-
-
-
-
     @ManyToOne
     @JoinColumn(name = "role_id")
     private RoleEntity role;

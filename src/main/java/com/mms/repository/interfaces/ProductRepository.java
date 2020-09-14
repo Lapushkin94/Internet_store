@@ -6,7 +6,8 @@ import java.util.List;
 
 public interface ProductRepository {
 
-    List<ProductEntity> findAllProducts(int page);
+    List<ProductEntity> findAllExistingProducts(int page);
+    List<ProductEntity> findAllProductsInStore(int page);
     void saveProduct(ProductEntity productEntity);
     void deleteProduct(ProductEntity productEntity);
     void updateProduct(ProductEntity productEntity);

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="internetShop@localhost" uuid="fc296fcf-736d-408e-9e04-6b92454dc066">
+    <data-source source="LOCAL" name="internetshop@localhost" uuid="6f8dcf5d-2cfa-447c-834c-f24ac60de407">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://localhost:3306/internetShop</jdbc-url>
+      <jdbc-url>jdbc:mysql://localhost:3306/internetshop</jdbc-url>
       <driver-properties>
         <property name="serverTimezone" value="UTC" />
       </driver-properties>

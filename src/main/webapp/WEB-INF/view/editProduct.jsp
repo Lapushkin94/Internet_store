@@ -19,7 +19,7 @@
     <c:url value="/catalog/add" var="var"/>
 </c:if>
 <c:if test="${!empty product.name}">
-    <c:url value="/catalog/edit" var="var"/>
+    <c:url value="/catalog/editProduct" var="var"/>
 </c:if>
 
 <form action="${var}" method="POST">
@@ -53,7 +53,7 @@
     </c:if>
 
     <c:url value="/catalog" var="url">
-        <c:param name="productListPage" value="${page}"/>
+        <c:param name="productListPage" value="${existingProductListPage}"/>
     </c:url>
     <a href="${url}">Back</a>
 

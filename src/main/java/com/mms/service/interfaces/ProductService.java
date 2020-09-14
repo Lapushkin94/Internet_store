@@ -7,7 +7,8 @@ import java.util.List;
 
 public interface ProductService {
 
-    List<ProductDTO> getAllProducts(int page);
+    List<ProductDTO> getAllExistingProducts(int page);
+    List<ProductDTO> getAllProductsInStore(int page);
     void addProduct(ProductDTO productDTO);
     void deleteProduct(ProductDTO productDTO);
     void editProduct(ProductDTO productDTO);

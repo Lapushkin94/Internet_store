@@ -12,6 +12,7 @@ public class ProductConverter {
                 .alternative_name(productDTO.getAlternative_name())
                 .brandName(productDTO.getBrandName())
                 .price(productDTO.getPrice())
+                .quantityInStore(productDTO.getQuantityInStore())
                 .productDetails(productDTO.getProductDetails())
                 .category(productDTO.getCategory())
                 .build();
@@ -24,6 +25,7 @@ public class ProductConverter {
                 .alternative_name(productEntity.getAlternative_name())
                 .brandName(productEntity.getBrandName())
                 .price(productEntity.getPrice())
+                .quantityInStore(productEntity.getQuantityInStore())
                 .productDetails(productEntity.getProductDetails())
                 .category(productEntity.getCategory())
                 .build();

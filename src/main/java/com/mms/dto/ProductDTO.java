@@ -2,10 +2,13 @@ package com.mms.dto;
 
 import com.mms.model.CategoryEntity;
 import com.mms.model.ProductDetailsEntity;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
+@AllArgsConstructor
 @Data
 @Builder
 public class ProductDTO {
@@ -17,5 +20,6 @@ public class ProductDTO {
     private int price;
     private ProductDetailsEntity productDetails;
     private CategoryEntity category;
+    private int quantityInStore;
 
 }

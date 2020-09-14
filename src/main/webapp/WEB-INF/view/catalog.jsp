@@ -12,81 +12,96 @@
 
 <jsp:include page="header.jsp"/>
 
-<table>
-    <caption>Product list</caption>
-    <tr>
-        <th>№</th>
-        <th>Id</th>
-        <th>Name</th>
-        <th>Alternative name</th>
-        <th>Brand name</th>
-        <th>Price</th>
-        <th>Info</th>
-        <th colspan="3">Action</th>
-    </tr>
-    <c:forEach var="product" items="${productList}" varStatus="i">
-        <tr>
-            <td>${i.index + 1 + (productListPage - 1) * 10}</td>
-            <td>${product.id}</td>
-            <td>${product.name}</td>
-            <td>${product.alternative_name}</td>
-            <td>${product.brandName}</td>
-            <td>${product.price}</td>
-            <td>
-                <a href="/catalog/productDetails/${product.id}">Details</a>
-            </td>
-            <td>
-                <a href="/get/${product.id}">Get it</a>
-                <a href="/catalog/editProduct/${product.id}">Edit product</a>
-                <a href="/catalog/delete/${product.id}">Delete product</a>
-            </td>
-        </tr>
-    </c:forEach>
-    <tr>
-        <td colspan="4">
-            <a href="/catalog/addProduct">Add new product</a>
-        </td>
-        <td>
-            <c:forEach begin="1" end="${productPagesCount}" step="1" varStatus="i">
-                <c:url value="/catalog" var="url">
-                    <c:param name="productListPage" value="${i.index}"/>
-                </c:url>
-                <a href="${url}">${i.index}</a>
-            </c:forEach>
-        </td>
-    </tr>
-</table>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-8">
+            <h2>Our product</h2>
+            <table class="table table-striped table-hover">
+                <thead>
+                <th>№</th>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Alt name</th>
+                <th>Brand name</th>
+                <th>Price</th>
+                <th>Quantity in store</th>
+                <th>Info</th>
+                <th colspan="3">Action</th>
+                </thead>
+                <tbody>
+                <c:forEach var="product" items="${productList}" varStatus="i">
+                    <tr>
+                        <td>${i.index + 1 + (productListPage - 1) * 10}</td>
+                        <td>${product.id}</td>
+                        <td>${product.name}</td>
+                        <td>${product.alternative_name}</td>
+                        <td>${product.brandName}</td>
+                        <td>${product.price}</td>
+                        <td>${product.quantityInStore}</td>
+                        <td>
+                            <a href="/catalog/productDetails/${product.id}">Details</a>
+                        </td>
+                        <td>
+                            <a href="/get/${product.id}">Get it</a>
+                            <a href="/catalog/editProduct/${product.id}">Edit product</a>
+                            <a href="/catalog/delete/${product.id}">Delete product</a>
+                        </td>
+                    </tr>
+                </c:forEach>
+                <tr>
+                    <td colspan="4">
+                        <a href="/catalog/addProduct">Add new product</a>
+                    </td>
+                    <td>
+                        <c:forEach begin="1" end="${productPagesCount}" step="1" varStatus="i">
+                            <c:url value="/catalog" var="url">
+                                <c:param name="existingProductListPage" value="${i.index}"/>
+                            </c:url>
+                            <a href="${url}">${i.index}</a>
+                        </c:forEach>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
 
-<table>
-    <tr>
-        <th>№</th>
-        <th>Id</th>
-        <th>Quantity</th>
-        <th>Product</th>
-        <th>Alt product name</th>
-        <th>Brand</th>
-        <th>price</th>
-        <th>Info</th>
-        <th>Action</th>
-    </tr>
-    <c:forEach var="productInBascet" items="${productInBascetList}" varStatus="i">
-        <td>${i.index + 1 + (productInBascetListPage - 1) * 10}</td>
-        <td>${productInBascet.id}</td>
-        <td>${productInBascet.quantity}</td>
-        <td>${productInBascet.product.name}</td>
-        <td>${productInBascet.product.alternative_name}</td>
-        <td>${productInBascet.product.brandName}</td>
-        <td>${productInBascet.product.price}</td>
-        <td>
-            <a href="/catalog/productDetails/${productInBascet.product.id}">Details</a>
-        </td>
-        <td>
-            <a href="/catalog/editProduct/${productInBascet.id}">Edit product</a>
-            <a href="/catalog/delete/${productInBascet.id}">Delete product</a>
-        </td>
-        </tr>
-    </c:forEach>
-</table>
+        <div class="col-4">
+            <table class="table table-striped table-hover">
+                <h2>Your bascet</h2>
+                <thead>
+                <th>№</th>
+                <th>Id</th>
+                <th>Quantity</th>
+                <th>Product</th>
+                <th>Alt name</th>
+                <th>Brand</th>
+                <th>price</th>
+                <th>Info</th>
+                <th>Action</th>
+                </thead>
+
+                <tbody>
+                <c:forEach var="productInBascet" items="${productInBascetList}" varStatus="i">
+                    <td>${i.index + 1 + (productInBascetListPage - 1) * 10}</td>
+                    <td>${productInBascet.id}</td>
+                    <td>${productInBascet.quantity}</td>
+                    <td>${productInBascet.product.name}</td>
+                    <td>${productInBascet.product.alternative_name}</td>
+                    <td>${productInBascet.product.brandName}</td>
+                    <td>${productInBascet.product.price}</td>
+                    <td>
+                        <a href="/catalog/productDetails/${productInBascet.product.id}">Details</a>
+                    </td>
+                    <td>
+                        <a href="/catalog/delete/${productInBascet.id}">Delete</a>
+                    </td>
+                </c:forEach>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"

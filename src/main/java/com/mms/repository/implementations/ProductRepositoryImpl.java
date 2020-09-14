@@ -21,9 +21,16 @@ public class ProductRepositoryImpl implements ProductRepository {
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<ProductEntity> findAllProducts(int page) {
+    public List<ProductEntity> findAllExistingProducts(int page) {
         Session session = sessionFactory.getCurrentSession();
         return session.createQuery("from ProductEntity").setFirstResult(10 * (page - 1)).setMaxResults(10).list();
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<ProductEntity> findAllProductsInStore(int page) {
+        Session session = sessionFactory.getCurrentSession();
+        return session.createQuery("from ProductEntity WHERE quantityInStore!=0").setFirstResult(10 * (page - 1)).setMaxResults(10).list();
     }
 
     @Override

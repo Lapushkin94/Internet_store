@@ -26,8 +26,16 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public List<ProductDTO> getAllProducts(int page) {
-        return productRepository.findAllProducts(page).stream()
+    public List<ProductDTO> getAllExistingProducts(int page) {
+        return productRepository.findAllExistingProducts(page).stream()
+                .map(ProductConverter::toDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public List<ProductDTO> getAllProductsInStore(int page) {
+        return productRepository.findAllProductsInStore(page).stream()
                 .map(ProductConverter::toDto)
                 .collect(Collectors.toList());
     }

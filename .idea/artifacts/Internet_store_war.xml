@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="Internet store:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>Internet store</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="MMS-1.0-SNAPSHOT.war">
+      <element id="artifact" artifact-name="Internet store:war exploded" />
+    </root>
+  </artifact>
+</component>
