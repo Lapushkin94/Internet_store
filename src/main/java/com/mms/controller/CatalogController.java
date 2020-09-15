@@ -3,6 +3,8 @@ package com.mms.controller;
 import com.mms.dto.ProductDTO;
 import com.mms.dto.ProductDetailsDTO;
 import com.mms.dto.ProductInBascetDTO;
+import com.mms.dto.converterDTO.ProductConverter;
+import com.mms.dto.converterDTO.ProductInBascetConverter;
 import com.mms.service.interfaces.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,7 +13,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
-import static com.mms.dto.converter.ProductDetailsConverter.toEntity;
+import static com.mms.dto.converterDTO.ProductDetailsConverter.toDto;
+import static com.mms.dto.converterDTO.ProductDetailsConverter.toEntity;
 
 @Controller
 @RequestMapping(value = "/catalog")
@@ -55,19 +58,19 @@ public class CatalogController {
     }
 
     /**
-     * @param productListPage
+     * @param existingProductListPage
      * @return
      */
     @GetMapping
-    public ModelAndView catalog(@RequestParam(defaultValue = "1") int productListPage,
+    public ModelAndView catalog(@RequestParam(defaultValue = "1") int existingProductListPage,
                                 @RequestParam(defaultValue = "1") int productInBascetListPage) {
-        List<ProductDTO> productList = productService.getAllExistingProducts(productListPage);
-        this.existingProductListPage = productListPage;
+        List<ProductDTO> productList = productService.getAllExistingProducts(existingProductListPage);
+        this.existingProductListPage = existingProductListPage;
         int productsCount = productService.getProductCount();
         int productPagesCount = (productsCount + 9) / 10;
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("catalog");
-        modelAndView.addObject("productListPage", productListPage);
+        modelAndView.addObject("existingProductListPage", existingProductListPage);
         modelAndView.addObject("productList", productList);
         modelAndView.addObject("productsCount", productsCount);
         modelAndView.addObject("productPagesCount", productPagesCount);
@@ -108,7 +111,7 @@ public class CatalogController {
     @PostMapping(value = "/editProduct")
     public ModelAndView editProduct(@ModelAttribute("product") ProductDTO product) {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("redirect:/catalog/?existingProductListPage=" + this.existingProductListPage);
+        modelAndView.setViewName("redirect:/catalog/?existingProductListPage=" + this.existingProductListPage + "&productInBascetLstPage=" + productInBascetListPage);
         productService.editProduct(product);
         return modelAndView;
     }
@@ -127,7 +130,7 @@ public class CatalogController {
             @ModelAttribute("product") ProductDTO product,
             @ModelAttribute("productDetails") ProductDetailsDTO productDetails) {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("redirect:/catalog/?existingProductListPage=" + this.existingProductListPage);
+        modelAndView.setViewName("redirect:/catalog/?existingProductListPage=" + this.existingProductListPage + "&productInBascetLstPage=" + productInBascetListPage);
         product.setProductDetails(toEntity(productDetails));
         productService.addProduct(product);
         return modelAndView;
@@ -138,8 +141,34 @@ public class CatalogController {
     @GetMapping(value = "/delete/{id}")
     public ModelAndView deleteProduct(@PathVariable("id") int id) {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("redirect:/catalog/?existingProductListPage=" + this.existingProductListPage);
+        modelAndView.setViewName("redirect:/catalog/?existingProductListPage=" + this.existingProductListPage + "&productInBascetLstPage=" + productInBascetListPage);
         productService.deleteProduct(productService.getProduct(id));
+        return modelAndView;
+    }
+
+    @PostMapping(value = "/get/{id}")
+    public ModelAndView getProductIntBascet(@PathVariable("id") int id,
+                                            @RequestParam("quantity") int numberOfOrderedProducts) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("redirect:/catalog/?existingProductListPage=" + this.existingProductListPage + "&productInBascetLstPage=" + productInBascetListPage);
+        ProductDTO productDTO = productService.getProduct(id);
+        productDTO.setQuantityInStore(productDTO.getQuantityInStore() - numberOfOrderedProducts);
+        productService.editProduct(productDTO);
+
+        ProductInBascetDTO productInBascetDTO = new ProductInBascetDTO();
+        productInBascetDTO.setProduct(ProductConverter.toEntity(productDTO));
+        productInBascetDTO.setQuantity(numberOfOrderedProducts);
+
+        for (ProductInBascetDTO prod : productInBascetService.getAllProductsInBascetWithoutPages()) {
+            if (prod.getProduct().getId() == productInBascetDTO.getProduct().getId()) {
+                prod.setQuantity(prod.getQuantity() + numberOfOrderedProducts);
+                productInBascetService.editProduct(prod);
+                return modelAndView;
+            }
+        }
+
+        productInBascetService.addProduct(productInBascetDTO);
+
         return modelAndView;
     }
 

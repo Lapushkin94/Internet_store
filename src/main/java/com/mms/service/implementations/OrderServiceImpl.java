@@ -1,7 +1,7 @@
 package com.mms.service.implementations;
 
 import com.mms.dto.OrderDTO;
-import com.mms.dto.converter.OrderConverter;
+import com.mms.dto.converterDTO.OrderConverter;
 import com.mms.repository.interfaces.OrderRepository;
 import com.mms.service.interfaces.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.mms.dto.converter.OrderConverter.toDto;
-import static com.mms.dto.converter.OrderConverter.toEntity;
+import static com.mms.dto.converterDTO.OrderConverter.toDto;
+import static com.mms.dto.converterDTO.OrderConverter.toEntity;
 
 @Service
 public class OrderServiceImpl implements OrderService {

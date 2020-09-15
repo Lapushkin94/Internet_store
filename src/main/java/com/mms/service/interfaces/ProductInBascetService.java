@@ -7,6 +7,7 @@ import java.util.List;
 public interface ProductInBascetService {
 
     List<ProductInBascetDTO> getAllProductsInBascet(int page);
+    List<ProductInBascetDTO> getAllProductsInBascetWithoutPages();
     void addProduct(ProductInBascetDTO productInBascetDTO);
     void deleteProduct(ProductInBascetDTO productInBascetDTO);
     void editProduct(ProductInBascetDTO productInBascetDTO);

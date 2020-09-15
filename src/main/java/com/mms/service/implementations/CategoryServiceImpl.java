@@ -1,7 +1,7 @@
 package com.mms.service.implementations;
 
 import com.mms.dto.CategoryDTO;
-import com.mms.dto.converter.CategoryConverter;
+import com.mms.dto.converterDTO.CategoryConverter;
 import com.mms.repository.interfaces.CategoryRepository;
 import com.mms.service.interfaces.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.mms.dto.converter.CategoryConverter.toDto;
-import static com.mms.dto.converter.CategoryConverter.toEntity;
+import static com.mms.dto.converterDTO.CategoryConverter.toDto;
+import static com.mms.dto.converterDTO.CategoryConverter.toEntity;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {

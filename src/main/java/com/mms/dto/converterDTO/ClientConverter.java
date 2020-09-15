@@ -1,4 +1,4 @@
-package com.mms.dto.converter;
+package com.mms.dto.converterDTO;
 
 import com.mms.dto.ClientDTO;
 import com.mms.model.ClientEntity;

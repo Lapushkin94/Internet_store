@@ -44,6 +44,10 @@
     <input type="text" name="description" id="description">
     <label for="price">Price</label>
     <input type="text" name="price" id="price">
+    <label for="category">Category</label>
+    <input type="text" name="category" id="category">
+    <label for="quantity">Quantity</label>
+    <input type="text" name="quantity" id="quantity">
 
     <c:if test="${!empty product.name}">
         <input type="submit" value="Edit product">

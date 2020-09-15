@@ -2,7 +2,7 @@ package com.mms.service.implementations;
 
 import com.mms.repository.interfaces.ProductRepository;
 import com.mms.dto.ProductDTO;
-import com.mms.dto.converter.ProductConverter;
+import com.mms.dto.converterDTO.ProductConverter;
 import com.mms.service.interfaces.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,8 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.mms.dto.converter.ProductConverter.toDto;
-import static com.mms.dto.converter.ProductConverter.toEntity;
+import static com.mms.dto.converterDTO.ProductConverter.toDto;
+import static com.mms.dto.converterDTO.ProductConverter.toEntity;
 
 @Service
 public class ProductServiceImpl implements ProductService {

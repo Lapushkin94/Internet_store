@@ -1,7 +1,7 @@
 package com.mms.service.implementations;
 
 import com.mms.dto.ProductInBascetDTO;
-import com.mms.dto.converter.ProductInBascetConverter;
+import com.mms.dto.converterDTO.ProductInBascetConverter;
 import com.mms.repository.interfaces.ProductInBascetRepository;
 import com.mms.service.interfaces.ProductInBascetService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.mms.dto.converter.ProductInBascetConverter.toDto;
-import static com.mms.dto.converter.ProductInBascetConverter.toEntity;
+import static com.mms.dto.converterDTO.ProductInBascetConverter.toDto;
+import static com.mms.dto.converterDTO.ProductInBascetConverter.toEntity;
 
 @Service
 public class ProductInBascetServiceImpl implements ProductInBascetService {
@@ -28,6 +28,14 @@ public class ProductInBascetServiceImpl implements ProductInBascetService {
     @Transactional
     public List<ProductInBascetDTO> getAllProductsInBascet(int page) {
         return productInBascetRepository.findAllProductsInBascet(page).stream()
+                .map(ProductInBascetConverter::toDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public List<ProductInBascetDTO> getAllProductsInBascetWithoutPages() {
+        return productInBascetRepository.findAllProductsInBascetWithoutPages().stream()
                 .map(ProductInBascetConverter::toDto)
                 .collect(Collectors.toList());
     }

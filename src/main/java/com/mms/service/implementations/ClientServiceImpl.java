@@ -1,7 +1,7 @@
 package com.mms.service.implementations;
 
 import com.mms.dto.ClientDTO;
-import com.mms.dto.converter.ClientConverter;
+import com.mms.dto.converterDTO.ClientConverter;
 import com.mms.repository.interfaces.ClientRepository;
 import com.mms.service.interfaces.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.mms.dto.converter.ClientConverter.toDto;
-import static com.mms.dto.converter.ClientConverter.toEntity;
+import static com.mms.dto.converterDTO.ClientConverter.toDto;
+import static com.mms.dto.converterDTO.ClientConverter.toEntity;
 
 @Service
 public class ClientServiceImpl implements ClientService {

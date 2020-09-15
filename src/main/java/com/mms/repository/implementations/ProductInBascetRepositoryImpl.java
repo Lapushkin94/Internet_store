@@ -27,6 +27,13 @@ public class ProductInBascetRepositoryImpl implements ProductInBascetRepository 
     }
 
     @Override
+    @SuppressWarnings("unchecked")
+    public List<ProductInBascetEntity> findAllProductsInBascetWithoutPages() {
+        Session session = sessionFactory.getCurrentSession();
+        return session.createQuery("from ProductInBascetEntity").list();
+    }
+
+    @Override
     public int getProductInBascetCount() {
         Session session = sessionFactory.getCurrentSession();
         return session.createQuery("select count(*) from ProductInBascetEntity", Number.class).getSingleResult().intValue();

@@ -24,14 +24,15 @@
                 <th>Alt name</th>
                 <th>Brand name</th>
                 <th>Price</th>
-                <th>Quantity in store</th>
+                <th>In store</th>
                 <th>Info</th>
+                <th>#</th>
                 <th colspan="3">Action</th>
                 </thead>
                 <tbody>
                 <c:forEach var="product" items="${productList}" varStatus="i">
                     <tr>
-                        <td>${i.index + 1 + (productListPage - 1) * 10}</td>
+                        <td>${i.index + 1 + (existingProductListPage - 1) * 10}</td>
                         <td>${product.id}</td>
                         <td>${product.name}</td>
                         <td>${product.alternative_name}</td>
@@ -41,8 +42,17 @@
                         <td>
                             <a href="/catalog/productDetails/${product.id}">Details</a>
                         </td>
+
                         <td>
-                            <a href="/get/${product.id}">Get it</a>
+                            <form action="/catalog/get/${product.id}" method="POST">
+
+                                <label for="quantity">#</label>
+                                <input type="number" name="quantity" id="quantity">
+
+                                <input type="submit" value="Get it!">
+                            </form>
+                        </td>
+                        <td>
                             <a href="/catalog/editProduct/${product.id}">Edit product</a>
                             <a href="/catalog/delete/${product.id}">Delete product</a>
                         </td>
@@ -50,7 +60,7 @@
                 </c:forEach>
                 <tr>
                     <td colspan="4">
-                        <a href="/catalog/addProduct">Add new product</a>
+                        <a href="${pageContext.request.contextPath}/catalog/addProduct">Add new product</a>
                     </td>
                     <td>
                         <c:forEach begin="1" end="${productPagesCount}" step="1" varStatus="i">
@@ -82,19 +92,21 @@
 
                 <tbody>
                 <c:forEach var="productInBascet" items="${productInBascetList}" varStatus="i">
-                    <td>${i.index + 1 + (productInBascetListPage - 1) * 10}</td>
-                    <td>${productInBascet.id}</td>
-                    <td>${productInBascet.quantity}</td>
-                    <td>${productInBascet.product.name}</td>
-                    <td>${productInBascet.product.alternative_name}</td>
-                    <td>${productInBascet.product.brandName}</td>
-                    <td>${productInBascet.product.price}</td>
-                    <td>
-                        <a href="/catalog/productDetails/${productInBascet.product.id}">Details</a>
-                    </td>
-                    <td>
-                        <a href="/catalog/delete/${productInBascet.id}">Delete</a>
-                    </td>
+                    <tr>
+                        <td>${i.index + 1 + (productInBascetListPage - 1) * 10}</td>
+                        <td>${productInBascet.id}</td>
+                        <td>${productInBascet.quantity}</td>
+                        <td>${productInBascet.product.name}</td>
+                        <td>${productInBascet.product.alternative_name}</td>
+                        <td>${productInBascet.product.brandName}</td>
+                        <td>${productInBascet.product.price}</td>
+                        <td>
+                            <a href="/catalog/productDetails/${productInBascet.product.id}">Details</a>
+                        </td>
+                        <td>
+                            <a href="/catalog/delete/${productInBascet.id}">Delete</a>
+                        </td>
+                    </tr>
                 </c:forEach>
 
                 </tbody>
