@@ -1,8 +1,10 @@
 package com.mms.controller;
 
+import com.mms.service.interfaces.ProductInBascetService;
 import com.mms.service.interfaces.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -11,15 +13,8 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class HomeController {
 
-    private ProductService productService;
-
-    @Autowired
-    public void setProductService(ProductService productService) {
-        this.productService = productService;
-    }
-
     // home page, contains several links
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @GetMapping(value = "/")
     public ModelAndView homePage() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("home");
@@ -27,7 +22,7 @@ public class HomeController {
     }
 
     // redirects to profile page
-    @RequestMapping(value = "/profile", method = RequestMethod.GET)
+    @GetMapping(value = "/profile")
     public ModelAndView myProfile() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("profile");
@@ -35,7 +30,7 @@ public class HomeController {
     }
 
     // some info about the shop
-    @RequestMapping(value = "/aboutUs", method = RequestMethod.GET)
+    @GetMapping(value = "/aboutUs")
     public ModelAndView aboutUs() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("aboutUs");
@@ -43,13 +38,12 @@ public class HomeController {
     }
 
     // company contacts (email, mobile number, etc.)
-    @RequestMapping(value = "/contacts", method = RequestMethod.GET)
+    @GetMapping(value = "/contacts")
     public ModelAndView contacts() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("contacts");
         return modelAndView;
     }
-
 
 
 }

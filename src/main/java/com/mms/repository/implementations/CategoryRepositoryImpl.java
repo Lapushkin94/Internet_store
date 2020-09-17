@@ -27,6 +27,13 @@ public class CategoryRepositoryImpl implements CategoryRepository {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
+    public List<CategoryEntity> findAllCategoriesWithoutPages() {
+        Session session = sessionFactory.getCurrentSession();
+        return session.createQuery("from CategoryEntity").list();
+    }
+
+    @Override
     public void saveCategory(CategoryEntity categoryEntity) {
         Session session = sessionFactory.getCurrentSession();
         session.persist(categoryEntity);
@@ -56,4 +63,9 @@ public class CategoryRepositoryImpl implements CategoryRepository {
         return session.createQuery("select count (*) from CategoryEntity", Number.class).getSingleResult().intValue();
     }
 
+//    @Override
+//    public int getCategoryByName(String categoryName) {
+//        Session session = sessionFactory.getCurrentSession();
+//        return session.createQuery("select * from CategoryEntity WHERE name=
+//    }
 }

@@ -108,8 +108,10 @@
                         </td>
                     </tr>
                 </c:forEach>
-
                 </tbody>
+                <td>
+                    <a href="${pageContext.request.contextPath}/order">Go to order registration!</a>
+                </td>
             </table>
         </div>
     </div>

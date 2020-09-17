@@ -44,10 +44,15 @@
     <input type="text" name="description" id="description">
     <label for="price">Price</label>
     <input type="text" name="price" id="price">
-    <label for="category">Category</label>
-    <input type="text" name="category" id="category">
-    <label for="quantity">Quantity</label>
-    <input type="text" name="quantity" id="quantity">
+    <label for="quantityInStore">Quantity</label>
+    <input type="text" name="quantityInStore" id="quantityInStore">
+
+    <label for="chosenCategory">Category</label>
+    <select name="chosenCategory" id="chosenCategory">
+        <c:forEach var="categoryInputList" items="${categoryList}">
+            <option>${categoryInputList.name}
+        </c:forEach>
+    </select>
 
     <c:if test="${!empty product.name}">
         <input type="submit" value="Edit product">

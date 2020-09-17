@@ -1,19 +1,20 @@
 package com.mms.controller;
 
-import com.mms.dto.ProductDTO;
-import com.mms.dto.ProductDetailsDTO;
-import com.mms.dto.ProductInBascetDTO;
+import com.mms.dto.*;
+import com.mms.dto.converterDTO.CategoryConverter;
+import com.mms.dto.converterDTO.OrderConverter;
+import com.mms.dto.converterDTO.OrderStatusConverter;
 import com.mms.dto.converterDTO.ProductConverter;
-import com.mms.dto.converterDTO.ProductInBascetConverter;
 import com.mms.service.interfaces.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+
 import java.util.List;
 
-import static com.mms.dto.converterDTO.ProductDetailsConverter.toDto;
 import static com.mms.dto.converterDTO.ProductDetailsConverter.toEntity;
 
 @Controller
@@ -22,15 +23,15 @@ public class CatalogController {
 
     private ProductService productService;
     private ProductInBascetService productInBascetService;
-    private OrderService orderService;
-    private ClientService clientService;
     private CategoryService categoryService;
+
+//    private ClientService clientService;
+
 
     private int existingProductListPage;
     private int productInBascetListPage;
-    private int orderListPage;
-    private int clientListPage;
-    private int categoryListPage;
+//    private int clientListPage;
+//    private int categoryListPage;
 
     @Autowired
     public void setProductService(ProductService productService) {
@@ -42,47 +43,35 @@ public class CatalogController {
         this.productInBascetService = productInBascetService;
     }
 
-    @Autowired
-    public void setOrderService(OrderService orderService) {
-        this.orderService = orderService;
-    }
 
-    @Autowired
-    public void setClientService(ClientService clientService) {
-        this.clientService = clientService;
-    }
-
+    //    @Autowired
+//    public void setClientService(ClientService clientService) {
+//        this.clientService = clientService;
+//    }
+//
     @Autowired
     public void setCategoryService(CategoryService categoryService) {
         this.categoryService = categoryService;
     }
 
-    /**
-     * @param existingProductListPage
-     * @return
-     */
     @GetMapping
     public ModelAndView catalog(@RequestParam(defaultValue = "1") int existingProductListPage,
                                 @RequestParam(defaultValue = "1") int productInBascetListPage) {
-        List<ProductDTO> productList = productService.getAllExistingProducts(existingProductListPage);
         this.existingProductListPage = existingProductListPage;
         int productsCount = productService.getProductCount();
-        int productPagesCount = (productsCount + 9) / 10;
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("catalog");
         modelAndView.addObject("existingProductListPage", existingProductListPage);
-        modelAndView.addObject("productList", productList);
+        modelAndView.addObject("productList", productService.getAllExistingProducts(existingProductListPage));
         modelAndView.addObject("productsCount", productsCount);
-        modelAndView.addObject("productPagesCount", productPagesCount);
+        modelAndView.addObject("productPagesCount", (productsCount + 9) / 10);
 
-        List<ProductInBascetDTO> productInBascetList = productInBascetService.getAllProductsInBascet(productInBascetListPage);
         this.productInBascetListPage = productInBascetListPage;
         int productsInBascetCount = productInBascetService.getProductCount();
-        int productInBascetPagesCount = (productsInBascetCount + 9) / 10;
         modelAndView.addObject("productInBascetListPage", productInBascetListPage);
-        modelAndView.addObject("productInBascetList", productInBascetList);
+        modelAndView.addObject("productInBascetList", productInBascetService.getAllProductsInBascet(productInBascetListPage));
         modelAndView.addObject("productsInBascetCount", productsInBascetCount);
-        modelAndView.addObject("productInBascetPagesCount", productInBascetPagesCount);
+        modelAndView.addObject("productInBascetPagesCount", (productsInBascetCount + 9) / 10);
 
         return modelAndView;
     }
@@ -113,6 +102,10 @@ public class CatalogController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("redirect:/catalog/?existingProductListPage=" + this.existingProductListPage + "&productInBascetLstPage=" + productInBascetListPage);
         productService.editProduct(product);
+
+        // Необходима правильная обработка параметров quantity и category
+        // Иначе ошибка 400
+
         return modelAndView;
     }
 
@@ -121,6 +114,7 @@ public class CatalogController {
     public ModelAndView addPage() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("editProduct");
+        modelAndView.addObject("categoryList", categoryService.getAllCategoriesWithoutPages());
         return modelAndView;
     }
 
@@ -128,11 +122,18 @@ public class CatalogController {
     @PostMapping(value = "/add")
     public ModelAndView addProduct(
             @ModelAttribute("product") ProductDTO product,
-            @ModelAttribute("productDetails") ProductDetailsDTO productDetails) {
+            @ModelAttribute("productDetails") ProductDetailsDTO productDetails,
+            @ModelAttribute(name = "chosenCategory") CategoryDTO categoryDTO) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("redirect:/catalog/?existingProductListPage=" + this.existingProductListPage + "&productInBascetLstPage=" + productInBascetListPage);
         product.setProductDetails(toEntity(productDetails));
+        product.setCategory(CategoryConverter.toEntity(categoryDTO));
+        // ошибка save the transient instance before flushing: com.mms.model.CategoryEntity
         productService.addProduct(product);
+
+        // Необходима правильная обработка параметра category
+        // Иначе ошибка 400
+
         return modelAndView;
     }
 
@@ -152,11 +153,10 @@ public class CatalogController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("redirect:/catalog/?existingProductListPage=" + this.existingProductListPage + "&productInBascetLstPage=" + productInBascetListPage);
         ProductDTO productDTO = productService.getProduct(id);
-        productDTO.setQuantityInStore(productDTO.getQuantityInStore() - numberOfOrderedProducts);
-        productService.editProduct(productDTO);
 
         ProductInBascetDTO productInBascetDTO = new ProductInBascetDTO();
         productInBascetDTO.setProduct(ProductConverter.toEntity(productDTO));
+        // В jsp реализовать сравнение quantity продукта в корзине и quantity продукта в каталоге
         productInBascetDTO.setQuantity(numberOfOrderedProducts);
 
         for (ProductInBascetDTO prod : productInBascetService.getAllProductsInBascetWithoutPages()) {
@@ -166,9 +166,7 @@ public class CatalogController {
                 return modelAndView;
             }
         }
-
         productInBascetService.addProduct(productInBascetDTO);
-
         return modelAndView;
     }
 

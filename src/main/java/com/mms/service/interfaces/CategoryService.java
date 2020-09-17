@@ -7,6 +7,7 @@ import java.util.List;
 public interface CategoryService {
 
     List<CategoryDTO> getAllCategories(int page);
+    List<CategoryDTO> getAllCategoriesWithoutPages();
     void addCategory(CategoryDTO categoryDTO);
     void deleteCategory(CategoryDTO categoryDTO);
     void editCategory(CategoryDTO categoryDTO);

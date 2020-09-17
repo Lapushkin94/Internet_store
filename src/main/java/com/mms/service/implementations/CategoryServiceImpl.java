@@ -34,6 +34,14 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     @Transactional
+    public List<CategoryDTO> getAllCategoriesWithoutPages() {
+        return categoryRepository.findAllCategoriesWithoutPages().stream()
+                .map(CategoryConverter::toDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
     public void addCategory(CategoryDTO categoryDTO) {
         categoryRepository.saveCategory(toEntity(categoryDTO));
     }

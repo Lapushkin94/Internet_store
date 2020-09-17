@@ -12,24 +12,24 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item" style="margin-left: 40px">
-                        <a class="nav-link" href="/catalog">Catalog</a>
+                        <a class="nav-link" href="${pageContext.request.contextPath}/catalog">Catalog</a>
                     </li>
                     <li class="nav-item" style="margin-left: 15px">
-                        <a class="nav-link" href="/aboutUs">About us</a>
+                        <a class="nav-link" href="${pageContext.request.contextPath}/aboutUs">About us</a>
                     </li>
                     <li class="nav-item dropdown" style="margin-left: 15px">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Profile
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="/profile">View profile</a>
+                            <a class="dropdown-item" href="${pageContext.request.contextPath}/profile">View profile</a>
                             <a class="dropdown-item" href="#">Sign in</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="#">Sign up</a>
                         </div>
                     </li>
                     <li class="nav-item" style="margin-left: 15px">
-                        <a class="nav-link" href="/contacts">Contacts</a>
+                        <a class="nav-link" href="${pageContext.request.contextPath}/contacts">Contacts</a>
                     </li>
                 </ul>
                 <form class="form-inline my-2 my-lg-0" style="margin-left: 15px">
