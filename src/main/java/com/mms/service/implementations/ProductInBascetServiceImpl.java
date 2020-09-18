@@ -40,9 +40,17 @@ public class ProductInBascetServiceImpl implements ProductInBascetService {
                 .collect(Collectors.toList());
     }
 
+
     @Override
     @Transactional
-    public void addProduct(ProductInBascetDTO productInBascetDTO) {
+    public void addProduct(ProductInBascetDTO productInBascetDTO, int numberOfOrderedProducts) {
+
+//        getAllProductsInBascetWithoutPages().stream()
+//                .filter(product -> product.getProduct().getId() == productInBascetDTO.getProduct().getId())
+//                .forEach(product -> {
+//                    product.setQuantity(product.getQuantity() + numberOfOrderedProducts);
+//                    editProduct(product);
+//                });
         productInBascetRepository.saveProduct(toEntity(productInBascetDTO));
     }
 

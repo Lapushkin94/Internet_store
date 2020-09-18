@@ -26,9 +26,14 @@ public class ProductEntity {
     private int price;
     @Column(name = "quantity_in_store")
     private int quantityInStore;
+
+
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "product_details_id")
     private ProductDetailsEntity productDetails;
+
+
+
     @ManyToOne
     @JoinColumn(name = "category_id")
     private CategoryEntity category;

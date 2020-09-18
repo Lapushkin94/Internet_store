@@ -157,6 +157,7 @@ public class CatalogController {
         ProductInBascetDTO productInBascetDTO = new ProductInBascetDTO();
         productInBascetDTO.setProduct(ProductConverter.toEntity(productDTO));
         // В jsp реализовать сравнение quantity продукта в корзине и quantity продукта в каталоге
+        // Сейчас реализовано в OrderController, это возможно неправильно
         productInBascetDTO.setQuantity(numberOfOrderedProducts);
 
         for (ProductInBascetDTO prod : productInBascetService.getAllProductsInBascetWithoutPages()) {
@@ -166,6 +167,9 @@ public class CatalogController {
                 return modelAndView;
             }
         }
+
+
+
         productInBascetService.addProduct(productInBascetDTO);
         return modelAndView;
     }

@@ -13,5 +13,6 @@ public interface ProductInBascetRepository {
     void updateProduct(ProductInBascetEntity productInBascetEntity);
     ProductInBascetEntity findProductInBascetById(int id);
     int getProductInBascetCount();
+    ProductInBascetEntity findProductInBascetByProductId(int productId);
 
 }

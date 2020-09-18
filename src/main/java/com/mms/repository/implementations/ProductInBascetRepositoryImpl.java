@@ -63,5 +63,9 @@ public class ProductInBascetRepositoryImpl implements ProductInBascetRepository 
         return session.get(ProductInBascetEntity.class, id);
     }
 
-
+    @Override
+    public ProductInBascetEntity findProductInBascetByProductId(int productId) {
+        Session session = sessionFactory.getCurrentSession();
+        return (ProductInBascetEntity) session.createQuery("from ProductInBascetEntity prod WHERE prod.id =: productId").getSingleResult();
+    }
 }
