@@ -72,7 +72,6 @@ public class OrderController {
 
     @PostMapping(value = "/confirmation")
     public ModelAndView getOrderPage(@ModelAttribute("order") OrderDTO orderDTO) {
-        // мб модель аттрибьют клиента не нужен
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("congratilationsPage");
 
@@ -84,17 +83,36 @@ public class OrderController {
         List<ProductInBascetDTO> productInBascetDTOList = productInBascetService.getAllProductsInBascetWithoutPages();
 
         for (ProductInBascetDTO prod : productInBascetDTOList) {
+
+
+            // заменить на метод setOrderToProductInBascetList
+            // Каждому продукту из корзины назначается номер заказа
             prod.setOrder(OrderConverter.toEntity(orderDTO));
             productInBascetService.editProduct(prod);
+
             productDTO = ProductConverter.toDto(prod.getProduct());
 
-            if ((prod.getProduct().getQuantityInStore() - prod.getQuantity()) < 0) {
+            // сравнивается кол-во товаров в корзине и кол-во товаров в магазине, проверка возможности покупки
+            // + отнимает купленное количество из имеющегося в каталоге
+
+//            if ((prod.getProduct().getQuantityInStore() - prod.getQuantity()) < 0) {
+//                modelAndView.setViewName("numberOfProductExceptionPage");
+//                modelAndView.addObject("shortageProduct", prod);
+//                return modelAndView;
+//            }
+
+            // Сверху и снизу аналогичные варианты, мб try catch лучше
+
+            // Стоит сделать в методе сервиса, но обращение идет к разным БД
+            try {
+                productDTO.setQuantityInStore(prod.getProduct().getQuantityInStore() - prod.getQuantity());
+            }
+            catch (Exception exc) {
                 modelAndView.setViewName("numberOfProductExceptionPage");
                 modelAndView.addObject("shortageProduct", prod);
                 return modelAndView;
             }
 
-            productDTO.setQuantityInStore(prod.getProduct().getQuantityInStore() - prod.getQuantity());
             productService.editProduct(productDTO);
         }
 

@@ -2,12 +2,14 @@ package com.mms.service.implementations;
 
 import com.mms.dto.ProductInBascetDTO;
 import com.mms.dto.converterDTO.ProductInBascetConverter;
+import com.mms.model.ProductInBascetEntity;
 import com.mms.repository.interfaces.ProductInBascetRepository;
 import com.mms.service.interfaces.ProductInBascetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.NoResultException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -45,13 +47,16 @@ public class ProductInBascetServiceImpl implements ProductInBascetService {
     @Transactional
     public void addProduct(ProductInBascetDTO productInBascetDTO, int numberOfOrderedProducts) {
 
-//        getAllProductsInBascetWithoutPages().stream()
-//                .filter(product -> product.getProduct().getId() == productInBascetDTO.getProduct().getId())
-//                .forEach(product -> {
-//                    product.setQuantity(product.getQuantity() + numberOfOrderedProducts);
-//                    editProduct(product);
-//                });
-        productInBascetRepository.saveProduct(toEntity(productInBascetDTO));
+        // Всегда ошибка NoResultException
+        try {
+            ProductInBascetEntity productInBascetEntity = productInBascetRepository.findProductInBascetByProductId(productInBascetDTO.getProduct().getId());
+            productInBascetEntity.setQuantity(productInBascetEntity.getQuantity() + numberOfOrderedProducts);
+            productInBascetRepository.updateProduct(productInBascetEntity);
+        }
+        catch (NoResultException exc) {
+            productInBascetRepository.saveProduct(toEntity(productInBascetDTO));
+        }
+
     }
 
     @Override

@@ -4,7 +4,9 @@ import com.mms.model.ProductInBascetEntity;
 import com.mms.repository.interfaces.ProductInBascetRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.converter.json.GsonBuilderUtils;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -23,7 +25,11 @@ public class ProductInBascetRepositoryImpl implements ProductInBascetRepository 
     @SuppressWarnings("unchecked")
     public List<ProductInBascetEntity> findAllProductsInBascet(int page) {
         Session session = sessionFactory.getCurrentSession();
-        return session.createQuery("from ProductInBascetEntity").setFirstResult(10 * (page - 1)).setMaxResults(10).list();
+        return session
+                .createQuery("from ProductInBascetEntity")
+                .setFirstResult(10 * (page - 1))
+                .setMaxResults(10)
+                .list();
     }
 
     @Override
@@ -36,7 +42,10 @@ public class ProductInBascetRepositoryImpl implements ProductInBascetRepository 
     @Override
     public int getProductInBascetCount() {
         Session session = sessionFactory.getCurrentSession();
-        return session.createQuery("select count(*) from ProductInBascetEntity", Number.class).getSingleResult().intValue();
+        return session
+                .createQuery("select count(*) from ProductInBascetEntity", Number.class)
+                .getSingleResult()
+                .intValue();
     }
 
     @Override
@@ -66,6 +75,10 @@ public class ProductInBascetRepositoryImpl implements ProductInBascetRepository 
     @Override
     public ProductInBascetEntity findProductInBascetByProductId(int productId) {
         Session session = sessionFactory.getCurrentSession();
-        return (ProductInBascetEntity) session.createQuery("from ProductInBascetEntity prod WHERE prod.id =: productId").getSingleResult();
+        return session
+                .createQuery("from ProductInBascetEntity prod WHERE prod.id =: productId", ProductInBascetEntity.class)
+                .setParameter("productId", productId)
+                .getSingleResult();
     }
+
 }

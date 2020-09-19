@@ -152,25 +152,14 @@ public class CatalogController {
                                             @RequestParam("quantity") int numberOfOrderedProducts) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("redirect:/catalog/?existingProductListPage=" + this.existingProductListPage + "&productInBascetLstPage=" + productInBascetListPage);
-        ProductDTO productDTO = productService.getProduct(id);
 
         ProductInBascetDTO productInBascetDTO = new ProductInBascetDTO();
-        productInBascetDTO.setProduct(ProductConverter.toEntity(productDTO));
+        productInBascetDTO.setProduct(ProductConverter.toEntity(productService.getProduct(id)));
         // В jsp реализовать сравнение quantity продукта в корзине и quantity продукта в каталоге
         // Сейчас реализовано в OrderController, это возможно неправильно
         productInBascetDTO.setQuantity(numberOfOrderedProducts);
 
-        for (ProductInBascetDTO prod : productInBascetService.getAllProductsInBascetWithoutPages()) {
-            if (prod.getProduct().getId() == productInBascetDTO.getProduct().getId()) {
-                prod.setQuantity(prod.getQuantity() + numberOfOrderedProducts);
-                productInBascetService.editProduct(prod);
-                return modelAndView;
-            }
-        }
-
-
-
-        productInBascetService.addProduct(productInBascetDTO);
+        productInBascetService.addProduct(productInBascetDTO, numberOfOrderedProducts);
         return modelAndView;
     }
 
