@@ -21,7 +21,7 @@ public class CategoryEntity {
     @Column(name = "id")
     private int id;
     @Column(name = "name")
-    private String name;
+    private String nameOfCategory;
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<ProductEntity> products = new HashSet<>();
 

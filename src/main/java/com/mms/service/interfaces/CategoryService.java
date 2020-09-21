@@ -13,6 +13,7 @@ public interface CategoryService {
     void editCategory(CategoryDTO categoryDTO);
     CategoryDTO getCategory(int id);
     int getCategoryCount();
+    CategoryDTO getCategoryByName(String nameOfCategory);
 
 
 }

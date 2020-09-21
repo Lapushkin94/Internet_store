@@ -76,7 +76,7 @@ public class ProductInBascetRepositoryImpl implements ProductInBascetRepository 
     public ProductInBascetEntity findProductInBascetByProductId(int productId) {
         Session session = sessionFactory.getCurrentSession();
         return session
-                .createQuery("from ProductInBascetEntity prod WHERE prod.id =: productId", ProductInBascetEntity.class)
+                .createQuery("from ProductInBascetEntity prod WHERE prod.product.id =: productId", ProductInBascetEntity.class)
                 .setParameter("productId", productId)
                 .getSingleResult();
     }

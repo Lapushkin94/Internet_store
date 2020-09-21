@@ -13,7 +13,7 @@ import java.util.Set;
 public class CategoryDTO {
 
     private int id;
-    private String name;
+    private String nameOfCategory;
     private Set<ProductEntity> products = new HashSet<>();
 
 }

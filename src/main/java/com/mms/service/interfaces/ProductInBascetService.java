@@ -13,5 +13,6 @@ public interface ProductInBascetService {
     void editProduct(ProductInBascetDTO productInBascetDTO);
     ProductInBascetDTO getProduct(int id);
     int getProductCount();
+    String checkQuantityDifferenceThenAddProductInBascet(ProductInBascetDTO productInBascetDTO, int numberOfOrderedProducts);
 
 }

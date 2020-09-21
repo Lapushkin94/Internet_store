@@ -70,4 +70,9 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryRepository.getCategoryCount();
     }
 
+    @Override
+    @Transactional
+    public CategoryDTO getCategoryByName(String nameOfCategory) {
+        return CategoryConverter.toDto(categoryRepository.findCategoryByName(nameOfCategory));
+    }
 }

@@ -7,8 +7,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Catalog</title>
+
 </head>
-<body>
+<br>
+
 
 <jsp:include page="header.jsp"/>
 
@@ -24,7 +26,7 @@
                 <th>Alt name</th>
                 <th>Brand name</th>
                 <th>Price</th>
-                <th>In store</th>
+                <th>Total in store</th>
                 <th>Info</th>
                 <th>#</th>
                 <th colspan="3">Action</th>
@@ -39,6 +41,7 @@
                         <td>${product.brandName}</td>
                         <td>${product.price}</td>
                         <td>${product.quantityInStore}</td>
+
                         <td>
                             <a href="/catalog/productDetails/${product.id}">Details</a>
                         </td>
@@ -115,6 +118,23 @@
             </table>
         </div>
     </div>
+<c:choose>
+    <c:when test="${catalogParam == 'catalogFalse'}">
+        <div class="alert alert-danger" role="alert">
+            You want too many. You can <a href="${pageContext.request.contextPath}/contacts" class="alert-link">contact</a> us. We will do everything possible!
+        </div>
+    </c:when>
+    <c:when test="${catalogParam == 'catalogSuccess'}">
+        <div class="alert alert-success" role="alert">
+            Product successful added to your <a href="${pageContext.request.contextPath}/order" class="alert-link">bascet</a>. Nice choice!
+        </div>
+    </c:when>
+    <c:otherwise>
+        <div class="alert alert-info" role="alert">
+            It is our choices that show what we truly are, far more than our abilities (c).
+        </div>
+    </c:otherwise>
+</c:choose>
 </div>
 
 

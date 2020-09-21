@@ -30,10 +30,14 @@
 
     <label for="name">Name</label>
     <input type="text" name="name" id="name">
+
     <label for="alternative_name">Alternative name</label>
     <input type="text" name="alternative_name" id="alternative_name">
+
     <label for="brandName">Brand name</label>
     <input type="text" name="brandName" id="brandName">
+
+
     <label for="color">Color</label>
     <input type="text" name="color" id="color">
     <label for="weight">Weight</label>
@@ -47,10 +51,10 @@
     <label for="quantityInStore">Quantity</label>
     <input type="text" name="quantityInStore" id="quantityInStore">
 
-    <label for="chosenCategory">Category</label>
-    <select name="chosenCategory" id="chosenCategory">
+    <label for="nameOfCategory">Category</label>
+    <select name="nameOfCategory" id="nameOfCategory">
         <c:forEach var="categoryInputList" items="${categoryList}">
-            <option>${categoryInputList.name}
+            <option>${categoryInputList.nameOfCategory}
         </c:forEach>
     </select>
 

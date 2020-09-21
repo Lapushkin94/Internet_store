@@ -1,10 +1,7 @@
 package com.mms.controller;
 
 import com.mms.dto.*;
-import com.mms.dto.converterDTO.CategoryConverter;
-import com.mms.dto.converterDTO.OrderConverter;
-import com.mms.dto.converterDTO.OrderStatusConverter;
-import com.mms.dto.converterDTO.ProductConverter;
+import com.mms.dto.converterDTO.*;
 import com.mms.service.interfaces.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -33,6 +30,7 @@ public class CatalogController {
 //    private int clientListPage;
 //    private int categoryListPage;
 
+
     @Autowired
     public void setProductService(ProductService productService) {
         this.productService = productService;
@@ -56,11 +54,11 @@ public class CatalogController {
 
     @GetMapping
     public ModelAndView catalog(@RequestParam(defaultValue = "1") int existingProductListPage,
-                                @RequestParam(defaultValue = "1") int productInBascetListPage) {
+                                @RequestParam(defaultValue = "1") int productInBascetListPage,
+                                @RequestParam(defaultValue = "standart") String catalogParam) {
         this.existingProductListPage = existingProductListPage;
         int productsCount = productService.getProductCount();
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("catalog");
         modelAndView.addObject("existingProductListPage", existingProductListPage);
         modelAndView.addObject("productList", productService.getAllExistingProducts(existingProductListPage));
         modelAndView.addObject("productsCount", productsCount);
@@ -72,6 +70,12 @@ public class CatalogController {
         modelAndView.addObject("productInBascetList", productInBascetService.getAllProductsInBascet(productInBascetListPage));
         modelAndView.addObject("productsInBascetCount", productsInBascetCount);
         modelAndView.addObject("productInBascetPagesCount", (productsInBascetCount + 9) / 10);
+
+
+        modelAndView.addObject("catalogParam", catalogParam);
+
+
+        modelAndView.setViewName("catalog");
 
         return modelAndView;
     }
@@ -123,11 +127,13 @@ public class CatalogController {
     public ModelAndView addProduct(
             @ModelAttribute("product") ProductDTO product,
             @ModelAttribute("productDetails") ProductDetailsDTO productDetails,
-            @ModelAttribute(name = "chosenCategory") CategoryDTO categoryDTO) {
+            @ModelAttribute(name = "nameOfCategory") String nameOfCategory) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("redirect:/catalog/?existingProductListPage=" + this.existingProductListPage + "&productInBascetLstPage=" + productInBascetListPage);
-        product.setProductDetails(toEntity(productDetails));
-        product.setCategory(CategoryConverter.toEntity(categoryDTO));
+
+        product.setProductDetails(ProductDetailsConverter.toEntity(productDetails));
+        // Сменить имя у категории
+        product.setCategory(CategoryConverter.toEntity(categoryService.getCategoryByName(nameOfCategory)));
         // ошибка save the transient instance before flushing: com.mms.model.CategoryEntity
         productService.addProduct(product);
 
@@ -151,15 +157,16 @@ public class CatalogController {
     public ModelAndView getProductIntBascet(@PathVariable("id") int id,
                                             @RequestParam("quantity") int numberOfOrderedProducts) {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("redirect:/catalog/?existingProductListPage=" + this.existingProductListPage + "&productInBascetLstPage=" + productInBascetListPage);
 
         ProductInBascetDTO productInBascetDTO = new ProductInBascetDTO();
         productInBascetDTO.setProduct(ProductConverter.toEntity(productService.getProduct(id)));
-        // В jsp реализовать сравнение quantity продукта в корзине и quantity продукта в каталоге
-        // Сейчас реализовано в OrderController, это возможно неправильно
-        productInBascetDTO.setQuantity(numberOfOrderedProducts);
 
-        productInBascetService.addProduct(productInBascetDTO, numberOfOrderedProducts);
+        String catalogParam = productInBascetService.checkQuantityDifferenceThenAddProductInBascet(productInBascetDTO, numberOfOrderedProducts);
+ //       productInBascetService.checkQuantityDifferenceThenAddProductInBascet(productInBascetDTO, numberOfOrderedProducts);
+ //       modelAndView.setViewName("redirect:/catalog/" + productInBascetService.checkQuantityDifferenceThenAddProductInBascet(productInBascetDTO, numberOfOrderedProducts));
+
+        modelAndView.setViewName("redirect:/catalog/?existingProductListPage=" + this.existingProductListPage + "&productInBascetLstPage=" + productInBascetListPage + "&catalogParam=" + catalogParam);
+
         return modelAndView;
     }
 

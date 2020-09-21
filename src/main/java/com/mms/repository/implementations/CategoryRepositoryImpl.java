@@ -63,9 +63,11 @@ public class CategoryRepositoryImpl implements CategoryRepository {
         return session.createQuery("select count (*) from CategoryEntity", Number.class).getSingleResult().intValue();
     }
 
-//    @Override
-//    public int getCategoryByName(String categoryName) {
-//        Session session = sessionFactory.getCurrentSession();
-//        return session.createQuery("select * from CategoryEntity WHERE name=
-//    }
+    @Override
+    public CategoryEntity findCategoryByName(String categoryName) {
+        Session session = sessionFactory.getCurrentSession();
+        return session.createQuery("from CategoryEntity categoryEnt WHERE categoryEnt.nameOfCategory =: categoryName", CategoryEntity.class)
+                .setParameter("categoryName", categoryName)
+                .getSingleResult();
+    }
 }

@@ -8,7 +8,7 @@ public class CategoryConverter {
     public static CategoryEntity toEntity(CategoryDTO categoryDTO) {
         return CategoryEntity.builder()
                 .id(categoryDTO.getId())
-                .name(categoryDTO.getName())
+                .nameOfCategory(categoryDTO.getNameOfCategory())
                 .products(categoryDTO.getProducts())
                 .build();
     }
@@ -16,7 +16,7 @@ public class CategoryConverter {
     public static CategoryDTO toDto(CategoryEntity categoryEntity) {
         return CategoryDTO.builder()
                 .id(categoryEntity.getId())
-                .name(categoryEntity.getName())
+                .nameOfCategory(categoryEntity.getNameOfCategory())
                 .products(categoryEntity.getProducts())
                 .build();
     }

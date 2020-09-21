@@ -46,14 +46,13 @@ public class ProductInBascetServiceImpl implements ProductInBascetService {
     @Override
     @Transactional
     public void addProduct(ProductInBascetDTO productInBascetDTO, int numberOfOrderedProducts) {
-
-        // Всегда ошибка NoResultException
+        // Заменить на if - else
+        productInBascetDTO.setQuantity(numberOfOrderedProducts);
         try {
             ProductInBascetEntity productInBascetEntity = productInBascetRepository.findProductInBascetByProductId(productInBascetDTO.getProduct().getId());
             productInBascetEntity.setQuantity(productInBascetEntity.getQuantity() + numberOfOrderedProducts);
             productInBascetRepository.updateProduct(productInBascetEntity);
-        }
-        catch (NoResultException exc) {
+        } catch (NoResultException exc) {
             productInBascetRepository.saveProduct(toEntity(productInBascetDTO));
         }
 
@@ -81,5 +80,30 @@ public class ProductInBascetServiceImpl implements ProductInBascetService {
     @Transactional
     public int getProductCount() {
         return productInBascetRepository.getProductInBascetCount();
+    }
+
+    @Override
+    @Transactional
+    public String checkQuantityDifferenceThenAddProductInBascet(ProductInBascetDTO productInBascetDTO, int numberOfOrderedProducts) {
+
+        try {
+            if ((productInBascetRepository
+                    .findProductInBascetByProductId(productInBascetDTO.getProduct().getId())
+                    .getQuantity() + numberOfOrderedProducts) > productInBascetDTO.getProduct().getQuantityInStore()) {
+                return "catalogFalse";
+            } else {
+                addProduct(productInBascetDTO, numberOfOrderedProducts);
+                return "catalogSuccess";
+            }
+        }
+        catch (NoResultException exc) {
+            if (numberOfOrderedProducts > productInBascetDTO.getProduct().getQuantityInStore()) {
+                return "catalogFalse";
+            }
+            else {
+                addProduct(productInBascetDTO, numberOfOrderedProducts);
+                return "catalogSuccess";
+            }
+        }
     }
 }

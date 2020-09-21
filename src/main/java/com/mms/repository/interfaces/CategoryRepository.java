@@ -13,6 +13,6 @@ public interface CategoryRepository {
     void updateCategory(CategoryEntity categoryEntity);
     CategoryEntity findCategoryById(int id);
     int getCategoryCount();
-//    int getCategoryByName(String categoryName);
+    CategoryEntity findCategoryByName(String nameOfCategory);
 
 }
