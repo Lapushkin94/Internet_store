@@ -11,17 +11,15 @@
 </head>
 <br>
 
-
 <jsp:include page="header.jsp"/>
 
-<div class="container-fluid">
+<div class="container-fluid" style="margin-top: 20px">
     <div class="row">
         <div class="col-8">
-            <h2>Our product</h2>
-            <table class="table table-striped table-hover">
+            <h2 style="background-color: darksalmon; padding: 10px; margin-bottom: 10px">Our product</h2>
+            <table class="table table-striped table-hover" style="background-color: cornsilk">
                 <thead>
                 <th>№</th>
-                <th>Id</th>
                 <th>Name</th>
                 <th>Alt name</th>
                 <th>Brand name</th>
@@ -35,7 +33,6 @@
                 <c:forEach var="product" items="${productList}" varStatus="i">
                     <tr>
                         <td>${i.index + 1 + (existingProductListPage - 1) * 10}</td>
-                        <td>${product.id}</td>
                         <td>${product.name}</td>
                         <td>${product.alternative_name}</td>
                         <td>${product.brandName}</td>
@@ -50,7 +47,8 @@
                             <form action="/catalog/get/${product.id}" method="POST">
 
                                 <label for="quantity">#</label>
-                                <input type="number" name="quantity" id="quantity">
+                                <input type="number" name="quantity" id="quantity" min="0"
+                                       max="${product.quantityInStore}">
 
                                 <input type="submit" value="Get it!">
                             </form>
@@ -61,33 +59,32 @@
                         </td>
                     </tr>
                 </c:forEach>
-                <tr>
-                    <td colspan="4">
-                        <a href="${pageContext.request.contextPath}/catalog/addProduct">Add new product</a>
-                    </td>
-                    <td>
-                        <c:forEach begin="1" end="${productPagesCount}" step="1" varStatus="i">
-                            <c:url value="/catalog" var="url">
-                                <c:param name="existingProductListPage" value="${i.index}"/>
-                            </c:url>
-                            <a href="${url}">${i.index}</a>
-                        </c:forEach>
-                    </td>
-                </tr>
                 </tbody>
             </table>
+
+            <div class="row">
+            <div class="row-1; border border-danger" style="background-color: khaki; margin-top: 10px; padding: 10px; margin-left: 15px">
+                <a href="${pageContext.request.contextPath}/catalog/addProduct">Add new product</a>
+            </div>
+            <div class="row-3; border border-danger" style="background-color: khaki; margin-top: 10px; margin-left: 30px; padding: 10px">
+                <c:forEach begin="1" end="${productPagesCount}" step="1" varStatus="i">
+                    <c:url value="/catalog" var="url">
+                        <c:param name="existingProductListPage" value="${i.index}"/>
+                    </c:url>
+                    <a href="${url}">${i.index}</a>
+                </c:forEach>
+            </div>
+            </div>
+
         </div>
 
         <div class="col-4">
-            <table class="table table-striped table-hover">
-                <h2>Your bascet</h2>
+            <table class="table table-striped table-hover" style="background-color: cornsilk">
+                <h2 style="background-color: darksalmon; padding: 10px; margin-bottom: 10px">Your bascet</h2>
                 <thead>
                 <th>№</th>
-                <th>Id</th>
                 <th>Quantity</th>
                 <th>Product</th>
-                <th>Alt name</th>
-                <th>Brand</th>
                 <th>price</th>
                 <th>Info</th>
                 <th>Action</th>
@@ -97,11 +94,8 @@
                 <c:forEach var="productInBascet" items="${productInBascetList}" varStatus="i">
                     <tr>
                         <td>${i.index + 1 + (productInBascetListPage - 1) * 10}</td>
-                        <td>${productInBascet.id}</td>
                         <td>${productInBascet.quantity}</td>
                         <td>${productInBascet.product.name}</td>
-                        <td>${productInBascet.product.alternative_name}</td>
-                        <td>${productInBascet.product.brandName}</td>
                         <td>${productInBascet.product.price}</td>
                         <td>
                             <a href="/catalog/productDetails/${productInBascet.product.id}">Details</a>
@@ -112,29 +106,32 @@
                     </tr>
                 </c:forEach>
                 </tbody>
-                <td>
-                    <a href="${pageContext.request.contextPath}/order">Go to order registration!</a>
-                </td>
             </table>
+            <div class="border border-danger"
+                 style="float: left; background-color: khaki; margin-top: 10px; padding: 10px">
+                <a href="${pageContext.request.contextPath}/order">Go to order registration!</a>
+            </div>
         </div>
     </div>
-<c:choose>
-    <c:when test="${catalogParam == 'catalogFalse'}">
-        <div class="alert alert-danger" role="alert">
-            You want too many. You can <a href="${pageContext.request.contextPath}/contacts" class="alert-link">contact</a> us. We will do everything possible!
-        </div>
-    </c:when>
-    <c:when test="${catalogParam == 'catalogSuccess'}">
-        <div class="alert alert-success" role="alert">
-            Product successful added to your <a href="${pageContext.request.contextPath}/order" class="alert-link">bascet</a>. Nice choice!
-        </div>
-    </c:when>
-    <c:otherwise>
-        <div class="alert alert-info" role="alert">
-            It is our choices that show what we truly are, far more than our abilities (c).
-        </div>
-    </c:otherwise>
-</c:choose>
+    <c:choose>
+        <c:when test="${catalogParam == 'catalogFalse'}">
+            <div class="alert alert-danger" role="alert" style="margin-top: 20px">
+                You want too many. You can <a href="${pageContext.request.contextPath}/contacts" class="alert-link">contact</a>
+                us. We will do everything possible!
+            </div>
+        </c:when>
+        <c:when test="${catalogParam == 'catalogSuccess'}">
+            <div class="alert alert-success" role="alert" style="margin-top: 20px">
+                Product successful added to your <a href="${pageContext.request.contextPath}/order" class="alert-link">bascet</a>.
+                Nice choice!
+            </div>
+        </c:when>
+        <c:otherwise>
+            <div class="alert alert-info" role="alert" style="margin-top: 20px">
+                It is our choices that show what we truly are, far more than our abilities (c).
+            </div>
+        </c:otherwise>
+    </c:choose>
 </div>
 
 
@@ -147,5 +144,4 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
         integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
         crossorigin="anonymous"></script>
-</body>
 </html>

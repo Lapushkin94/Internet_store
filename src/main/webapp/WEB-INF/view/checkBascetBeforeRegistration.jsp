@@ -12,9 +12,9 @@
 
 <jsp:include page="header.jsp"/>
 
-<div class="container">
-    <table class="table table-striped table-hover">
-        <h2>Your bascet</h2>
+<div class="container" style="margin-top: 20px">
+    <table class="table table-striped table-hover" style="background-color: cornsilk">
+        <h2 style="background-color: darksalmon; padding: 10px; margin-bottom: 10px">Your bascet</h2>
         <thead>
         <th>№</th>
         <th>Id</th>

@@ -62,35 +62,42 @@ public class OrderController {
     }
 
 
-    @GetMapping(value = "/registrationPage")
-    public ModelAndView registrationPage() {
+    @GetMapping(value = "/orderRegistrationPage")
+    public ModelAndView getOrderRegistrationPage() {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("registrationPage");
+
+        // Проверка пользователя на наличие регистрации
+        // В зависимости от этого будет разный вывод страницы регистрации заказа
+        // Либо заполнять все поля и не сохранять заказ,
+        // Либо вывести заполненные данные клиента + адрес с возможностью изменить адрес
+
+        modelAndView.setViewName("orderRegistrationPage");
         return modelAndView;
     }
 
 
     @PostMapping(value = "/confirmation")
-    public ModelAndView getOrderPage(@ModelAttribute("order") OrderDTO orderDTO) {
+    public ModelAndView doOrderRegistration(@ModelAttribute("order") OrderDTO orderDTO) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("congratilationsPage");
 
-        // Проверка пользователя на наличие регистрации
-        // Если есть, то привязать его к заказу, чтобы потом можно было выводить историю заказов по клиенту
+        // Если зарегистрирован, то добавить клиенту в сет заказов текущий
 
-        ProductDTO productDTO;
+        // Далее необх. удалить из каталога товары корзины
 
-        List<ProductInBascetDTO> productInBascetDTOList = productInBascetService.getAllProductsInBascetWithoutPages();
+//        ProductDTO productDTO;
+//
+//        List<ProductInBascetDTO> productInBascetDTOList = productInBascetService.getAllProductsInBascetWithoutPages();
 
-        for (ProductInBascetDTO prod : productInBascetDTOList) {
-
-
-            // заменить на метод setOrderToProductInBascetList
-            // Каждому продукту из корзины назначается номер заказа
-            prod.setOrder(OrderConverter.toEntity(orderDTO));
-            productInBascetService.editProduct(prod);
-
-            productDTO = ProductConverter.toDto(prod.getProduct());
+//        for (ProductInBascetDTO prod : productInBascetDTOList) {
+//
+//
+//            // заменить на метод setOrderToProductInBascetList
+//            // Каждому продукту из корзины назначается номер заказа
+//            prod.setOrder(OrderConverter.toEntity(orderDTO));
+//            productInBascetService.editProduct(prod);
+//
+//            productDTO = ProductConverter.toDto(prod.getProduct());
 
             // сравнивается кол-во товаров в корзине и кол-во товаров в магазине, проверка возможности покупки
             // + отнимает купленное количество из имеющегося в каталоге
@@ -103,25 +110,27 @@ public class OrderController {
 
             // Сверху и снизу аналогичные варианты, мб try catch лучше
 
-            // Стоит сделать в методе сервиса, но обращение идет к разным БД
-            try {
-                productDTO.setQuantityInStore(prod.getProduct().getQuantityInStore() - prod.getQuantity());
-            }
-            catch (Exception exc) {
-                modelAndView.setViewName("numberOfProductExceptionPage");
-                modelAndView.addObject("shortageProduct", prod);
-                return modelAndView;
-            }
-
-            productService.editProduct(productDTO);
-        }
+            // Стоит сделать в методе сервиса order
+//            try {
+//                productDTO.setQuantityInStore(prod.getProduct().getQuantityInStore() - prod.getQuantity());
+//            }
+//            catch (Exception exc) {
+//                modelAndView.setViewName("numberOfProductExceptionPage");
+//                modelAndView.addObject("shortageProduct", prod);
+//                return modelAndView;
+//            }
+//
+//            productService.editProduct(productDTO);
+//        }
 
 
         orderDTO.setOrderStatus(OrderStatusConverter.toEntity(orderStatusService.getOpenedStatus()));
         Date date = new Date();
         orderDTO.setDate(date.toString());
-
         orderService.addOrder(orderDTO);
+
+        // добавить метод, который будет копировать данные всех productInBascet в новую таблицу (таблицу создать)
+        orderService.calculateProductNumberInStoreAlsoCopyProductInfoToTheHistoryTableAndResetProductBascet(productInBascetService.getAllProductsInBascetWithoutPages(), orderDTO.getId());
 
         return modelAndView;
     }

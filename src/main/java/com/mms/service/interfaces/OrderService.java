@@ -1,6 +1,7 @@
 package com.mms.service.interfaces;
 
 import com.mms.dto.OrderDTO;
+import com.mms.dto.ProductInBascetDTO;
 
 import java.util.List;
 
@@ -12,6 +13,7 @@ public interface OrderService {
     void editOrder(OrderDTO orderDTO);
     OrderDTO getOrder(int id);
     int getOrderCount();
+    String calculateProductNumberInStoreAlsoCopyProductInfoToTheHistoryTableAndResetProductBascet(List<ProductInBascetDTO> productInBascetDTOList, int orderId);
 
 
 }

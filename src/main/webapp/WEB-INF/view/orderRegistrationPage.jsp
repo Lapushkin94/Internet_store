@@ -23,7 +23,7 @@
 
     <input type="submit" value="Final step">
 
-    <a href="${pageContext.request.contextPath}/order/registrationPage">Back</a>
+    <a href="${pageContext.request.contextPath}/order/orderRegistrationPage">Back</a>
 
 </form>
 
