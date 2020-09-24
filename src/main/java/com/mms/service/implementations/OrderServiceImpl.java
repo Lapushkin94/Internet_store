@@ -1,12 +1,19 @@
 package com.mms.service.implementations;
 
 import com.mms.dto.OrderDTO;
+import com.mms.dto.OrderedProductForHistoryDTO;
 import com.mms.dto.ProductDTO;
 import com.mms.dto.ProductInBascetDTO;
 import com.mms.dto.converterDTO.OrderConverter;
+import com.mms.dto.converterDTO.OrderedProductForHistoryConverter;
 import com.mms.dto.converterDTO.ProductConverter;
 import com.mms.dto.converterDTO.ProductInBascetConverter;
+import com.mms.model.OrderEntity;
+import com.mms.model.OrderedProductForHistoryEntity;
+import com.mms.model.ProductEntity;
+import com.mms.model.ProductInBascetEntity;
 import com.mms.repository.interfaces.OrderRepository;
+import com.mms.repository.interfaces.OrderedProductForHistoryRepository;
 import com.mms.repository.interfaces.ProductInBascetRepository;
 import com.mms.repository.interfaces.ProductRepository;
 import com.mms.service.interfaces.OrderService;
@@ -26,6 +33,7 @@ public class OrderServiceImpl implements OrderService {
     private OrderRepository orderRepository;
     private ProductInBascetRepository productInBascetRepository;
     private ProductRepository productRepository;
+    private OrderedProductForHistoryRepository orderedProductForHistoryRepository;
 
     @Autowired
     public void setOrderRepository(OrderRepository orderRepository) {
@@ -40,6 +48,11 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     public void setProductRepository(ProductRepository productRepository) {
         this.productRepository = productRepository;
+    }
+
+    @Autowired
+    public void setOrderedProductForHistoryRepository(OrderedProductForHistoryRepository orderedProductForHistoryRepository) {
+        this.orderedProductForHistoryRepository = orderedProductForHistoryRepository;
     }
 
     @Override
@@ -91,6 +104,8 @@ public class OrderServiceImpl implements OrderService {
         }
 
         ProductDTO productDTO;
+        OrderedProductForHistoryDTO orderedProductForHistoryDTO;
+        OrderEntity orderEntity = orderRepository.findOrderById(orderId);
 
         for (ProductInBascetDTO productInBascetDTO : productInBascetDTOList) {
 
@@ -98,12 +113,54 @@ public class OrderServiceImpl implements OrderService {
             productDTO.setQuantityInStore(productInBascetDTO.getProduct().getQuantityInStore() - productInBascetDTO.getQuantity());
             productRepository.updateProduct(ProductConverter.toEntity(productDTO));
 
-            // добавить код переноса productInBascet в productHistory
-            // привязать orderId к перенесенной копии
+            orderedProductForHistoryDTO = new OrderedProductForHistoryDTO();
+            orderedProductForHistoryDTO.setName(productInBascetDTO.getProduct().getName());
+            orderedProductForHistoryDTO.setAlternative_name(productInBascetDTO.getProduct().getAlternative_name());
+            orderedProductForHistoryDTO.setBrandName(productInBascetDTO.getProduct().getBrandName());
+            orderedProductForHistoryDTO.setPrice(productInBascetDTO.getProduct().getPrice());
+            orderedProductForHistoryDTO.setColor(productInBascetDTO.getProduct().getProductDetails().getColor());
+            orderedProductForHistoryDTO.setWeight(productInBascetDTO.getProduct().getProductDetails().getWeight());
+            orderedProductForHistoryDTO.setCountry(productInBascetDTO.getProduct().getProductDetails().getCountry());
+            orderedProductForHistoryDTO.setDescription(productInBascetDTO.getProduct().getProductDetails().getDescription());
+
+            orderedProductForHistoryDTO.setOrderInHistory(orderEntity);
+
+            orderedProductForHistoryDTO.setQuantity(productInBascetDTO.getQuantity());
+            orderedProductForHistoryRepository.saveProduct(OrderedProductForHistoryConverter.toEntity(orderedProductForHistoryDTO));
 
             productInBascetRepository.deleteProductInBascet(ProductInBascetConverter.toEntity(productInBascetDTO));
         }
 
+//        ProductEntity productEntity;
+//        OrderEntity orderEntity = orderRepository.findOrderById(orderId);
+//        List<ProductInBascetEntity> productInBascetEntities = productInBascetRepository.findAllProductsInBascetWithoutPages();
+//        for (ProductInBascetEntity productInBascetEntity : productInBascetEntities) {
+//            productEntity = productInBascetEntity.getProduct();
+//            productEntity.setQuantityInStore(productInBascetEntity.getProduct().getQuantityInStore() - productInBascetEntity.getQuantity());
+//            productRepository.updateProduct(productEntity);
+//
+//            OrderedProductForHistoryEntity orderedProductForHistoryEntity = new OrderedProductForHistoryEntity();
+//            orderedProductForHistoryEntity.setName(productInBascetEntity.getProduct().getName());
+//            orderedProductForHistoryEntity.setAlternative_name(productInBascetEntity.getProduct().getAlternative_name());
+//            orderedProductForHistoryEntity.setBrandName(productInBascetEntity.getProduct().getBrandName());
+//            orderedProductForHistoryEntity.setPrice(productInBascetEntity.getProduct().getPrice());
+//            orderedProductForHistoryEntity.setColor(productInBascetEntity.getProduct().getProductDetails().getColor());
+//            orderedProductForHistoryEntity.setWeight(productInBascetEntity.getProduct().getProductDetails().getWeight());
+//            orderedProductForHistoryEntity.setCountry(productInBascetEntity.getProduct().getProductDetails().getCountry());
+//            orderedProductForHistoryEntity.setDescription(productInBascetEntity.getProduct().getProductDetails().getDescription());
+//            orderedProductForHistoryEntity.setOrderInHistory(orderEntity);
+//            orderedProductForHistoryEntity.setQuantity(productInBascetEntity.getQuantity());
+//            orderedProductForHistoryRepository.saveProduct(orderedProductForHistoryEntity);
+//
+//            productInBascetRepository.deleteProductInBascet(productInBascetEntity);
+//        }
+
         return "completedSuccessfully";
+    }
+
+    @Override
+    @Transactional
+    public int addOrderAndReturnId(OrderDTO orderDTO) {
+        return orderRepository.saveOrderAndReturnId(OrderConverter.toEntity(orderDTO));
     }
 }

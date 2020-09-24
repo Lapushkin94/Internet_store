@@ -11,7 +11,7 @@
 
 </head>
 <body>
-
+<jsp:include page="header.jsp"/>
 <form action="${pageContext.request.contextPath}/order/confirmation" method="POST">
 
     <label for="payStatus">Pay status</label>

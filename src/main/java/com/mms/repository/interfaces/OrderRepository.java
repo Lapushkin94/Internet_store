@@ -12,5 +12,6 @@ public interface OrderRepository {
     void updateOrder(OrderEntity orderEntity);
     OrderEntity findOrderById(int id);
     int getOrderCount();
+    int saveOrderAndReturnId(OrderEntity orderEntity);
 
 }

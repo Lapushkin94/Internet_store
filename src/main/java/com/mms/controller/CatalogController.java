@@ -107,9 +107,6 @@ public class CatalogController {
         modelAndView.setViewName("redirect:/catalog/?existingProductListPage=" + this.existingProductListPage + "&productInBascetLstPage=" + productInBascetListPage);
         productService.editProduct(product);
 
-        // Необходима правильная обработка параметров quantity и category
-        // Иначе ошибка 400
-
         return modelAndView;
     }
 
@@ -132,13 +129,8 @@ public class CatalogController {
         modelAndView.setViewName("redirect:/catalog/?existingProductListPage=" + this.existingProductListPage + "&productInBascetLstPage=" + productInBascetListPage);
 
         product.setProductDetails(ProductDetailsConverter.toEntity(productDetails));
-        // Сменить имя у категории
         product.setCategory(CategoryConverter.toEntity(categoryService.getCategoryByName(nameOfCategory)));
-        // ошибка save the transient instance before flushing: com.mms.model.CategoryEntity
         productService.addProduct(product);
-
-        // Необходима правильная обработка параметра category
-        // Иначе ошибка 400
 
         return modelAndView;
     }
@@ -162,8 +154,6 @@ public class CatalogController {
         productInBascetDTO.setProduct(ProductConverter.toEntity(productService.getProduct(id)));
 
         String catalogParam = productInBascetService.checkQuantityDifferenceThenAddProductInBascet(productInBascetDTO, numberOfOrderedProducts);
- //       productInBascetService.checkQuantityDifferenceThenAddProductInBascet(productInBascetDTO, numberOfOrderedProducts);
- //       modelAndView.setViewName("redirect:/catalog/" + productInBascetService.checkQuantityDifferenceThenAddProductInBascet(productInBascetDTO, numberOfOrderedProducts));
 
         modelAndView.setViewName("redirect:/catalog/?existingProductListPage=" + this.existingProductListPage + "&productInBascetLstPage=" + productInBascetListPage + "&catalogParam=" + catalogParam);
 

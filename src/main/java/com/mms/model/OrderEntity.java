@@ -31,8 +31,11 @@ public class OrderEntity {
     @ManyToOne
     @JoinColumn(name = "client_id")
     private ClientEntity client;
+
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<ProductInBascetEntity> productInBascets = new HashSet<>();
 
+    @OneToMany(mappedBy = "orderInHistory", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<OrderedProductForHistoryEntity> orderedProductForHistorySet = new HashSet<>();
 
 }

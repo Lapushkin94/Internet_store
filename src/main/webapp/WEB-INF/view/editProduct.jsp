@@ -14,7 +14,7 @@
     </c:if>
 </head>
 <body>
-
+<jsp:include page="header.jsp"/>
 <c:if test="${empty product.name}">
     <c:url value="/catalog/add" var="var"/>
 </c:if>

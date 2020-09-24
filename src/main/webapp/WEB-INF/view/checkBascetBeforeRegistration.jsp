@@ -47,7 +47,7 @@
         </c:forEach>
         </tbody>
         <td>
-            <a href="${pageContext.request.contextPath}/order/registrationPage">Order it!</a>
+            <a href="${pageContext.request.contextPath}/order/orderRegistrationPage">Order it!</a>
         </td>
     </table>
 </div>

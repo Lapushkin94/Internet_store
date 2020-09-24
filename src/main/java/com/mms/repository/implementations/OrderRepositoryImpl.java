@@ -55,4 +55,12 @@ public class OrderRepositoryImpl implements OrderRepository {
         Session session = sessionFactory.getCurrentSession();
         return session.createQuery("select count (*) from OrderEntity", Number.class).getSingleResult().intValue();
     }
+
+    @Override
+    public int saveOrderAndReturnId(OrderEntity orderEntity) {
+        Session session = sessionFactory.getCurrentSession();
+        session.persist(orderEntity);
+        session.flush();
+        return orderEntity.getId();
+    }
 }

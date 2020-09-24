@@ -11,8 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 
 @Controller
@@ -26,6 +26,8 @@ public class OrderController {
 
     private int orderListPage;
     private int productInBascetListPage;
+
+    private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd G 'at' HH:mm:ss z");
 
 
     @Autowired
@@ -83,71 +85,18 @@ public class OrderController {
 
         // Если зарегистрирован, то добавить клиенту в сет заказов текущий
 
-        // Далее необх. удалить из каталога товары корзины
-
-//        ProductDTO productDTO;
-//
-//        List<ProductInBascetDTO> productInBascetDTOList = productInBascetService.getAllProductsInBascetWithoutPages();
-
-//        for (ProductInBascetDTO prod : productInBascetDTOList) {
-//
-//
-//            // заменить на метод setOrderToProductInBascetList
-//            // Каждому продукту из корзины назначается номер заказа
-//            prod.setOrder(OrderConverter.toEntity(orderDTO));
-//            productInBascetService.editProduct(prod);
-//
-//            productDTO = ProductConverter.toDto(prod.getProduct());
-
-            // сравнивается кол-во товаров в корзине и кол-во товаров в магазине, проверка возможности покупки
-            // + отнимает купленное количество из имеющегося в каталоге
-
-//            if ((prod.getProduct().getQuantityInStore() - prod.getQuantity()) < 0) {
-//                modelAndView.setViewName("numberOfProductExceptionPage");
-//                modelAndView.addObject("shortageProduct", prod);
-//                return modelAndView;
-//            }
-
-            // Сверху и снизу аналогичные варианты, мб try catch лучше
-
-            // Стоит сделать в методе сервиса order
-//            try {
-//                productDTO.setQuantityInStore(prod.getProduct().getQuantityInStore() - prod.getQuantity());
-//            }
-//            catch (Exception exc) {
-//                modelAndView.setViewName("numberOfProductExceptionPage");
-//                modelAndView.addObject("shortageProduct", prod);
-//                return modelAndView;
-//            }
-//
-//            productService.editProduct(productDTO);
-//        }
-
-
         orderDTO.setOrderStatus(OrderStatusConverter.toEntity(orderStatusService.getOpenedStatus()));
-        Date date = new Date();
-        orderDTO.setDate(date.toString());
-        orderService.addOrder(orderDTO);
 
-        // добавить метод, который будет копировать данные всех productInBascet в новую таблицу (таблицу создать)
-        orderService.calculateProductNumberInStoreAlsoCopyProductInfoToTheHistoryTableAndResetProductBascet(productInBascetService.getAllProductsInBascetWithoutPages(), orderDTO.getId());
+        orderDTO.setDate(dateFormat.format(new Date()));
+        int orderId = orderService.addOrderAndReturnId(orderDTO);
+
+        // метод проверяет заказанное количество продуктов с количеством в каталоге + удаляет купленное число, если можно
+        // копирует данные корзины в таблицу истории и добавляет id заказа
+        // обнуляет корзину
+        orderService.calculateProductNumberInStoreAlsoCopyProductInfoToTheHistoryTableAndResetProductBascet(productInBascetService.getAllProductsInBascetWithoutPages(), orderId);
 
         return modelAndView;
     }
-
-//
-//    @GetMapping(value = "/fullOrderList")
-//    public ModelAndView orderMainPage(@RequestParam (defaultValue = "1") int orderListPage) {
-//        this.orderListPage = orderListPage;
-//        int ordersCount = orderService.getOrderCount();
-//        ModelAndView modelAndView = new ModelAndView();
-//        modelAndView.setViewName("orderPage");
-//        modelAndView.addObject("orderListPage", orderListPage);
-//        modelAndView.addObject("orderList", orderService.getAllOrders(orderListPage));
-//        modelAndView.addObject("orderCount", ordersCount);
-//        modelAndView.addObject("orderPagesCount", (ordersCount + 9) / 10);
-//        return modelAndView;
-//    }
 
 
 }
