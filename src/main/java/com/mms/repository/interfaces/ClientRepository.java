@@ -12,5 +12,6 @@ public interface ClientRepository {
     void updateClient(ClientEntity clientEntity);
     ClientEntity findClientById(int id);
     int getClientCount();
+    ClientEntity findByEmail(String inputEmail);
 
 }

@@ -56,4 +56,11 @@ public class ClientRepositoryImpl implements ClientRepository {
         return session.createQuery("select count (*) from ClientEntity", Number.class).getSingleResult().intValue();
     }
 
+    @Override
+    public ClientEntity findByEmail(String inputEmail) {
+        Session session = sessionFactory.getCurrentSession();
+        return session.createQuery("from ClientEntity client WHERE client.email =: inputEmail", ClientEntity.class)
+                .setParameter("inputEmail", inputEmail)
+                .getSingleResult();
+    }
 }

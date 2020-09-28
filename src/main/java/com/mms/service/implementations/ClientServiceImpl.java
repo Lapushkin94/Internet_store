@@ -62,4 +62,9 @@ public class ClientServiceImpl implements ClientService {
         return clientRepository.getClientCount();
     }
 
+    @Override
+    @Transactional
+    public ClientDTO getClientByEmail(String inputEmail) {
+        return ClientConverter.toDto(clientRepository.findByEmail(inputEmail));
+    }
 }

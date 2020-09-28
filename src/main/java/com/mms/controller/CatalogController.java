@@ -5,14 +5,9 @@ import com.mms.dto.converterDTO.*;
 import com.mms.service.interfaces.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-
-import java.util.List;
-
-import static com.mms.dto.converterDTO.ProductDetailsConverter.toEntity;
 
 @Controller
 @RequestMapping(value = "/catalog")
@@ -56,6 +51,7 @@ public class CatalogController {
     public ModelAndView catalog(@RequestParam(defaultValue = "1") int existingProductListPage,
                                 @RequestParam(defaultValue = "1") int productInBascetListPage,
                                 @RequestParam(defaultValue = "standart") String catalogParam) {
+
         this.existingProductListPage = existingProductListPage;
         int productsCount = productService.getProductCount();
         ModelAndView modelAndView = new ModelAndView();
@@ -71,10 +67,7 @@ public class CatalogController {
         modelAndView.addObject("productsInBascetCount", productsInBascetCount);
         modelAndView.addObject("productInBascetPagesCount", (productsInBascetCount + 9) / 10);
 
-
         modelAndView.addObject("catalogParam", catalogParam);
-
-
         modelAndView.setViewName("catalog");
 
         return modelAndView;
@@ -83,26 +76,31 @@ public class CatalogController {
     // shows detail information about chosen product
     @GetMapping(value = "/productDetails/{id}")
     public ModelAndView getDetails(@PathVariable("id") int id) {
+
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("productDetails");
         modelAndView.addObject("existingProductListPage", existingProductListPage);
         modelAndView.addObject("product", productService.getProduct(id));
+
         return modelAndView;
     }
 
     // redirects to edit-page of chosen product
     @GetMapping(value = "/editProduct/{id}")
     public ModelAndView editPage(@PathVariable("id") int id) {
+
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("editProduct");
         modelAndView.addObject("existingProductListPage", existingProductListPage);
         modelAndView.addObject("product", productService.getProduct(id));
+
         return modelAndView;
     }
 
     // allows edit chosen product
     @PostMapping(value = "/editProduct")
     public ModelAndView editProduct(@ModelAttribute("product") ProductDTO product) {
+
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("redirect:/catalog/?existingProductListPage=" + this.existingProductListPage + "&productInBascetLstPage=" + productInBascetListPage);
         productService.editProduct(product);
@@ -113,9 +111,11 @@ public class CatalogController {
     // redirect to add-page (page for adding products)
     @GetMapping(value = "/addProduct")
     public ModelAndView addPage() {
+
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("editProduct");
         modelAndView.addObject("categoryList", categoryService.getAllCategoriesWithoutPages());
+
         return modelAndView;
     }
 
@@ -125,6 +125,7 @@ public class CatalogController {
             @ModelAttribute("product") ProductDTO product,
             @ModelAttribute("productDetails") ProductDetailsDTO productDetails,
             @ModelAttribute(name = "nameOfCategory") String nameOfCategory) {
+
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("redirect:/catalog/?existingProductListPage=" + this.existingProductListPage + "&productInBascetLstPage=" + productInBascetListPage);
 
@@ -139,22 +140,23 @@ public class CatalogController {
     // try DeleteMapping
     @GetMapping(value = "/delete/{id}")
     public ModelAndView deleteProduct(@PathVariable("id") int id) {
+
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("redirect:/catalog/?existingProductListPage=" + this.existingProductListPage + "&productInBascetLstPage=" + productInBascetListPage);
         productService.deleteProduct(productService.getProduct(id));
+
         return modelAndView;
     }
 
     @PostMapping(value = "/get/{id}")
     public ModelAndView getProductIntBascet(@PathVariable("id") int id,
                                             @RequestParam("quantity") int numberOfOrderedProducts) {
-        ModelAndView modelAndView = new ModelAndView();
 
+        ModelAndView modelAndView = new ModelAndView();
         ProductInBascetDTO productInBascetDTO = new ProductInBascetDTO();
         productInBascetDTO.setProduct(ProductConverter.toEntity(productService.getProduct(id)));
 
         String catalogParam = productInBascetService.checkQuantityDifferenceThenAddProductInBascet(productInBascetDTO, numberOfOrderedProducts);
-
         modelAndView.setViewName("redirect:/catalog/?existingProductListPage=" + this.existingProductListPage + "&productInBascetLstPage=" + productInBascetListPage + "&catalogParam=" + catalogParam);
 
         return modelAndView;

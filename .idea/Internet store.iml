@@ -66,6 +66,9 @@
     <orderEntry type="library" name="Maven: org.apache.tomcat:tomcat-dbcp:10.0.0-M7" level="project" />
     <orderEntry type="library" name="Maven: org.apache.tomcat:tomcat-juli:10.0.0-M7" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.projectlombok:lombok:1.18.12" level="project" />
-    <orderEntry type="library" name="Maven: org.hibernate:hibernate-core:5.4.21.Final" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.security:spring-security-web:5.3.4.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.security:spring-security-core:5.3.4.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.security:spring-security-config:5.3.4.RELEASE" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: javax.servlet.jsp:javax.servlet.jsp-api:2.3.3" level="project" />
   </component>
 </module>

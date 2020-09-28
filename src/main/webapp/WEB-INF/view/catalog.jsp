@@ -47,7 +47,7 @@
                             <form action="/catalog/get/${product.id}" method="POST">
 
                                 <label for="quantity">#</label>
-                                <input type="number" name="quantity" id="quantity" min="0"
+                                <input type="number" name="quantity" id="quantity" min="1"
                                        max="${product.quantityInStore}">
 
                                 <input type="submit" value="Get it!">

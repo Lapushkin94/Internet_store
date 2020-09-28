@@ -12,6 +12,6 @@ public interface ClientService {
     void editClient(ClientDTO clientDTO);
     ClientDTO getClient(int id);
     int getClientCount();
-
+    ClientDTO getClientByEmail(String inputEmail);
 
 }
