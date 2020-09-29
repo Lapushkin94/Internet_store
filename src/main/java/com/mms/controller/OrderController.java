@@ -51,7 +51,7 @@ public class OrderController {
     }
 
     @GetMapping
-    public ModelAndView bascet(@RequestParam(defaultValue = "1") int productInBascetListPage) {
+    public ModelAndView getBascet(@RequestParam(defaultValue = "1") int productInBascetListPage) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("checkBascetBeforeRegistration");
         this.productInBascetListPage = productInBascetListPage;
@@ -65,16 +65,14 @@ public class OrderController {
 
 
     @GetMapping(value = "/orderRegistrationPage")
-    public ModelAndView getOrderRegistrationPage() {
-        ModelAndView modelAndView = new ModelAndView();
+    public String getOrderRegistrationPage() {
 
         // Проверка пользователя на наличие регистрации
         // В зависимости от этого будет разный вывод страницы регистрации заказа
         // Либо заполнять все поля и не сохранять заказ,
         // Либо вывести заполненные данные клиента + адрес с возможностью изменить адрес
 
-        modelAndView.setViewName("orderRegistrationPage");
-        return modelAndView;
+        return "orderRegistrationPage";
     }
 
 

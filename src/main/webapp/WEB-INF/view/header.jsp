@@ -1,3 +1,4 @@
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <header>
     <nav class="navbar navbar-expand-lg navbar-light" style="background-color: tan; margin-left: 15px; margin-right: 10px">
         <div class="container">
@@ -30,6 +31,11 @@
                     </li>
                     <li class="nav-item" style="margin-left: 15px">
                         <a class="nav-link" href="${pageContext.request.contextPath}/contacts">Contacts</a>
+                    </li>
+                    <li class="nav-item">
+                        <form:form action="${pageContext.request.contextPath}/logout" method="post">
+                            <input type="submit" value="Logout">
+                        </form:form>
                     </li>
                 </ul>
                 <form class="form-inline my-2 my-lg-0" style="margin-left: 15px">

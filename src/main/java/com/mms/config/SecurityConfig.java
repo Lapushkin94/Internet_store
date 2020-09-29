@@ -1,6 +1,5 @@
 package com.mms.config;
 
-import com.mms.security.AuthProviderImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -10,9 +9,11 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.User;
 
+import static org.hibernate.criterion.Restrictions.and;
+
 @Configuration
 @EnableWebSecurity
-@ComponentScan("com.mms.security")
+// @ComponentScan("com.mms.security")
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 //    private AuthProviderImpl authProvider;
@@ -36,6 +37,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .and()
 //                    .logout();
 //    }
+
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.authorizeRequests()
+                    .antMatchers("/").permitAll()
+                    .antMatchers("/catalog").hasRole("MANAGER")
+                    .antMatchers("/contacts").hasRole("ADMIN")
+                .and()
+                    .formLogin()
+                    .loginPage("/showMyLoginPage")
+                    .loginProcessingUrl("/authenticateTheClient")
+                    .permitAll()
+                .and()
+                    .logout()
+                    .logoutSuccessUrl("/")
+                    .permitAll();
+    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
