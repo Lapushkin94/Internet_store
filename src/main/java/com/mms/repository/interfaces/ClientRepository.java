@@ -1,6 +1,7 @@
 package com.mms.repository.interfaces;
 
 import com.mms.model.ClientEntity;
+import com.mms.model.RoleEntity;
 
 import java.util.List;
 
@@ -13,5 +14,6 @@ public interface ClientRepository {
     ClientEntity findClientById(int id);
     int getClientCount();
     ClientEntity findByEmail(String inputEmail);
-
+    RoleEntity findRoleByRoleName(String roleName);
+    List<RoleEntity> findAllRoles();
 }

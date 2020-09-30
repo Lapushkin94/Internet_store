@@ -1,6 +1,7 @@
 package com.mms.repository.implementations;
 
 import com.mms.model.ClientEntity;
+import com.mms.model.RoleEntity;
 import com.mms.repository.interfaces.ClientRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -62,5 +63,20 @@ public class ClientRepositoryImpl implements ClientRepository {
         return session.createQuery("from ClientEntity client WHERE client.email =: inputEmail", ClientEntity.class)
                 .setParameter("inputEmail", inputEmail)
                 .getSingleResult();
+    }
+
+    @Override
+    public RoleEntity findRoleByRoleName(String roleName) {
+        Session session = sessionFactory.getCurrentSession();
+        return session.createQuery("from RoleEntity role WHERE role.name =: roleName", RoleEntity.class)
+                .setParameter("roleName", roleName)
+                .getSingleResult();
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<RoleEntity> findAllRoles() {
+        Session session = sessionFactory.getCurrentSession();
+        return session.createQuery("from RoleEntity").list();
     }
 }

@@ -14,18 +14,11 @@
     <link rel="stylesheet"
           href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
-
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
 </head>
-
 <body>
 
-<div>
-
-    <div id="loginbox" style="margin-top: 50px;"
-         class="mainbox col-md-3 col-md-offset-2 col-sm-6 col-sm-offset-2">
+<div style="margin-top: 50px">
+    <div id="loginbox" class="mainbox col-md-3 col-md-offset-2 col-sm-6 col-sm-offset-2">
 
         <div class="panel panel-info">
 
@@ -36,45 +29,32 @@
             <div style="padding-top: 30px" class="panel-body">
 
                 <!-- Login Form -->
-                <form:form action="${pageContext.request.contextPath}/authenticateTheClient"
-                           method="POST" class="form-horizontal">
+                <form action="/signIn/process"
+                      method="POST" class="form-horizontal">
 
                     <!-- Place for messages: error, alert etc ... -->
-                    <div class="form-group">
-                        <div class="col-xs-15">
-                            <div>
-
-                                <!-- Check for login error -->
-
-                                <c:if test="${param.error != null}">
-
+                    <c:if test="${param.error != null}">
+                        <div class="form-group">
+                            <div class="col-xs-15">
+                                <div>
                                     <div class="alert alert-danger col-xs-offset-1 col-xs-10">
-                                        Invalid username and password.
+                                        Invalid username or password.
                                     </div>
-                                </c:if>
-
-                                <c:if test="${param.logout != null}">
-                                <div class="alert alert-success col-xs-offset-1 col-xs-10">
-                                    You have been logged out.
                                 </div>
-                                </c:if>
-
                             </div>
                         </div>
-                    </div>
+                    </c:if>
 
                     <!-- User name -->
                     <div style="margin-bottom: 25px" class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                        <label for="username"></label>
-                        <input type="text" name="username" placeholder="username" class="form-control" id="username">
+                        <input type="text" name="email" placeholder="email" class="form-control">
                     </div>
 
                     <!-- Password -->
                     <div style="margin-bottom: 25px" class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                        <label for="password"></label>
-                        <input type="password" name="password" placeholder="password" class="form-control" id="password">
+                        <input type="password" name="password" placeholder="password" class="form-control">
                     </div>
 
                     <!-- Login/Submit Button -->
@@ -83,15 +63,25 @@
                             <button type="submit" class="btn btn-success">Login</button>
                         </div>
                     </div>
-                </form:form>
+                </form>
 
+                <div>
+                    No acc?
+                    <a href="${pageContext.request.contextPath}/signUpPage">
+                        <button type="button" class="btn btn-light">Sign Up!</button>
+                    </a>
+                </div>
+                <div style="margin-top: 20px">
+                    <a href="${pageContext.request.contextPath}/">
+                        <button type="button" class="btn btn-info">Home</button>
+                    </a>
+                </div>
             </div>
-
         </div>
-
     </div>
-
 </div>
+
+
 
 </body>
 </html>

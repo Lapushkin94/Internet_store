@@ -1,6 +1,7 @@
 package com.mms.service.interfaces;
 
 import com.mms.dto.ClientDTO;
+import com.mms.dto.RoleDTO;
 
 import java.util.List;
 
@@ -13,5 +14,7 @@ public interface ClientService {
     ClientDTO getClient(int id);
     int getClientCount();
     ClientDTO getClientByEmail(String inputEmail);
+    RoleDTO getRoleByRoleName(String roleName);
+    List<RoleDTO> getAllRoles();
 
 }
