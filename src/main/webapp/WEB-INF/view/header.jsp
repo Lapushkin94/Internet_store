@@ -34,7 +34,9 @@
                             </security:authorize>
 
                             <div class="dropdown-divider"></div>
+                            <security:authorize access="isAnonymous()">
                             <a class="dropdown-item" href="${pageContext.request.contextPath}/signUpPage">Sign up</a>
+                            </security:authorize>
 
                             <security:authorize access="isAuthenticated()">
                             <a class="dropdown-item" href="${pageContext.request.contextPath}/logout">Logout</a>

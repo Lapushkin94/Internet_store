@@ -16,5 +16,5 @@ public interface ClientService {
     ClientDTO getClientByEmail(String inputEmail);
     RoleDTO getRoleByRoleName(String roleName);
     List<RoleDTO> getAllRoles();
-
+    List<String> getAllRoleNames();
 }

@@ -8,10 +8,12 @@ import com.mms.repository.interfaces.ClientRepository;
 import com.mms.service.interfaces.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.NoResultException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,6 +24,12 @@ import static com.mms.dto.converterDTO.ClientConverter.toEntity;
 public class ClientServiceImpl implements ClientService {
 
     private ClientRepository clientRepository;
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Autowired
     public void setClientRepository(ClientRepository clientRepository) {
@@ -39,6 +47,7 @@ public class ClientServiceImpl implements ClientService {
     @Override
     @Transactional
     public void addClient(ClientDTO clientDTO) {
+        clientDTO.setPassword(passwordEncoder.encode(clientDTO.getPassword()));
         clientRepository.saveClient(toEntity(clientDTO));
     }
 
@@ -92,4 +101,16 @@ public class ClientServiceImpl implements ClientService {
                 .map(RoleConverter::toDto)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    @Transactional
+    public List<String> getAllRoleNames() {
+        List<String> roleNamesList = new ArrayList<>();
+        List<RoleDTO> roleDTOList = getAllRoles();
+        for (RoleDTO s : roleDTOList) {
+            roleNamesList.add(s.getName());
+        }
+        return roleNamesList;
+    }
+
 }

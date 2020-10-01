@@ -48,7 +48,7 @@ public class SecurityController {
                             @ModelAttribute ClientAddressDTO clientAddressDTO) {
         try {
             clientDTO.setClientAddress(ClientAddressConverter.toEntity(clientAddressDTO));
-            clientDTO.setRole(RoleConverter.toEntity(clientService.getRoleByRoleName("client")));
+            clientDTO.setRole(RoleConverter.toEntity(clientService.getRoleByRoleName("ROLE_USER")));
             clientService.addClient(clientDTO);
             return "redirect:/signIn";
         }
