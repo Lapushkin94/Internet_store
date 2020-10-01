@@ -13,8 +13,11 @@ public class ProductConverter {
                 .brandName(productDTO.getBrandName())
                 .price(productDTO.getPrice())
                 .quantityInStore(productDTO.getQuantityInStore())
-                .productDetails(productDTO.getProductDetails())
                 .category(productDTO.getCategory())
+                .color((productDTO.getColor()))
+                .weight(productDTO.getWeight())
+                .country((productDTO.getCountry()))
+                .description(productDTO.getDescription())
                 .build();
     }
 
@@ -26,8 +29,11 @@ public class ProductConverter {
                 .brandName(productEntity.getBrandName())
                 .price(productEntity.getPrice())
                 .quantityInStore(productEntity.getQuantityInStore())
-                .productDetails(productEntity.getProductDetails())
                 .category(productEntity.getCategory())
+                .color(productEntity.getColor())
+                .weight(productEntity.getWeight())
+                .country(productEntity.getCountry())
+                .description(productEntity.getDescription())
                 .build();
     }
 

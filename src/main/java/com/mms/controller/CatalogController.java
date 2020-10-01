@@ -93,16 +93,20 @@ public class CatalogController {
         modelAndView.setViewName("editProduct");
         modelAndView.addObject("existingProductListPage", existingProductListPage);
         modelAndView.addObject("product", productService.getProduct(id));
+        modelAndView.addObject("categoryList", categoryService.getAllCategoriesWithoutPages());
 
         return modelAndView;
     }
 
     // allows edit chosen product
     @PostMapping(value = "/editProduct")
-    public ModelAndView editProduct(@ModelAttribute("product") ProductDTO product) {
+    public ModelAndView editProduct(@ModelAttribute("product") ProductDTO product,
+                                    @RequestParam("nameOfCategory") String nameOfCategory) {
 
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("redirect:/catalog/?existingProductListPage=" + this.existingProductListPage + "&productInBascetLstPage=" + productInBascetListPage);
+        product.setCategory(CategoryConverter.toEntity(categoryService.getCategoryByName(nameOfCategory)));
+
         productService.editProduct(product);
 
         return modelAndView;
@@ -123,13 +127,11 @@ public class CatalogController {
     @PostMapping(value = "/add")
     public ModelAndView addProduct(
             @ModelAttribute("product") ProductDTO product,
-            @ModelAttribute("productDetails") ProductDetailsDTO productDetails,
             @ModelAttribute(name = "nameOfCategory") String nameOfCategory) {
 
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("redirect:/catalog/?existingProductListPage=" + this.existingProductListPage + "&productInBascetLstPage=" + productInBascetListPage);
 
-        product.setProductDetails(ProductDetailsConverter.toEntity(productDetails));
         product.setCategory(CategoryConverter.toEntity(categoryService.getCategoryByName(nameOfCategory)));
         productService.addProduct(product);
 

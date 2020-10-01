@@ -33,10 +33,10 @@
         <td>${product.alternative_name}</td>
         <td>${product.category.nameOfCategory}</td>
         <td>${product.brandName}</td>
-        <td>${product.productDetails.color}</td>
-        <td>${product.productDetails.weight}</td>
-        <td>${product.productDetails.country}</td>
-        <td>${product.productDetails.description}</td>
+        <td>${product.color}</td>
+        <td>${product.weight}</td>
+        <td>${product.country}</td>
+        <td>${product.description}</td>
         <td>${product.price}</td>
         <td>
             <a href="/catalog/get/${product.id}">Get it</a>

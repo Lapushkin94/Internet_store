@@ -26,10 +26,14 @@ public class ProductEntity {
     private int price;
     @Column(name = "quantity_in_store")
     private int quantityInStore;
-
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "product_details_id")
-    private ProductDetailsEntity productDetails;
+    @Column(name = "color")
+    private String color;
+    @Column(name = "weight")
+    private int weight;
+    @Column(name = "country")
+    private String country;
+    @Column(name = "description")
+    private String description;
 
     @ManyToOne
     @JoinColumn(name = "category_id")

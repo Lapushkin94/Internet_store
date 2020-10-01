@@ -118,10 +118,10 @@ public class OrderServiceImpl implements OrderService {
             orderedProductForHistoryDTO.setAlternative_name(productInBascetDTO.getProduct().getAlternative_name());
             orderedProductForHistoryDTO.setBrandName(productInBascetDTO.getProduct().getBrandName());
             orderedProductForHistoryDTO.setPrice(productInBascetDTO.getProduct().getPrice());
-            orderedProductForHistoryDTO.setColor(productInBascetDTO.getProduct().getProductDetails().getColor());
-            orderedProductForHistoryDTO.setWeight(productInBascetDTO.getProduct().getProductDetails().getWeight());
-            orderedProductForHistoryDTO.setCountry(productInBascetDTO.getProduct().getProductDetails().getCountry());
-            orderedProductForHistoryDTO.setDescription(productInBascetDTO.getProduct().getProductDetails().getDescription());
+            orderedProductForHistoryDTO.setColor(productInBascetDTO.getProduct().getColor());
+            orderedProductForHistoryDTO.setWeight(productInBascetDTO.getProduct().getWeight());
+            orderedProductForHistoryDTO.setCountry(productInBascetDTO.getProduct().getCountry());
+            orderedProductForHistoryDTO.setDescription(productInBascetDTO.getProduct().getDescription());
 
             orderedProductForHistoryDTO.setOrderInHistory(orderEntity);
 

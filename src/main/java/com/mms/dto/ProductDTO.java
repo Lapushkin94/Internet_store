@@ -1,7 +1,6 @@
 package com.mms.dto;
 
 import com.mms.model.CategoryEntity;
-import com.mms.model.ProductDetailsEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,8 +17,11 @@ public class ProductDTO {
     private String alternative_name;
     private String brandName;
     private int price;
-    private ProductDetailsEntity productDetails;
     private CategoryEntity category;
     private int quantityInStore;
+    private String color;
+    private int weight;
+    private String country;
+    private String description;
 
 }

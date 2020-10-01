@@ -1,7 +1,9 @@
 package com.mms.controller;
 
 
+import com.mms.dto.ClientAddressDTO;
 import com.mms.dto.ClientDTO;
+import com.mms.dto.converterDTO.ClientAddressConverter;
 import com.mms.dto.converterDTO.RoleConverter;
 import com.mms.service.interfaces.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,12 +29,12 @@ public class SecurityController {
     }
 
     @GetMapping("/accessDenied")
-    public String showAccessDenied() {
+    public String getAccessDeniedPage() {
         return "accessDenied";
     }
 
     @GetMapping("/logout")
-    public String showLogoutPage() {
+    public String getLogoutPage() {
         return "logoutPage";
     }
 
@@ -42,12 +44,17 @@ public class SecurityController {
     }
 
     @PostMapping("/signUp")
-    public ModelAndView addClient(@ModelAttribute ClientDTO clientDTO) {
-        ModelAndView modelAndView = new ModelAndView();
-        clientDTO.setRole(RoleConverter.toEntity(clientService.getRoleByRoleName("client")));
-        clientService.addClient(clientDTO);
-        modelAndView.setViewName("signUpPage");
-        return modelAndView;
+    public String addClient(@ModelAttribute ClientDTO clientDTO,
+                            @ModelAttribute ClientAddressDTO clientAddressDTO) {
+        try {
+            clientDTO.setClientAddress(ClientAddressConverter.toEntity(clientAddressDTO));
+            clientDTO.setRole(RoleConverter.toEntity(clientService.getRoleByRoleName("client")));
+            clientService.addClient(clientDTO);
+            return "redirect:/signIn";
+        }
+        catch (Exception exc) {
+            return "signUpPage";
+        }
     }
 
 
