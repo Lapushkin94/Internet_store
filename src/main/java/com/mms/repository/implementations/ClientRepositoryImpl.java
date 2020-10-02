@@ -22,9 +22,9 @@ public class ClientRepositoryImpl implements ClientRepository {
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<ClientEntity> findAllClients(int page) {
+    public List<ClientEntity> findAllClients(int page, RoleEntity roleEntity) {
         Session session = sessionFactory.getCurrentSession();
-        return session.createQuery("from ClientEntity").setFirstResult(10 * (page - 1)).setMaxResults(10).list();
+        return session.createQuery("from ClientEntity clientEntity WHERE clientEntity.role =: roleEntity").setParameter("roleEntity", roleEntity).setFirstResult(10 * (page - 1)).setMaxResults(10).list();
     }
 
     @Override
@@ -52,9 +52,9 @@ public class ClientRepositoryImpl implements ClientRepository {
     }
 
     @Override
-    public int getClientCount() {
+    public int getClientCount(RoleEntity roleEntity) {
         Session session = sessionFactory.getCurrentSession();
-        return session.createQuery("select count (*) from ClientEntity", Number.class).getSingleResult().intValue();
+        return session.createQuery("select count (*) from ClientEntity WHERE role=: roleEntity", Number.class).setParameter("roleEntity", roleEntity).getSingleResult().intValue();
     }
 
     @Override

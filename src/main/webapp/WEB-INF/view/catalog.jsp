@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <html lang="en">
 <head>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
@@ -26,8 +27,10 @@
                 <th>Price</th>
                 <th>Total in store</th>
                 <th>Info</th>
-                <th>#</th>
-                <th colspan="3">Action</th>
+                <th>Quantity</th>
+                <security:authorize access="hasRole('ADMIN') or hasRole('MANAGER')">
+                    <th colspan="3">Action</th>
+                </security:authorize>
                 </thead>
                 <tbody>
                 <c:forEach var="product" items="${productList}" varStatus="i">
@@ -40,47 +43,64 @@
                         <td>${product.quantityInStore}</td>
 
                         <td>
-                            <a href="/catalog/productDetails/${product.id}">Details</a>
+                            <button type="button" class="btn btn-info">
+                            <a href="/catalog/productDetails/${product.id}" style="color: wheat">Details</a>
+                            </button>
                         </td>
 
                         <td>
                             <form action="/catalog/get/${product.id}" method="POST">
 
-                                <label for="quantity">#</label>
                                 <input type="number" name="quantity" id="quantity" min="1"
                                        max="${product.quantityInStore}">
 
-                                <input type="submit" value="Get it!">
+                                <button type="submit" class="btn btn-success">
+                                Get it!
+                                </button>
                             </form>
                         </td>
-                        <td>
-                            <a href="/catalog/editProduct/${product.id}">Edit product</a>
-                            <a href="/catalog/delete/${product.id}">Delete product</a>
-                        </td>
+
+                        <security:authorize access="hasRole('ADMIN') or hasRole('MANAGER')">
+                            <td>
+                                <button type="button" class="btn btn-light">
+                                <a href="/catalog/editProduct/${product.id}" style="color: #0d0d0d">Edit</a>
+                                </button>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-light">
+                                <a href="/catalog/delete/${product.id}" style="color: #0d0d0d">Delete</a>
+                                </button>
+                            </td>
+                        </security:authorize>
+
                     </tr>
                 </c:forEach>
                 </tbody>
             </table>
 
             <div class="row">
-            <div class="row-1; border border-danger" style="background-color: khaki; margin-top: 10px; padding: 10px; margin-left: 15px">
-                <a href="${pageContext.request.contextPath}/catalog/addProduct">Add new product</a>
-            </div>
-            <div class="row-3; border border-danger" style="background-color: khaki; margin-top: 10px; margin-left: 30px; padding: 10px">
-                <c:forEach begin="1" end="${productPagesCount}" step="1" varStatus="i">
-                    <c:url value="/catalog" var="url">
-                        <c:param name="existingProductListPage" value="${i.index}"/>
-                    </c:url>
-                    <a href="${url}">${i.index}</a>
-                </c:forEach>
-            </div>
+                <security:authorize access="hasRole('ADMIN') or hasRole('MANAGER')">
+                    <div class="row-1; border border-danger"
+                         style="background-color: khaki; margin-top: 10px; padding: 10px; margin-left: 15px">
+                        <a href="${pageContext.request.contextPath}/catalog/addProduct">Add new product</a>
+                    </div>
+                </security:authorize>
+                <div class="row-3; border border-danger"
+                     style="background-color: khaki; margin-top: 10px; margin-left: 30px; padding: 10px">
+                    <c:forEach begin="1" end="${productPagesCount}" step="1" varStatus="i">
+                        <c:url value="/catalog" var="url">
+                            <c:param name="existingProductListPage" value="${i.index}"/>
+                        </c:url>
+                        <a href="${url}">${i.index}</a>
+                    </c:forEach>
+                </div>
             </div>
 
         </div>
 
         <div class="col-4">
             <table class="table table-striped table-hover" style="background-color: cornsilk">
-                <h2 style="background-color: darksalmon; padding: 10px; margin-bottom: 10px">Your bascet</h2>
+                <h2 style="background-color: darksalmon; padding: 10px; margin-bottom: 10px">Your basket</h2>
                 <thead>
                 <th>№</th>
                 <th>Quantity</th>
@@ -98,10 +118,14 @@
                         <td>${productInBascet.product.name}</td>
                         <td>${productInBascet.product.price}</td>
                         <td>
-                            <a href="/catalog/productDetails/${productInBascet.product.id}">Details</a>
+                            <button type="button" class="btn btn-info">
+                            <a href="/catalog/productDetails/${productInBascet.product.id}" style="color: wheat">Details</a>
+                            </button>
                         </td>
                         <td>
-                            <a href="/catalog/delete/${productInBascet.id}">Delete</a>
+                            <button type="button" class="btn btn-secondary">
+                            <a href="/catalog/delete/${productInBascet.id}" style="color: wheat">Remove</a>
+                            </button>
                         </td>
                     </tr>
                 </c:forEach>

@@ -4,6 +4,7 @@ import com.mms.dto.ClientDTO;
 import com.mms.dto.RoleDTO;
 import com.mms.dto.converterDTO.ClientConverter;
 import com.mms.dto.converterDTO.RoleConverter;
+import com.mms.model.RoleEntity;
 import com.mms.repository.interfaces.ClientRepository;
 import com.mms.service.interfaces.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,8 +39,8 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     @Transactional
-    public List<ClientDTO> getAllClients(int page) {
-        return clientRepository.findAllClients(page).stream()
+    public List<ClientDTO> getAllClients(int page, String clientRole) {
+        return clientRepository.findAllClients(page, RoleConverter.toEntity(getRoleByRoleName(clientRole))).stream()
                 .map(ClientConverter::toDto)
                 .collect(Collectors.toList());
     }
@@ -71,8 +72,8 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     @Transactional
-    public int getClientCount() {
-        return clientRepository.getClientCount();
+    public int getClientCount(String clientRole) {
+        return clientRepository.getClientCount(RoleConverter.toEntity(getRoleByRoleName(clientRole)));
     }
 
     @Override
@@ -112,5 +113,6 @@ public class ClientServiceImpl implements ClientService {
         }
         return roleNamesList;
     }
+
 
 }

@@ -26,7 +26,7 @@
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
 
                             <security:authorize access="isAuthenticated()">
-                            <a class="dropdown-item" href="${pageContext.request.contextPath}/profile">View profile</a>
+                            <a class="dropdown-item" href="${pageContext.request.contextPath}/myProfile">View profile</a>
                             </security:authorize>
 
                             <security:authorize access="isAnonymous()">
@@ -46,6 +46,24 @@
                     <li class="nav-item" style="margin-left: 15px">
                         <a class="nav-link" href="${pageContext.request.contextPath}/contacts">Contacts</a>
                     </li>
+
+                    <security:authorize access="hasRole('ADMIN') or hasRole('MANAGER')">
+                        <li class="nav-item dropdown" style="margin-left: 15px">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Leader page
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+                                <security:authorize access="hasRole('ADMIN') or hasRole('MANAGER')">
+                                    <a class="dropdown-item" href="${pageContext.request.contextPath}/clientControl">Client control</a>
+                                    <div class="dropdown-divider"></div>
+                                </security:authorize>
+
+                                    <a class="dropdown-item" href="${pageContext.request.contextPath}/orderList">Order list</a>
+                            </div>
+                        </li>
+                    </security:authorize>
+
                 </ul>
                 <form class="form-inline my-2 my-lg-0" style="margin-left: 15px">
                     <input class="form-control mr-sm-2" type="search" placeholder="Book title" aria-label="Search">

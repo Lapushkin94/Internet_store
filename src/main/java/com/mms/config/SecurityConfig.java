@@ -28,7 +28,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                     .antMatchers("/signIn", "/signUp", "/signUpPage").anonymous()
-                    .antMatchers("/contacts").access("hasRole('ROLE_ADMIN')")
+                    .antMatchers("/logout", "/myProfile").authenticated()
+                    .antMatchers("/clientControl/**").access("hasRole('ADMIN')")
+                    .antMatchers("/orderList", "/catalog/editProduct/**", "/catalog/addProduct", "/catalog/delete/**")
+                        .access("hasRole('ADMIN') or hasRole('MANAGER')")
                 .and()
                     .csrf().disable()
                     .formLogin()
