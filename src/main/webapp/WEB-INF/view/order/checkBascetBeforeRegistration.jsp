@@ -10,7 +10,7 @@
 </head>
 <body>
 
-<jsp:include page="header.jsp"/>
+<jsp:include page="../basic/header.jsp"/>
 
 <div class="container" style="margin-top: 20px">
     <table class="table table-striped table-hover" style="background-color: cornsilk">

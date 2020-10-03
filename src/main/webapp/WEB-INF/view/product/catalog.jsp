@@ -12,7 +12,7 @@
 </head>
 <br>
 
-<jsp:include page="header.jsp"/>
+<jsp:include page="../basic/header.jsp"/>
 
 <div class="container-fluid" style="margin-top: 20px">
     <div class="row">
@@ -52,7 +52,7 @@
                             <form action="/catalog/get/${product.id}" method="POST">
 
                                 <input type="number" name="quantity" id="quantity" min="1"
-                                       max="${product.quantityInStore}">
+                                       max="${product.quantityInStore}" value="1">
 
                                 <button type="submit" class="btn btn-success">
                                 Get it!

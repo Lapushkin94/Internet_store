@@ -1,6 +1,5 @@
 package com.mms.controller;
 
-import com.mms.dto.ClientDTO;
 import com.mms.service.interfaces.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -23,7 +22,7 @@ public class HomeController {
     @GetMapping(value = "/")
     public ModelAndView homePage(@AuthenticationPrincipal User user) {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("home");
+        modelAndView.setViewName("basic/home");
         if (user != null) {
             modelAndView.addObject("clientName", clientService.getClientByEmail(user.getUsername()).getName());
         }
@@ -37,12 +36,12 @@ public class HomeController {
 
     @GetMapping(value = "/aboutUs")
     public String aboutUs() {
-        return "aboutUs";
+        return "basic/aboutUs";
     }
 
     @GetMapping(value = "/contacts")
     public String contacts() {
-        return "contacts";
+        return "basic/contacts";
     }
 
 }

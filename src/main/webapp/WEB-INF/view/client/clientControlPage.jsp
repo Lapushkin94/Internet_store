@@ -7,48 +7,57 @@
           integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Profile</title>
+    <title>Client control</title>
 
 </head>
 <br>
 
-<jsp:include page="header.jsp"/>
+<jsp:include page="../basic/header.jsp"/>
 
-<div class="container-fluid" style="margin-left: 180px; margin-top: 50px; text-align: center">
+<div class="container-fluid" style="margin-left: 340px; margin-top: 50px; text-align: center">
     <div class="row">
         <div>
-            <h2 style="background-color: darksalmon; padding: 10px; margin-bottom: 10px">Your profile</h2>
+            <h2 style="background-color: darksalmon; padding: 10px; margin-bottom: 10px">Clients</h2>
             <table class="table table-striped table-hover" style="background-color: cornsilk">
                 <thead>
+                <th>№</th>
                 <th>Name</th>
                 <th>Last name</th>
                 <th>Birthday</th>
                 <th>Email</th>
-                <th>Password</th>
-                <th>Country</th>
-                <th>City</th>
-                <th>Postal code</th>
-                <th>Street</th>
-                <th>House number</th>
-                <th>Flat number</th>
+                <th>Address</th>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>${client.name}</td>
-                    <td>${client.secondName}</td>
-                    <td>${client.birthday}</td>
-                    <td>${client.email}</td>
-                    <td>${client.password}</td>
-                    <td>${client.clientAddress.country}</td>
-                    <td>${client.clientAddress.city}</td>
-                    <td>${client.clientAddress.postalCode}</td>
-                    <td>${client.clientAddress.street}</td>
-                    <td>${client.clientAddress.houseNumber}</td>
-                    <td>${client.clientAddress.flatNumber}</td>
-                </tr>
+                <c:forEach var="client" items="${clientList}" varStatus="i">
+                    <tr>
+                        <td>${i.index + 1 + (clientListPage - 1) * 10}</td>
+                        <td>${client.name}</td>
+                        <td>${client.secondName}</td>
+                        <td>${client.birthday}</td>
+                        <td>${client.email}</td>
 
+                        <td>
+                            <button type="button" class="btn btn-info">
+                                <a href="/clientControl/clientAddress/${client.id}" style="color: wheat">Show
+                                    address</a>
+                            </button>
+                        </td>
+
+                    </tr>
+                </c:forEach>
                 </tbody>
             </table>
+
+
+            <div class="border border-danger"
+                 style="background-color: khaki; margin-top: 10px; margin-left: 30px; padding: 10px; float: left">
+                <c:forEach begin="1" end="${clientPagesCount}" step="1" varStatus="i">
+                    <c:url value="/clientControl" var="url">
+                        <c:param name="clientListPage" value="${i.index}"/>
+                    </c:url>
+                    <a href="${url}">${i.index}</a>
+                </c:forEach>
+            </div>
 
         </div>
     </div>

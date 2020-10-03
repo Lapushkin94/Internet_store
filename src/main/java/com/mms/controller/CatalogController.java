@@ -68,7 +68,7 @@ public class CatalogController {
         modelAndView.addObject("productInBascetPagesCount", (productsInBascetCount + 9) / 10);
 
         modelAndView.addObject("catalogParam", catalogParam);
-        modelAndView.setViewName("catalog");
+        modelAndView.setViewName("product/catalog");
 
         return modelAndView;
     }
@@ -78,7 +78,7 @@ public class CatalogController {
     public ModelAndView getDetails(@PathVariable("id") int id) {
 
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("productDetails");
+        modelAndView.setViewName("product/productDetails");
         modelAndView.addObject("existingProductListPage", existingProductListPage);
         modelAndView.addObject("product", productService.getProduct(id));
 
@@ -90,7 +90,7 @@ public class CatalogController {
     public ModelAndView editPage(@PathVariable("id") int id) {
 
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("editProduct");
+        modelAndView.setViewName("product/editProduct");
         modelAndView.addObject("existingProductListPage", existingProductListPage);
         modelAndView.addObject("product", productService.getProduct(id));
         modelAndView.addObject("categoryList", categoryService.getAllCategoriesWithoutPages());
@@ -117,7 +117,7 @@ public class CatalogController {
     public ModelAndView addPage() {
 
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("editProduct");
+        modelAndView.setViewName("product/editProduct");
         modelAndView.addObject("categoryList", categoryService.getAllCategoriesWithoutPages());
 
         return modelAndView;

@@ -106,4 +106,13 @@ public class ProductInBascetServiceImpl implements ProductInBascetService {
             }
         }
     }
+
+    @Override
+    @Transactional
+    public void resetProductInBascetTable() {
+        List<ProductInBascetEntity> productInBascetEntities = productInBascetRepository.findAllProductsInBascetWithoutPages();
+        for (ProductInBascetEntity prod : productInBascetEntities) {
+            productInBascetRepository.deleteProductInBascet(prod);
+        }
+    }
 }

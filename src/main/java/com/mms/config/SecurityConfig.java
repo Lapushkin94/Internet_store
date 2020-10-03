@@ -28,7 +28,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                     .antMatchers("/signIn", "/signUp", "/signUpPage").anonymous()
-                    .antMatchers("/logout", "/myProfile").authenticated()
+                    .antMatchers("/logout", "/myProfile/**", "/order/**").authenticated()
                     .antMatchers("/clientControl/**").access("hasRole('ADMIN')")
                     .antMatchers("/orderList", "/catalog/editProduct/**", "/catalog/addProduct", "/catalog/delete/**")
                         .access("hasRole('ADMIN') or hasRole('MANAGER')")
@@ -40,7 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .usernameParameter("email")
                 .and()
                     .logout()
-                    .logoutSuccessUrl("/")
+                    .logoutSuccessUrl("/logoutSuccessPage")
                 .and()
                     .exceptionHandling().accessDeniedPage("/accessDenied");
     }

@@ -7,21 +7,61 @@
           integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Client control</title>
+    <title>Profile</title>
 
 </head>
 <br>
 
-<jsp:include page="header.jsp"/>
+<jsp:include page="../basic/header.jsp"/>
 
-<div class="container-fluid" style="margin-left: 480px; margin-top: 50px; text-align: center">
+<div class="container-fluid" style="text-align: center; margin-top: 50px">
     <div class="row">
-        <div>
-            <h2 style="background-color: darksalmon; padding: 10px; margin-bottom: 10px">Address</h2>
+        <div style="margin: auto">
+            <h2 style="background-color: darksalmon; padding: 10px; margin-bottom: 10px">Your profile</h2>
             <table class="table table-striped table-hover" style="background-color: cornsilk">
                 <thead>
                 <th>Name</th>
                 <th>Last name</th>
+                <th>Birthday</th>
+                <th>Email</th>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>${client.name}</td>
+                    <td>${client.secondName}</td>
+                    <td>${client.birthday}</td>
+                    <td>${client.email}</td>
+                </tr>
+
+                </tbody>
+            </table>
+
+            <div class="row">
+
+                <div class="col">
+
+                    <div style="margin-bottom: 50px">
+                        <button type="button" class="btn btn-warning">
+                            <a href="${pageContext.request.contextPath}/myProfile/editProfile" style="color: #0d0d0d">Edit
+                                profile</a>
+                        </button>
+                    </div>
+                </div>
+                <div class="col">
+
+                    <div style="margin-bottom: 50px">
+                        <button type="button" class="btn btn-warning">
+                            <a href="${pageContext.request.contextPath}/myProfile/editPassword" style="color: #0d0d0d">Edit
+                                password</a>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+
+            <h2 style="background-color: darksalmon; padding: 10px; margin-bottom: 10px">Your Address</h2>
+            <table class="table table-striped table-hover" style="background-color: cornsilk">
+                <thead>
                 <th>Country</th>
                 <th>City</th>
                 <th>Postal code</th>
@@ -31,8 +71,6 @@
                 </thead>
                 <tbody>
                 <tr>
-                    <td>${client.name}</td>
-                    <td>${client.secondName}</td>
                     <td>${client.clientAddress.country}</td>
                     <td>${client.clientAddress.city}</td>
                     <td>${client.clientAddress.postalCode}</td>
@@ -44,13 +82,11 @@
                 </tbody>
             </table>
 
-
-            <div class="border border-danger"
-                 style="background-color: khaki; margin-top: 10px; margin-left: 30px; padding: 10px; float: left">
-                <c:url value="/clientControl" var="url">
-                    <c:param name="clientListPage" value="${clientListPage}"/>
-                </c:url>
-                <a href="${url}">Back</a>
+            <div>
+                <button type="button" class="btn btn-warning">
+                    <a href="${pageContext.request.contextPath}/myProfile/editAddress" style="color: #0d0d0d">Edit
+                        Address</a>
+                </button>
             </div>
 
         </div>

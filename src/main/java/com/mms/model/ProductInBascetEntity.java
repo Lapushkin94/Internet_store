@@ -21,7 +21,6 @@ public class ProductInBascetEntity {
     @ManyToOne
     @JoinColumn(name = "product_id")
     private ProductEntity product;
-
     @ManyToOne
     @JoinColumn(name = "order_id")
     private OrderEntity order;

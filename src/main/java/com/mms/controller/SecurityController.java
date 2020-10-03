@@ -6,9 +6,8 @@ import com.mms.dto.ClientDTO;
 import com.mms.dto.converterDTO.ClientAddressConverter;
 import com.mms.dto.converterDTO.RoleConverter;
 import com.mms.service.interfaces.ClientService;
+import com.mms.service.interfaces.ProductInBascetService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -17,8 +16,14 @@ import org.springframework.web.servlet.ModelAndView;
 public class SecurityController {
 
     private ClientService clientService;
+    private ProductInBascetService productInBascetService;
 
     private int clientListPage;
+
+    @Autowired
+    public void setProductInBascetService(ProductInBascetService productInBascetService) {
+        this.productInBascetService = productInBascetService;
+    }
 
     @Autowired
     public void setClientService(ClientService clientService) {
@@ -27,27 +32,30 @@ public class SecurityController {
 
     @GetMapping("/signIn")
     public String showMySignInPage() {
-        return "signInPage";
+        return "security/signInPage";
     }
 
     @GetMapping("/accessDenied")
     public String getAccessDeniedPage() {
-        return "accessDenied";
+        return "exceptions/accessDenied";
     }
 
-    @GetMapping("/logout")
+    @GetMapping("/logoutSuccessPage")
     public String getLogoutPage() {
-        return "logoutPage";
+        productInBascetService.resetProductInBascetTable();
+        return "security/logoutSuccessPage";
     }
 
     @GetMapping("/signUpPage")
     public String getSignUpPage() {
-        return "signUpPage";
+        return "security/signUpPage";
     }
 
     @PostMapping("/signUp")
     public String addClient(@ModelAttribute ClientDTO clientDTO,
                             @ModelAttribute ClientAddressDTO clientAddressDTO) {
+
+        // Заменить try-catch на @Valid
         try {
             clientDTO.setClientAddress(ClientAddressConverter.toEntity(clientAddressDTO));
             clientDTO.setRole(RoleConverter.toEntity(clientService.getRoleByRoleName("ROLE_CLIENT")));
@@ -55,14 +63,14 @@ public class SecurityController {
             return "redirect:/signIn";
         }
         catch (Exception exc) {
-            return "signUpPage";
+            return "security/signUpPage";
         }
     }
 
     @GetMapping("/clientControl")
     public ModelAndView getClientList(@RequestParam(defaultValue = "1") int clientListPage) {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("clientControlPage");
+        modelAndView.setViewName("client/clientControlPage");
 
         this.clientListPage = clientListPage;
         int clientCount = clientService.getClientCount("ROLE_CLIENT");
@@ -77,7 +85,7 @@ public class SecurityController {
     @GetMapping(value = "/clientControl/clientAddress/{id}")
     public ModelAndView getClientAddress(@PathVariable("id") int id) {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("clientAddress");
+        modelAndView.setViewName("client/clientAddress");
 
         modelAndView.addObject("clientListPage", clientListPage);
         modelAndView.addObject("client", clientService.getClient(id));
@@ -96,20 +104,13 @@ public class SecurityController {
         return modelAndView;
     }
 
-    @GetMapping(value = "/myProfile")
-    public ModelAndView getMyProfile(@AuthenticationPrincipal User user) {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("myProfilePage");
 
-        ClientDTO clientDTO = clientService.getClientByEmail(user.getUsername());
-        modelAndView.addObject("client", clientDTO);
 
-        return modelAndView;
-    }
+
 
     @GetMapping("/orderList")
     public String getOrderList() {
-        return "orderListPage";
+        return "order/orderListPage";
     }
 
 }

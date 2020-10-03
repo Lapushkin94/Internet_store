@@ -9,7 +9,7 @@
     <title>Details</title>
 </head>
 <body>
-<jsp:include page="header.jsp"/>
+<jsp:include page="../basic/header.jsp"/>
 <h2>Product details</h2>
 
 <table>

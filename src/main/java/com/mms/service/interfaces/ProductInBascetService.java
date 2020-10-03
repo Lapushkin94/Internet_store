@@ -14,5 +14,6 @@ public interface ProductInBascetService {
     ProductInBascetDTO getProduct(int id);
     int getProductCount();
     String checkQuantityDifferenceThenAddProductInBascet(ProductInBascetDTO productInBascetDTO, int numberOfOrderedProducts);
+    void resetProductInBascetTable();
 
 }
