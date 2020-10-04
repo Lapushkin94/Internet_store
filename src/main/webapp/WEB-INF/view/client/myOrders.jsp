@@ -34,10 +34,11 @@
                         <td>${order.comment}</td>
 
                         <td>
-                            <button type="button" class="btn btn-info">
-                                <a href="/myProfile/myOrders/checkOrdersProducts/${order.id}" style="color: wheat">Show
-                                    products and status</a>
-                            </button>
+                            <a href="/myProfile/myOrders/checkOrdersProducts/${order.id}" style="color: wheat">
+                                <button type="button" class="btn btn-info">
+                                    Show products and status
+                                </button>
+                            </a>
                         </td>
 
                     </tr>
@@ -46,21 +47,21 @@
             </table>
 
 
-
-                <c:forEach begin="1" end="${orderPagesCount}" step="1" varStatus="i">
-            <div class="border border-danger"
-                 style="background-color: khaki; margin-top: 10px; margin-left: 30px; padding: 10px; float: left; margin-bottom: 50px">
+            <c:forEach begin="1" end="${orderPagesCount}" step="1" varStatus="i">
+                <div class="border border-danger"
+                     style="background-color: khaki; margin-top: 10px; margin-left: 30px; padding: 10px; float: left; margin-bottom: 50px">
                     <c:url value="/myProfile/myOrders" var="url">
                         <c:param name="orderListPage" value="${i.index}"/>
                     </c:url>
                     <a href="${url}">${i.index}</a>
-            </div>
-                </c:forEach>
+                </div>
+            </c:forEach>
 
-            <button type="button" class="btn btn-secondary">
-                <a href="${pageContext.request.contextPath}/myProfile" style="color: wheat">Your profile</a>
-            </button>
-
+            <a href="${pageContext.request.contextPath}/myProfile" style="color: wheat">
+                <button type="button" class="btn btn-secondary">
+                    Your profile
+                </button>
+            </a>
 
         </div>
     </div>

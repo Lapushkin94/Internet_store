@@ -50,9 +50,11 @@
                 <c:url value="/clientControl" var="url">
                     <c:param name="clientListPage" value="${clientListPage}"/>
                 </c:url>
-                <button type="button" class="btn btn-secondary">
-                    <a href="${url}" style="color: wheat">Back</a>
-                </button>
+                <a href="${url}" style="color: wheat">
+                    <button type="button" class="btn btn-secondary">
+                        Back
+                    </button>
+                </a>
             </div>
 
         </div>

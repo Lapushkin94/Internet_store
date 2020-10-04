@@ -17,14 +17,8 @@ public class CatalogController {
     private ProductInBascetService productInBascetService;
     private CategoryService categoryService;
 
-//    private ClientService clientService;
-
-
     private int existingProductListPage;
     private int productInBascetListPage;
-//    private int clientListPage;
-//    private int categoryListPage;
-
 
     @Autowired
     public void setProductService(ProductService productService) {
@@ -36,12 +30,6 @@ public class CatalogController {
         this.productInBascetService = productInBascetService;
     }
 
-
-    //    @Autowired
-//    public void setClientService(ClientService clientService) {
-//        this.clientService = clientService;
-//    }
-//
     @Autowired
     public void setCategoryService(CategoryService categoryService) {
         this.categoryService = categoryService;
@@ -139,13 +127,24 @@ public class CatalogController {
     }
 
     // deletes chosen product
-    // try DeleteMapping
     @GetMapping(value = "/delete/{id}")
     public ModelAndView deleteProduct(@PathVariable("id") int id) {
 
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("redirect:/catalog/?existingProductListPage=" + this.existingProductListPage + "&productInBascetLstPage=" + productInBascetListPage);
+
         productService.deleteProduct(productService.getProduct(id));
+
+        return modelAndView;
+    }
+
+    @GetMapping(value = "/deleteProductInBascet/{id}")
+    public ModelAndView deleteProductInBascet(@PathVariable("id") int id) {
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("redirect:/catalog/?existingProductListPage=" + this.existingProductListPage + "&productInBascetLstPage=" + productInBascetListPage);
+
+        productInBascetService.deleteProduct(productInBascetService.getProduct(id));
 
         return modelAndView;
     }
@@ -153,13 +152,14 @@ public class CatalogController {
     @PostMapping(value = "/get/{id}")
     public ModelAndView getProductIntBascet(@PathVariable("id") int id,
                                             @RequestParam("quantity") int numberOfOrderedProducts) {
-
         ModelAndView modelAndView = new ModelAndView();
+
         ProductInBascetDTO productInBascetDTO = new ProductInBascetDTO();
         productInBascetDTO.setProduct(ProductConverter.toEntity(productService.getProduct(id)));
-
         String catalogParam = productInBascetService.checkQuantityDifferenceThenAddProductInBascet(productInBascetDTO, numberOfOrderedProducts);
-        modelAndView.setViewName("redirect:/catalog/?existingProductListPage=" + this.existingProductListPage + "&productInBascetLstPage=" + productInBascetListPage + "&catalogParam=" + catalogParam);
+
+
+        modelAndView.setViewName("redirect:/catalog/?existingProductListPage=" + this.existingProductListPage + "&productInBascetListPage=" + productInBascetListPage + "&catalogParam=" + catalogParam);
 
         return modelAndView;
     }

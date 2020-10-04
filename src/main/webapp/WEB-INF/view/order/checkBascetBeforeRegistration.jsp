@@ -14,7 +14,7 @@
 
 <div class="container" style="margin-top: 20px">
     <table class="table table-striped table-hover" style="background-color: cornsilk">
-        <h2 style="background-color: darksalmon; padding: 10px; margin-bottom: 10px">Your bascet</h2>
+        <h2 style="background-color: darksalmon; padding: 10px; margin-bottom: 10px">Check your basket before order registration</h2>
         <thead>
         <th>№</th>
         <th>Id</th>
@@ -38,18 +38,37 @@
                 <td>${productInBascet.product.brandName}</td>
                 <td>${productInBascet.product.price}</td>
                 <td>
-                    <a href="/catalog/productDetails/${productInBascet.product.id}">Details</a>
+                    <a href="/catalog/productDetails/${productInBascet.product.id}">
+                        <button type="button" class="btn btn-info">
+                            Details
+                        </button>
+                    </a>
                 </td>
                 <td>
-                    <a href="/catalog/delete/${productInBascet.id}">Delete</a>
+                    <a href="/catalog/deleteProductInBascet/${productInBascet.id}">
+                        <button type="button" class="btn btn-secondary">
+                            Remove
+                        </button>
+                    </a>
                 </td>
             </tr>
         </c:forEach>
         </tbody>
-        <td>
-            <a href="${pageContext.request.contextPath}/order/orderRegistrationPage">Order it!</a>
-        </td>
     </table>
+    <c:if test="${!empty productInBascetList}">
+        <a href="${pageContext.request.contextPath}/order/orderRegistrationPage" style="color: wheat">
+            <button type="button" class="btn btn-info">
+                Order it!
+            </button>
+        </a>
+    </c:if>
+    <c:if test="${empty productInBascetList}">
+        <a href="${pageContext.request.contextPath}/order/orderRegistrationPage" style="color: wheat">
+            <button type="button" class="btn btn-info" disabled>
+                Order it!
+            </button>
+        </a>
+    </c:if>
 </div>
 
 

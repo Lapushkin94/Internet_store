@@ -41,19 +41,21 @@
                 <div class="col">
 
                     <div style="margin-bottom: 50px">
-                        <button type="button" class="btn btn-warning">
-                            <a href="${pageContext.request.contextPath}/myProfile/editProfile" style="color: #0d0d0d">Edit
-                                profile</a>
-                        </button>
+                        <a href="${pageContext.request.contextPath}/myProfile/editProfile" style="color: #0d0d0d">
+                            <button type="button" class="btn btn-warning">
+                                Edit profile
+                            </button>
+                        </a>
                     </div>
                 </div>
                 <div class="col">
 
                     <div style="margin-bottom: 50px">
-                        <button type="button" class="btn btn-warning">
-                            <a href="${pageContext.request.contextPath}/myProfile/editPassword" style="color: #0d0d0d">Edit
-                                password</a>
-                        </button>
+                        <a href="${pageContext.request.contextPath}/myProfile/editPassword" style="color: #0d0d0d">
+                            <button type="button" class="btn btn-warning">
+                                Edit password
+                            </button>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -83,10 +85,11 @@
             </table>
 
             <div>
-                <button type="button" class="btn btn-warning">
-                    <a href="${pageContext.request.contextPath}/myProfile/editAddress" style="color: #0d0d0d">Edit
-                        Address</a>
-                </button>
+                <a href="${pageContext.request.contextPath}/myProfile/editAddress" style="color: #0d0d0d">
+                    <button type="button" class="btn btn-warning">
+                        Edit address
+                    </button>
+                </a>
             </div>
 
         </div>

@@ -37,10 +37,11 @@
                         <td>${client.email}</td>
 
                         <td>
-                            <button type="button" class="btn btn-info">
-                                <a href="/clientControl/clientAddress/${client.id}" style="color: wheat">Show
-                                    address</a>
-                            </button>
+                            <a href="/clientControl/clientAddress/${client.id}" style="color: wheat">
+                                <button type="button" class="btn btn-info">
+                                    Show address
+                                </button>
+                            </a>
                         </td>
 
                     </tr>

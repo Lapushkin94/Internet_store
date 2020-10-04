@@ -140,11 +140,7 @@ public class ProfileController {
         this.orderListPage = orderListPage;
         int ordersCount = orderService.getOrderCountByClientId(clientService.getClientByEmail(user.getUsername()).getId());
         modelAndView.addObject("orderListPage", orderListPage);
-
-
-        List<OrderDTO> orderDTOList = clientService.getOrderListByClientId(clientService.getClientByEmail(user.getUsername()).getId(), orderListPage);
-
-        modelAndView.addObject("orderListByClientId", orderDTOList);
+        modelAndView.addObject("orderListByClientId", clientService.getOrderListByClientId(clientService.getClientByEmail(user.getUsername()).getId(), orderListPage));
         modelAndView.addObject("ordersCount", ordersCount);
         modelAndView.addObject("orderPagesCount", (ordersCount + 9) / 10);
 
@@ -160,6 +156,7 @@ public class ProfileController {
         this.orderHistoryListPage = orderHistoryListPage;
         int orderHistoryCount = orderService.getProductsCountByOrdersId(id);
 
+        modelAndView.addObject("orderListPage", orderListPage);
         modelAndView.addObject("ordersId", id);
         modelAndView.addObject("orderStatus", OrderStatusConverter.toDto(orderService.getOrder(id).getOrderStatus()));
         modelAndView.addObject("orderHistoryListPage", orderHistoryListPage);

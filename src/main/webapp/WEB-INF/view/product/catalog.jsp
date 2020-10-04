@@ -43,9 +43,11 @@
                         <td>${product.quantityInStore}</td>
 
                         <td>
-                            <button type="button" class="btn btn-info">
-                            <a href="/catalog/productDetails/${product.id}" style="color: wheat">Details</a>
-                            </button>
+                            <a href="/catalog/productDetails/${product.id}" style="color: wheat">
+                                <button type="button" class="btn btn-info">
+                                    Details
+                                </button>
+                            </a>
                         </td>
 
                         <td>
@@ -55,21 +57,25 @@
                                        max="${product.quantityInStore}" value="1">
 
                                 <button type="submit" class="btn btn-success">
-                                Get it!
+                                    Get it!
                                 </button>
                             </form>
                         </td>
 
                         <security:authorize access="hasRole('ADMIN') or hasRole('MANAGER')">
                             <td>
-                                <button type="button" class="btn btn-light">
-                                <a href="/catalog/editProduct/${product.id}" style="color: #0d0d0d">Edit</a>
-                                </button>
+                                <a href="/catalog/editProduct/${product.id}" style="color: #0d0d0d">
+                                    <button type="button" class="btn btn-light">
+                                        Edit
+                                    </button>
+                                </a>
                             </td>
                             <td>
-                                <button type="button" class="btn btn-light">
-                                <a href="/catalog/delete/${product.id}" style="color: #0d0d0d">Delete</a>
-                                </button>
+                                <a href="/catalog/delete/${product.id}" style="color: #0d0d0d">
+                                    <button type="button" class="btn btn-light">
+                                        Delete
+                                    </button>
+                                </a>
                             </td>
                         </security:authorize>
 
@@ -86,15 +92,18 @@
                     </div>
                 </security:authorize>
 
-                <div class="row-3; border border-danger"
-                     style="background-color: khaki; margin-top: 10px; margin-left: 30px; padding: 10px">
-                    <c:forEach begin="1" end="${productPagesCount}" step="1" varStatus="i">
+
+                <c:forEach begin="1" end="${productPagesCount}" step="1" varStatus="i">
+                    <div class="row-3; border border-danger"
+                         style="background-color: khaki; margin-top: 10px; margin-left: 30px; padding: 10px">
                         <c:url value="/catalog" var="url">
                             <c:param name="existingProductListPage" value="${i.index}"/>
+                            <c:param name="productInBascetListPage" value="${productInBascetListPage}"/>
                         </c:url>
                         <a href="${url}">${i.index}</a>
-                    </c:forEach>
-                </div>
+                    </div>
+                </c:forEach>
+
             </div>
 
         </div>
@@ -119,21 +128,37 @@
                         <td>${productInBascet.product.name}</td>
                         <td>${productInBascet.product.price}</td>
                         <td>
-                            <button type="button" class="btn btn-info">
-                            <a href="/catalog/productDetails/${productInBascet.product.id}" style="color: wheat">Details</a>
-                            </button>
+                            <a href="/catalog/productDetails/${productInBascet.product.id}" style="color: wheat">
+                                <button type="button" class="btn btn-info">
+                                    Details
+                                </button>
+                            </a>
                         </td>
                         <td>
-                            <button type="button" class="btn btn-secondary">
-                            <a href="/catalog/delete/${productInBascet.id}" style="color: wheat">Remove</a>
-                            </button>
+                            <a href="/catalog/deleteProductInBascet/${productInBascet.id}" style="color: wheat">
+                                <button type="button" class="btn btn-secondary">
+                                    Remove
+                                </button>
+                            </a>
                         </td>
                     </tr>
                 </c:forEach>
                 </tbody>
             </table>
+
+            <c:forEach begin="1" end="${productInBascetPagesCount}" step="1" varStatus="i">
+                <div class="row-3; border border-danger"
+                     style="background-color: khaki; margin-top: 10px; margin-left: 30px; padding: 10px; float: left">
+                    <c:url value="/catalog" var="url">
+                        <c:param name="productInBascetListPage" value="${i.index}"/>
+                        <c:param name="existingProductListPage" value="${existingProductListPage}"/>
+                    </c:url>
+                    <a href="${url}">${i.index}</a>
+                </div>
+            </c:forEach>
+
             <div class="border border-danger"
-                 style="float: left; background-color: khaki; margin-top: 10px; padding: 10px">
+                 style="float: left; background-color: khaki; margin-top: 10px; padding: 10px; margin-left: 50px">
                 <a href="${pageContext.request.contextPath}/order">Go to order registration!</a>
             </div>
         </div>

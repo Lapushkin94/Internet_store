@@ -28,8 +28,6 @@
 
         <form action="${pageContext.request.contextPath}/myProfile/editProfile" method="POST">
 
-
-
                 <div class="form-row">
                     <input type="hidden" name="id" value="${client.id}"/>
                     <input type="hidden" name="password" value="${client.password}"/>

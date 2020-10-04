@@ -20,7 +20,7 @@
             <h2 style="background-color: darksalmon; padding: 10px; margin-bottom: 10px">Orders products
                     <c:if test="${orderStatus.name == 'Opened'}">
                         <div>
-                        <button type="submit" class="btn btn-info" style="margin-top: 20px">
+                        <button type="submit" class="btn btn-info" style="margin-top: 20px" disabled>
                             Status: Opened
                         </button>
                         </div>
@@ -28,7 +28,7 @@
 
                     <c:if test="${orderStatus.name == 'In process'}">
                         <div>
-                        <button type="submit" class="btn btn-success" style="margin-top: 20px">
+                        <button type="submit" class="btn btn-success" style="margin-top: 20px" disabled>
                             Status: In process
                         </button>
                         </div>
@@ -36,7 +36,7 @@
 
                     <c:if test="${orderStatus.name == 'Closed'}">
                         <div>
-                        <button type="submit" class="btn btn-secondary" style="margin-top: 20px">
+                        <button type="submit" class="btn btn-secondary" style="margin-top: 20px" disabled>
                             Status: Closed
                         </button>
                         </div>
@@ -90,7 +90,10 @@
 
             <div class="row" style="margin-top: 50px">
             <button type="button" class="btn btn-secondary">
-                <a href="${pageContext.request.contextPath}/myProfile/myOrders" style="color: wheat">Back</a>
+                <c:url value="/myProfile/myOrders" var="url">
+                    <c:param name="orderListPage" value="${orderListPage}"/>
+                </c:url>
+                <a href="${url}" style="color: wheat">Back</a>
             </button>
             </div>
         </div>

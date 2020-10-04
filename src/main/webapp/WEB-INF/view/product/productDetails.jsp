@@ -47,7 +47,7 @@
 
     <tr>
         <c:url value="/catalog" var="url">
-            <c:param name="productListPage" value="${existingProductListPage}"/>
+            <c:param name="productInBascetListPage" value="${existingProductListPage}"/>
         </c:url>
         <a href="${url}">Back</a>
     </tr>
