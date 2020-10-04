@@ -33,28 +33,28 @@
             <div class="form-row">
                 <input type="hidden" name="id" value="${client.clientAddress.id}"/>
                 <div class="col-md-4 mb-3">
-                    <label for="country">country</label>
+                    <label for="country">Country</label>
                     <input type="text" name="country" value="${client.clientAddress.country}" class="form-control" id="country">
                 </div>
                 <div class="col-md-4 mb-3">
-                    <label for="city">city</label>
+                    <label for="city">City</label>
                     <input type="text" name="city" value="${client.clientAddress.city}"
                            class="form-control" id="city">
                 </div>
                 <div class="col-md-4 mb-3">
-                    <label for="postalCode">postalCode</label>
+                    <label for="postalCode">Postal code</label>
                     <input type="text" name="postalCode" value="${client.clientAddress.postalCode}" class="form-control" id="postalCode">
                 </div>
                 <div class="col-md-5 mb-3">
-                    <label for="street">street</label>
+                    <label for="street">Street</label>
                     <input type="text" name="street" value="${client.clientAddress.street}" class="form-control" id="street">
                 </div>
                 <div class="col-md-5 mb-3">
-                    <label for="houseNumber">houseNumber</label>
+                    <label for="houseNumber">House number</label>
                     <input type="text" name="houseNumber" value="${client.clientAddress.houseNumber}" class="form-control" id="houseNumber">
                 </div>
                 <div class="col-md-5 mb-3">
-                    <label for="flatNumber">flatNumber</label>
+                    <label for="flatNumber">Flat number</label>
                     <input type="text" name="flatNumber" value="${client.clientAddress.flatNumber}" class="form-control" id="flatNumber">
                 </div>
 

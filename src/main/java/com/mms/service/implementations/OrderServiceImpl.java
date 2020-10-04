@@ -1,13 +1,7 @@
 package com.mms.service.implementations;
 
-import com.mms.dto.OrderDTO;
-import com.mms.dto.OrderedProductForHistoryDTO;
-import com.mms.dto.ProductDTO;
-import com.mms.dto.ProductInBascetDTO;
-import com.mms.dto.converterDTO.OrderConverter;
-import com.mms.dto.converterDTO.OrderedProductForHistoryConverter;
-import com.mms.dto.converterDTO.ProductConverter;
-import com.mms.dto.converterDTO.ProductInBascetConverter;
+import com.mms.dto.*;
+import com.mms.dto.converterDTO.*;
 import com.mms.model.OrderEntity;
 import com.mms.model.OrderedProductForHistoryEntity;
 import com.mms.model.ProductEntity;
@@ -131,30 +125,6 @@ public class OrderServiceImpl implements OrderService {
             productInBascetRepository.deleteProductInBascet(ProductInBascetConverter.toEntity(productInBascetDTO));
         }
 
-//        ProductEntity productEntity;
-//        OrderEntity orderEntity = orderRepository.findOrderById(orderId);
-//        List<ProductInBascetEntity> productInBascetEntities = productInBascetRepository.findAllProductsInBascetWithoutPages();
-//        for (ProductInBascetEntity productInBascetEntity : productInBascetEntities) {
-//            productEntity = productInBascetEntity.getProduct();
-//            productEntity.setQuantityInStore(productInBascetEntity.getProduct().getQuantityInStore() - productInBascetEntity.getQuantity());
-//            productRepository.updateProduct(productEntity);
-//
-//            OrderedProductForHistoryEntity orderedProductForHistoryEntity = new OrderedProductForHistoryEntity();
-//            orderedProductForHistoryEntity.setName(productInBascetEntity.getProduct().getName());
-//            orderedProductForHistoryEntity.setAlternative_name(productInBascetEntity.getProduct().getAlternative_name());
-//            orderedProductForHistoryEntity.setBrandName(productInBascetEntity.getProduct().getBrandName());
-//            orderedProductForHistoryEntity.setPrice(productInBascetEntity.getProduct().getPrice());
-//            orderedProductForHistoryEntity.setColor(productInBascetEntity.getProduct().getProductDetails().getColor());
-//            orderedProductForHistoryEntity.setWeight(productInBascetEntity.getProduct().getProductDetails().getWeight());
-//            orderedProductForHistoryEntity.setCountry(productInBascetEntity.getProduct().getProductDetails().getCountry());
-//            orderedProductForHistoryEntity.setDescription(productInBascetEntity.getProduct().getProductDetails().getDescription());
-//            orderedProductForHistoryEntity.setOrderInHistory(orderEntity);
-//            orderedProductForHistoryEntity.setQuantity(productInBascetEntity.getQuantity());
-//            orderedProductForHistoryRepository.saveProduct(orderedProductForHistoryEntity);
-//
-//            productInBascetRepository.deleteProductInBascet(productInBascetEntity);
-//        }
-
         return "completedSuccessfully";
     }
 
@@ -163,4 +133,25 @@ public class OrderServiceImpl implements OrderService {
     public int addOrderAndReturnId(OrderDTO orderDTO) {
         return orderRepository.saveOrderAndReturnId(OrderConverter.toEntity(orderDTO));
     }
+
+    @Override
+    @Transactional
+    public int getOrderCountByClientId(int clientId) {
+        return orderRepository.getOrderCountByClientId(clientId);
+    }
+
+    @Override
+    @Transactional
+    public int getProductsCountByOrdersId(int orderId) {
+        return orderRepository.getProductsCountByOrdersId(orderId);
+    }
+
+    @Override
+    @Transactional
+    public List<OrderedProductForHistoryDTO> getOrdersProductHistoryByOrderId(int orderId, int orderHistoryPage) {
+        return orderRepository.findOrdersProductHistoryByOrderId(orderId, orderHistoryPage).stream()
+                .map(OrderedProductForHistoryConverter::toDto)
+                .collect(Collectors.toList());
+    }
+
 }

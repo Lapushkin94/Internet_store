@@ -1,12 +1,15 @@
 package com.mms.service.implementations;
 
 import com.mms.dto.ClientDTO;
+import com.mms.dto.OrderDTO;
 import com.mms.dto.RoleDTO;
 import com.mms.dto.converterDTO.ClientConverter;
+import com.mms.dto.converterDTO.OrderConverter;
 import com.mms.dto.converterDTO.RoleConverter;
 import com.mms.model.RoleEntity;
 import com.mms.repository.interfaces.ClientRepository;
 import com.mms.service.interfaces.ClientService;
+import com.mms.service.interfaces.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -113,6 +116,15 @@ public class ClientServiceImpl implements ClientService {
         }
         return roleNamesList;
     }
+
+    @Override
+    @Transactional
+    public List<OrderDTO> getOrderListByClientId(int clientId, int page) {
+        return clientRepository.findOrderListByClientId(clientId, page).stream()
+                .map(OrderConverter::toDto)
+                .collect(Collectors.toList());
+    }
+
 
 
 }

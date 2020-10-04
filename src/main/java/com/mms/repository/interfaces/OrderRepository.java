@@ -1,6 +1,8 @@
 package com.mms.repository.interfaces;
 
 import com.mms.model.OrderEntity;
+import com.mms.model.OrderStatusEntity;
+import com.mms.model.OrderedProductForHistoryEntity;
 
 import java.util.List;
 
@@ -13,5 +15,8 @@ public interface OrderRepository {
     OrderEntity findOrderById(int id);
     int getOrderCount();
     int saveOrderAndReturnId(OrderEntity orderEntity);
+    int getOrderCountByClientId(int clientId);
+    int getProductsCountByOrdersId(int orderId);
+    List<OrderedProductForHistoryEntity> findOrdersProductHistoryByOrderId(int orderId, int orderHistoryPage);
 
 }

@@ -1,6 +1,7 @@
 package com.mms.service.interfaces;
 
 import com.mms.dto.OrderDTO;
+import com.mms.dto.OrderStatusDTO;
 import com.mms.dto.OrderedProductForHistoryDTO;
 import com.mms.dto.ProductInBascetDTO;
 
@@ -16,5 +17,8 @@ public interface OrderService {
     int getOrderCount();
     String calculateProductNumberInStoreAlsoCopyProductInfoToTheHistoryTableAndResetProductBascet(List<ProductInBascetDTO> productInBascetDTOList, int orderId);
     int addOrderAndReturnId(OrderDTO orderDTO);
+    int getOrderCountByClientId(int clientId);
+    int getProductsCountByOrdersId(int orderId);
+    List<OrderedProductForHistoryDTO> getOrdersProductHistoryByOrderId(int orderId, int orderHistoryPage);
 
 }

@@ -7,7 +7,7 @@
           integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Client address</title>
+    <title>Your orders</title>
 
 </head>
 <br>
@@ -17,43 +17,50 @@
 <div class="container-fluid" style="margin-left: 480px; margin-top: 50px; text-align: center">
     <div class="row">
         <div>
-            <h2 style="background-color: darksalmon; padding: 10px; margin-bottom: 10px">Address</h2>
+            <h2 style="background-color: darksalmon; padding: 10px; margin-bottom: 10px">Your orders</h2>
             <table class="table table-striped table-hover" style="background-color: cornsilk">
                 <thead>
-                <th>Name</th>
-                <th>Last name</th>
-                <th>Country</th>
-                <th>City</th>
-                <th>Postal code</th>
-                <th>Street</th>
-                <th>House number</th>
-                <th>Flat number</th>
+                <th>№</th>
+                <th>Date</th>
+                <th>Pay status</th>
+                <th>Comment</th>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>${client.name}</td>
-                    <td>${client.secondName}</td>
-                    <td>${client.clientAddress.country}</td>
-                    <td>${client.clientAddress.city}</td>
-                    <td>${client.clientAddress.postalCode}</td>
-                    <td>${client.clientAddress.street}</td>
-                    <td>${client.clientAddress.houseNumber}</td>
-                    <td>${client.clientAddress.flatNumber}</td>
-                </tr>
+                <c:forEach var="order" items="${orderListByClientId}" varStatus="i">
+                    <tr>
+                        <td>${i.index + 1 + (orderListPage - 1) * 10}</td>
+                        <td>${order.date}</td>
+                        <td>${order.payStatus}</td>
+                        <td>${order.comment}</td>
 
+                        <td>
+                            <button type="button" class="btn btn-info">
+                                <a href="/myProfile/myOrders/checkOrdersProducts/${order.id}" style="color: wheat">Show
+                                    products and status</a>
+                            </button>
+                        </td>
+
+                    </tr>
+                </c:forEach>
                 </tbody>
             </table>
 
 
+
+                <c:forEach begin="1" end="${orderPagesCount}" step="1" varStatus="i">
             <div class="border border-danger"
-                 style="background-color: khaki; margin-top: 10px; margin-left: 30px; padding: 10px; float: left">
-                <c:url value="/clientControl" var="url">
-                    <c:param name="clientListPage" value="${clientListPage}"/>
-                </c:url>
-                <button type="button" class="btn btn-secondary">
-                    <a href="${url}" style="color: wheat">Back</a>
-                </button>
+                 style="background-color: khaki; margin-top: 10px; margin-left: 30px; padding: 10px; float: left; margin-bottom: 50px">
+                    <c:url value="/myProfile/myOrders" var="url">
+                        <c:param name="orderListPage" value="${i.index}"/>
+                    </c:url>
+                    <a href="${url}">${i.index}</a>
             </div>
+                </c:forEach>
+
+            <button type="button" class="btn btn-secondary">
+                <a href="${pageContext.request.contextPath}/myProfile" style="color: wheat">Your profile</a>
+            </button>
+
 
         </div>
     </div>

@@ -10,6 +10,7 @@ import com.mms.service.interfaces.ProductInBascetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -47,24 +48,31 @@ public class SecurityController {
     }
 
     @GetMapping("/signUpPage")
-    public String getSignUpPage() {
-        return "security/signUpPage";
+    public ModelAndView getSignUpPage(@RequestParam(value = "passwordStatus", defaultValue = "0") String passwordStatus) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("security/signUpPage");
+
+        modelAndView.addObject("passwordStatus", passwordStatus);
+
+        return modelAndView;
     }
 
     @PostMapping("/signUp")
     public String addClient(@ModelAttribute ClientDTO clientDTO,
-                            @ModelAttribute ClientAddressDTO clientAddressDTO) {
+                            @ModelAttribute ClientAddressDTO clientAddressDTO,
+                            @RequestParam("firstPassword") String firstPassword,
+                            @RequestParam("secondPassword") String secondPassword) {
 
-        // Заменить try-catch на @Valid
-        try {
+        if (!firstPassword.equals(secondPassword)) {
+            return "redirect:/signUpPage?passwordStatus=1";
+        }
+
+        // Добавить @Valid или обработать bad request
+            clientDTO.setPassword(firstPassword);
             clientDTO.setClientAddress(ClientAddressConverter.toEntity(clientAddressDTO));
             clientDTO.setRole(RoleConverter.toEntity(clientService.getRoleByRoleName("ROLE_CLIENT")));
             clientService.addClient(clientDTO);
             return "redirect:/signIn";
-        }
-        catch (Exception exc) {
-            return "security/signUpPage";
-        }
     }
 
     @GetMapping("/clientControl")

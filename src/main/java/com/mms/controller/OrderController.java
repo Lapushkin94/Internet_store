@@ -92,7 +92,11 @@ public class OrderController {
         int orderId = orderService.addOrderAndReturnId(orderDTO);
 
         // needs refactoring
-        orderService.calculateProductNumberInStoreAlsoCopyProductInfoToTheHistoryTableAndResetProductBascet(productInBascetService.getAllProductsInBascetWithoutPages(), orderId);
+        String result = orderService.calculateProductNumberInStoreAlsoCopyProductInfoToTheHistoryTableAndResetProductBascet(productInBascetService.getAllProductsInBascetWithoutPages(), orderId);
+
+        if (!result.equals("completedSuccessfully")) {
+            return "order/notEnoughProducts";
+        }
 
         if (orderDTO.getPayStatus().equals("Card online")) {
             return "order/payment";

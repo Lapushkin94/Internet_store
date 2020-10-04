@@ -85,6 +85,7 @@
                         <a href="${pageContext.request.contextPath}/catalog/addProduct">Add new product</a>
                     </div>
                 </security:authorize>
+
                 <div class="row-3; border border-danger"
                      style="background-color: khaki; margin-top: 10px; margin-left: 30px; padding: 10px">
                     <c:forEach begin="1" end="${productPagesCount}" step="1" varStatus="i">

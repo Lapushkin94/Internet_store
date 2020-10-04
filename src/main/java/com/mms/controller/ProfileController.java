@@ -1,9 +1,11 @@
 package com.mms.controller;
 
-import com.mms.dto.ClientAddressDTO;
-import com.mms.dto.ClientDTO;
+import com.mms.dto.*;
 import com.mms.dto.converterDTO.ClientAddressConverter;
+import com.mms.dto.converterDTO.OrderConverter;
+import com.mms.dto.converterDTO.OrderStatusConverter;
 import com.mms.service.interfaces.ClientService;
+import com.mms.service.interfaces.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,12 +15,23 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.List;
+
 @Controller
 @RequestMapping(value = "/myProfile")
 public class ProfileController {
 
     private ClientService clientService;
     private PasswordEncoder passwordEncoder;
+    private OrderService orderService;
+
+    private int orderListPage;
+    private int orderHistoryListPage;
+
+    @Autowired
+    public void setOrderService(OrderService orderService) {
+        this.orderService = orderService;
+    }
 
     @Autowired
     public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
@@ -116,6 +129,45 @@ public class ProfileController {
         clientService.editClient(clientDTO);
 
         return "redirect:/myProfile";
+    }
+
+    @GetMapping(value = "/myOrders")
+    public ModelAndView getMyOrders(@AuthenticationPrincipal User user,
+                                    @RequestParam(defaultValue = "1") int orderListPage) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("client/myOrders");
+
+        this.orderListPage = orderListPage;
+        int ordersCount = orderService.getOrderCountByClientId(clientService.getClientByEmail(user.getUsername()).getId());
+        modelAndView.addObject("orderListPage", orderListPage);
+
+
+        List<OrderDTO> orderDTOList = clientService.getOrderListByClientId(clientService.getClientByEmail(user.getUsername()).getId(), orderListPage);
+
+        modelAndView.addObject("orderListByClientId", orderDTOList);
+        modelAndView.addObject("ordersCount", ordersCount);
+        modelAndView.addObject("orderPagesCount", (ordersCount + 9) / 10);
+
+        return modelAndView;
+    }
+
+    @GetMapping(value = "/myOrders/checkOrdersProducts/{id}")
+    public ModelAndView getOrdersProductList(@PathVariable("id") int id,
+                                             @RequestParam(defaultValue = "1") int orderHistoryListPage) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("client/showOrdersProductsPage");
+
+        this.orderHistoryListPage = orderHistoryListPage;
+        int orderHistoryCount = orderService.getProductsCountByOrdersId(id);
+
+        modelAndView.addObject("ordersId", id);
+        modelAndView.addObject("orderStatus", OrderStatusConverter.toDto(orderService.getOrder(id).getOrderStatus()));
+        modelAndView.addObject("orderHistoryListPage", orderHistoryListPage);
+        modelAndView.addObject("ordersProductList", orderService.getOrdersProductHistoryByOrderId(id, orderHistoryListPage));
+        modelAndView.addObject("orderHistoryCount", orderHistoryCount);
+        modelAndView.addObject("orderHistoryPagesCount", (orderHistoryCount + 9) / 10);
+
+        return modelAndView;
     }
 
 }

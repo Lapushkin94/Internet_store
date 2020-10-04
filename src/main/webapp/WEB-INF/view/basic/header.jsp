@@ -29,6 +29,10 @@
                             <a class="dropdown-item" href="${pageContext.request.contextPath}/myProfile">View profile</a>
                             </security:authorize>
 
+                            <security:authorize access="isAuthenticated()">
+                                <a class="dropdown-item" href="${pageContext.request.contextPath}/myProfile/myOrders">My orders</a>
+                            </security:authorize>
+
                             <security:authorize access="isAnonymous()">
                             <a class="dropdown-item" href="${pageContext.request.contextPath}/signIn">Sign in</a>
                             </security:authorize>
