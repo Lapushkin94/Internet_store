@@ -7,21 +7,38 @@
           integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Client address</title>
+    <title>Client's profile</title>
 
 </head>
 <br>
 
 <jsp:include page="../basic/header.jsp"/>
 
-<div class="container-fluid" style="margin-left: 480px; margin-top: 50px; text-align: center">
+<div class="container-fluid" style="text-align: center; margin-top: 50px">
     <div class="row">
-        <div>
-            <h2 style="background-color: darksalmon; padding: 10px; margin-bottom: 10px">Address</h2>
+        <div style="margin: auto">
+            <h2 style="background-color: darksalmon; padding: 10px; margin-bottom: 10px">Client's profile</h2>
             <table class="table table-striped table-hover" style="background-color: cornsilk">
                 <thead>
                 <th>Name</th>
                 <th>Last name</th>
+                <th>Birthday</th>
+                <th>Email</th>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>${client.name}</td>
+                    <td>${client.secondName}</td>
+                    <td>${client.birthday}</td>
+                    <td>${client.email}</td>
+                </tr>
+
+                </tbody>
+            </table>
+
+            <h2 style="background-color: darksalmon; padding: 10px; margin-bottom: 10px; margin-top: 50px">Clients Address</h2>
+            <table class="table table-striped table-hover" style="background-color: cornsilk">
+                <thead>
                 <th>Country</th>
                 <th>City</th>
                 <th>Postal code</th>
@@ -31,8 +48,6 @@
                 </thead>
                 <tbody>
                 <tr>
-                    <td>${client.name}</td>
-                    <td>${client.secondName}</td>
                     <td>${client.clientAddress.country}</td>
                     <td>${client.clientAddress.city}</td>
                     <td>${client.clientAddress.postalCode}</td>
@@ -44,10 +59,9 @@
                 </tbody>
             </table>
 
-
-            <div style="margin-top: 10px; margin-left: 30px; padding: 10px; float: left">
-                <c:url value="/clientControl" var="url">
-                    <c:param name="clientListPage" value="${clientListPage}"/>
+            <div>
+                <c:url value="/orderList" var="url">
+                    <c:param name="orderListPage" value="${orderListPage}"/>
                 </c:url>
                 <a href="${url}" style="color: wheat">
                     <button type="button" class="btn btn-secondary">

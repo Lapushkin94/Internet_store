@@ -14,11 +14,11 @@
 
 <jsp:include page="../basic/header.jsp"/>
 
-<div class="container-fluid" style="margin-top: 20px">
+<div class="container-fluid" style="margin-top: 10px">
     <div class="row">
         <div class="col-8">
-            <h2 style="background-color: darksalmon; padding: 10px; margin-bottom: 10px">Our product</h2>
-            <table class="table table-striped table-hover" style="background-color: cornsilk">
+            <h3 style="background-color: darksalmon; padding: 5px; margin-bottom: 10px">Our product</h3>
+            <table class="table table-striped table-hover table-sm" style="background-color: cornsilk">
                 <thead>
                 <th>№</th>
                 <th>Name</th>
@@ -87,15 +87,22 @@
             <div class="row">
                 <security:authorize access="hasRole('ADMIN') or hasRole('MANAGER')">
                     <div class="row-1; border border-danger"
-                         style="background-color: khaki; margin-top: 10px; padding: 10px; margin-left: 15px">
+                         style="background-color: khaki; padding: 10px; margin-left: 15px">
                         <a href="${pageContext.request.contextPath}/catalog/addProduct">Add new product</a>
+                    </div>
+                </security:authorize>
+
+                <security:authorize access="hasRole('ADMIN') or hasRole('MANAGER')">
+                    <div class="row-1; border border-danger"
+                         style="background-color: khaki; padding: 10px; margin-left: 15px">
+                        <a href="${pageContext.request.contextPath}/categories">Categories</a>
                     </div>
                 </security:authorize>
 
 
                 <c:forEach begin="1" end="${productPagesCount}" step="1" varStatus="i">
                     <div class="row-3; border border-danger"
-                         style="background-color: khaki; margin-top: 10px; margin-left: 30px; padding: 10px">
+                         style="background-color: khaki; margin-left: 30px; padding: 10px">
                         <c:url value="/catalog" var="url">
                             <c:param name="existingProductListPage" value="${i.index}"/>
                             <c:param name="productInBascetListPage" value="${productInBascetListPage}"/>
@@ -109,8 +116,8 @@
         </div>
 
         <div class="col-4">
-            <table class="table table-striped table-hover" style="background-color: cornsilk">
-                <h2 style="background-color: darksalmon; padding: 10px; margin-bottom: 10px">Your basket</h2>
+            <table class="table table-striped table-hover table-sm" style="background-color: cornsilk">
+                <h3 style="background-color: darksalmon; padding: 5px; margin-bottom: 10px">Your basket</h3>
                 <thead>
                 <th>№</th>
                 <th>Quantity</th>
@@ -148,7 +155,7 @@
 
             <c:forEach begin="1" end="${productInBascetPagesCount}" step="1" varStatus="i">
                 <div class="row-3; border border-danger"
-                     style="background-color: khaki; margin-top: 10px; margin-left: 30px; padding: 10px; float: left">
+                     style="background-color: khaki; margin-left: 20px; padding: 10px; float: left">
                     <c:url value="/catalog" var="url">
                         <c:param name="productInBascetListPage" value="${i.index}"/>
                         <c:param name="existingProductListPage" value="${existingProductListPage}"/>
@@ -158,26 +165,26 @@
             </c:forEach>
 
             <div class="border border-danger"
-                 style="float: left; background-color: khaki; margin-top: 10px; padding: 10px; margin-left: 50px">
+                 style="float: left; background-color: khaki; padding: 10px; margin-left: 20px">
                 <a href="${pageContext.request.contextPath}/order">Go to order registration!</a>
             </div>
         </div>
     </div>
     <c:choose>
         <c:when test="${catalogParam == 'catalogFalse'}">
-            <div class="alert alert-danger" role="alert" style="margin-top: 20px">
+            <div class="alert alert-danger" role="alert" style="margin-top: 10px">
                 You want too many. You can <a href="${pageContext.request.contextPath}/contacts" class="alert-link">contact</a>
                 us. We will do everything possible!
             </div>
         </c:when>
         <c:when test="${catalogParam == 'catalogSuccess'}">
-            <div class="alert alert-success" role="alert" style="margin-top: 20px">
+            <div class="alert alert-success" role="alert" style="margin-top: 10px">
                 Product successful added to your <a href="${pageContext.request.contextPath}/order" class="alert-link">bascet</a>.
                 Nice choice!
             </div>
         </c:when>
         <c:otherwise>
-            <div class="alert alert-info" role="alert" style="margin-top: 20px">
+            <div class="alert alert-info" role="alert" style="margin-top: 10px">
                 It is our choices that show what we truly are, far more than our abilities (c).
             </div>
         </c:otherwise>

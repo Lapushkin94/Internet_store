@@ -44,4 +44,9 @@ public class HomeController {
         return "basic/contacts";
     }
 
+    @GetMapping(value = "/successContact")
+    public String getSuccessContactPage() {
+        return "client/successContact";
+    }
+
 }

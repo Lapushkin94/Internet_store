@@ -53,21 +53,24 @@ public class OrderController {
     public ModelAndView getBascet(@RequestParam(defaultValue = "1") int productInBascetListPage) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("order/checkBascetBeforeRegistration");
+
         this.productInBascetListPage = productInBascetListPage;
         int productsInBascetCount = productInBascetService.getProductCount();
+        modelAndView.addObject("summPrice", productInBascetService.getSummPriceForAllProducts(productInBascetService.getAllProductsInBascetWithoutPages()));
         modelAndView.addObject("productInBascetListPage", productInBascetListPage);
         modelAndView.addObject("productInBascetList", productInBascetService.getAllProductsInBascet(productInBascetListPage));
         modelAndView.addObject("productsInBascetCount", productsInBascetCount);
         modelAndView.addObject("productInBascetPagesCount", (productsInBascetCount + 9) / 10);
+
         return modelAndView;
     }
 
 
     @GetMapping(value = "/orderRegistrationPage")
     public ModelAndView getOrderRegistrationPage(@AuthenticationPrincipal User user) {
-
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("order/orderRegistrationPage");
+
         modelAndView.addObject("client", clientService.getClientByEmail(user.getUsername()));
 
         return modelAndView;
@@ -81,6 +84,7 @@ public class OrderController {
 
         ClientDTO clientDTO = clientService.getClientByEmail(user.getUsername());
         clientDTO.setClientAddress(ClientAddressConverter.toEntity(clientAddressDTO));
+        clientDTO.setActive(true);
         clientService.editClient(clientDTO);
 
         // needs refactoring
@@ -109,7 +113,9 @@ public class OrderController {
     public ModelAndView getSuccessfulPaymentPage(@AuthenticationPrincipal User user) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("order/successfulPayment");
+
         modelAndView.addObject("clientName", clientService.getClientByEmail(user.getUsername()).getName());
+
         return modelAndView;
     }
 

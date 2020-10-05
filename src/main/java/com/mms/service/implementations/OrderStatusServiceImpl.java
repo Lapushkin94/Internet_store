@@ -1,11 +1,15 @@
 package com.mms.service.implementations;
 
 import com.mms.dto.OrderStatusDTO;
+import com.mms.dto.converterDTO.OrderStatusConverter;
 import com.mms.repository.interfaces.OrderStatusRepository;
 import com.mms.service.interfaces.OrderStatusService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.mms.dto.converterDTO.OrderStatusConverter.toDto;
 
@@ -35,5 +39,19 @@ public class OrderStatusServiceImpl implements OrderStatusService {
     @Transactional
     public OrderStatusDTO getClosedStatus() {
         return toDto(orderStatusRepository.findClosedStatus());
+    }
+
+    @Override
+    @Transactional
+    public List<OrderStatusDTO> getAllOrderStatus() {
+        return orderStatusRepository.findAllOrderStatus().stream()
+                .map(OrderStatusConverter::toDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public OrderStatusDTO getOrderStatusByName(String name) {
+        return OrderStatusConverter.toDto(orderStatusRepository.getOrderStatusByName(name));
     }
 }

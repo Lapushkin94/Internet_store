@@ -21,7 +21,7 @@
             <br><br> <h2 style="color:#0fad00">Success</h2>
             <img src="https://cs.pikabu.ru/post_img/big/2013/11/13/0/1384288202_362714509.jpg" height="200px" width="250px">
             <h3>Dear, ${clientName}</h3>
-            <p style="font-size:20px;color:#5C5C5C;">Thank you for purchase! Hope, you'l come again!</p>
+            <p style="font-size:20px;color:#5C5C5C;">Thank you for purchase! Hope, you'll come again!</p>
             <a href="${pageContext.request.contextPath}/" class="btn btn-success">Home</a>
             <br><br>
         </div>

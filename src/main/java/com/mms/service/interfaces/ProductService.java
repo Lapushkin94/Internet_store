@@ -14,5 +14,6 @@ public interface ProductService {
     void editProduct(ProductDTO productDTO);
     ProductDTO getProduct(int id);
     int getProductCount();
+    List<ProductDTO> getAllProductsByCategoryId(int categoryId);
 
 }

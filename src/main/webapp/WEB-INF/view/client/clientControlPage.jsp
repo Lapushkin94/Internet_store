@@ -44,6 +44,21 @@
                             </a>
                         </td>
 
+                        <td>
+                            <c:if test="${client.active == false}">
+                            <a href="/clientControl/deleteClient/${client.id}" style="color: wheat">
+                                <button type="button" class="btn btn-info">
+                                    Delete not active client
+                                </button>
+                            </a>
+                            </c:if>
+                            <c:if test="${client.active != false}">
+                                    <button type="button" class="btn btn-success" disabled>
+                                        Active client
+                                    </button>
+                            </c:if>
+                        </td>
+
                     </tr>
                 </c:forEach>
                 </tbody>

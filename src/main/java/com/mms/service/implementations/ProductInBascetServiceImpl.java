@@ -115,4 +115,14 @@ public class ProductInBascetServiceImpl implements ProductInBascetService {
             productInBascetRepository.deleteProductInBascet(prod);
         }
     }
+
+    @Override
+    @Transactional
+    public int getSummPriceForAllProducts(List<ProductInBascetDTO> productInBascetDTOList) {
+        int summPrice = 0;
+        for(ProductInBascetDTO prod : productInBascetDTOList) {
+            summPrice += prod.getProduct().getPrice();
+        }
+        return summPrice;
+    }
 }

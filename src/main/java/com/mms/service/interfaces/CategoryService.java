@@ -1,6 +1,7 @@
 package com.mms.service.interfaces;
 
 import com.mms.dto.CategoryDTO;
+import com.mms.dto.ProductDTO;
 
 import java.util.List;
 
@@ -14,6 +15,6 @@ public interface CategoryService {
     CategoryDTO getCategory(int id);
     int getCategoryCount();
     CategoryDTO getCategoryByName(String nameOfCategory);
-
+    void changeCategoriesForProductList(List<ProductDTO> productDTOS);
 
 }

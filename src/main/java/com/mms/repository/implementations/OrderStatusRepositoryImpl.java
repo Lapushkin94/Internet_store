@@ -7,6 +7,8 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class OrderStatusRepositoryImpl implements OrderStatusRepository {
 
@@ -33,5 +35,18 @@ public class OrderStatusRepositoryImpl implements OrderStatusRepository {
     public OrderStatusEntity findClosedStatus() {
         Session session = sessionFactory.getCurrentSession();
         return session.get(OrderStatusEntity.class, 3);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<OrderStatusEntity> findAllOrderStatus() {
+        Session session = sessionFactory.getCurrentSession();
+        return session.createQuery("from OrderStatusEntity").list();
+    }
+
+    @Override
+    public OrderStatusEntity getOrderStatusByName(String statusName) {
+        Session session = sessionFactory.getCurrentSession();
+        return session.createQuery("FROM OrderStatusEntity statusEntity WHERE statusEntity.name =: statusName", OrderStatusEntity.class).setParameter("statusName", statusName).getSingleResult();
     }
 }

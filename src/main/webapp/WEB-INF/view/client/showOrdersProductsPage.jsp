@@ -18,29 +18,29 @@
     <div class="row">
         <div>
             <h2 style="background-color: darksalmon; padding: 10px; margin-bottom: 10px">Orders products
-                    <c:if test="${orderStatus.name == 'Opened'}">
-                        <div>
+                <c:if test="${orderStatus.name == 'Opened'}">
+                    <div>
                         <button type="submit" class="btn btn-info" style="margin-top: 20px" disabled>
                             Status: Opened
                         </button>
-                        </div>
-                    </c:if>
+                    </div>
+                </c:if>
 
-                    <c:if test="${orderStatus.name == 'In process'}">
-                        <div>
+                <c:if test="${orderStatus.name == 'In process'}">
+                    <div>
                         <button type="submit" class="btn btn-success" style="margin-top: 20px" disabled>
                             Status: In process
                         </button>
-                        </div>
-                    </c:if>
+                    </div>
+                </c:if>
 
-                    <c:if test="${orderStatus.name == 'Closed'}">
-                        <div>
+                <c:if test="${orderStatus.name == 'Closed'}">
+                    <div>
                         <button type="submit" class="btn btn-secondary" style="margin-top: 20px" disabled>
                             Status: Closed
                         </button>
-                        </div>
-                    </c:if>
+                    </div>
+                </c:if>
             </h2>
             <table class="table table-striped table-hover" style="background-color: cornsilk">
                 <thead>
@@ -74,27 +74,27 @@
                 </tbody>
             </table>
 
-<div class="row">
-            <div class="border border-danger"
-                 style="background-color: khaki; margin-top: 10px; margin-left: 30px; padding: 10px; float: left">
-                <c:forEach begin="1" end="${orderHistoryPagesCount}" step="1" varStatus="i">
-                    <div>
-                    <c:url value="/myProfile/myOrders/checkOrdersProducts/${ordersId}" var="url">
-                        <c:param name="orderHistoryListPage" value="${i.index}"/>
-                    </c:url>
-                    <a href="${url}">${i.index}</a>
-                    </div>
-                </c:forEach>
+            <div class="row">
+                    <c:forEach begin="1" end="${orderHistoryPagesCount}" step="1" varStatus="i">
+                        <div class="border border-danger"
+                             style="background-color: khaki; margin-top: 10px; margin-left: 15px; padding: 10px; float: left">
+                            <c:url value="/myProfile/myOrders/checkOrdersProducts/${ordersId}" var="url">
+                                <c:param name="orderHistoryListPage" value="${i.index}"/>
+                            </c:url>
+                            <a href="${url}">${i.index}</a>
+                        </div>
+                    </c:forEach>
             </div>
-</div>
 
-            <div class="row" style="margin-top: 50px">
-            <button type="button" class="btn btn-secondary">
+            <div class="row" style="margin-top: 15px; margin-left: 2px">
                 <c:url value="/myProfile/myOrders" var="url">
                     <c:param name="orderListPage" value="${orderListPage}"/>
                 </c:url>
-                <a href="${url}" style="color: wheat">Back</a>
-            </button>
+                <a href="${url}" style="color: wheat">
+                    <button type="button" class="btn btn-secondary">
+                        Back
+                    </button>
+                </a>
             </div>
         </div>
     </div>

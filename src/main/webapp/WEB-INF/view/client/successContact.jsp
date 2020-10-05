@@ -18,11 +18,10 @@
 <div class="container">
     <div class="row text-center">
         <div class="col-sm-6 col-sm-offset-3">
-            <br><br> <h2 style="color:#0fad00">Access denied</h2>
-            <img src="https://i.pinimg.com/originals/06/7a/58/067a58a89205bc6496262b38fab17489.jpg" height="300px" width="250px">
-            <h3>Sorry!</h3>
-            <p style="font-size:20px;color:#5C5C5C;">You have no access for this page!</p>
-            <p style="font-size:20px;color:#5C5C5C;">It could also be a developer's fault!</p>
+            <br><br> <h2 style="color:#0fad00">Success</h2>
+            <img src="https://cs.pikabu.ru/post_img/big/2013/11/13/0/1384288202_362714509.jpg" height="200px" width="250px">
+            <h3>We've got your message!</h3>
+            <p style="font-size:20px;color:#5C5C5C;">We will contact you as soon as possible!</p>
             <a href="${pageContext.request.contextPath}/" class="btn btn-success">Home</a>
             <br><br>
         </div>

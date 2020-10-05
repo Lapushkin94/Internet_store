@@ -23,6 +23,7 @@ public class ClientDTO {
     private String birthday;
     private String email;
     private String password;
+    private boolean isActive;
     private ClientAddressEntity clientAddress;
     private Set<OrderEntity> orders = new HashSet<>();
     private RoleEntity role;

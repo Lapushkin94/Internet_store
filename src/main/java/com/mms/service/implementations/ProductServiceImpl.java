@@ -69,4 +69,13 @@ public class ProductServiceImpl implements ProductService {
     public ProductDTO getProduct(int id) {
         return toDto(productRepository.findProductById(id));
     }
+
+    @Override
+    @Transactional
+    public List<ProductDTO> getAllProductsByCategoryId(int categoryId) {
+        return productRepository.findAllProductsByCategoryId(categoryId).stream()
+                .map(ProductConverter::toDto)
+                .collect(Collectors.toList());
+    }
+
 }

@@ -62,4 +62,11 @@ public class ProductRepositoryImpl implements ProductRepository {
         Session session = sessionFactory.getCurrentSession();
         return session.createQuery("select count (*) from ProductEntity", Number.class).getSingleResult().intValue();
     }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<ProductEntity> findAllProductsByCategoryId(int categoryId) {
+        Session session = sessionFactory.getCurrentSession();
+        return session.createQuery("from ProductEntity productEn WHERE productEn.category.id =: categoryId").setParameter("categoryId", categoryId).list();
+    }
 }

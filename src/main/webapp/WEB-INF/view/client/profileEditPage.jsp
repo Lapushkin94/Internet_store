@@ -55,6 +55,14 @@
             </button>
         </form>
 
+        <div>
+            <a href="${pageContext.request.contextPath}/myProfile" style="color: wheat">
+                <button type="button" class="btn btn-secondary">
+                    Back
+                </button>
+            </a>
+        </div>
+
     </div>
 
 

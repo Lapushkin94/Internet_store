@@ -39,10 +39,10 @@ public class CatalogController {
     public ModelAndView catalog(@RequestParam(defaultValue = "1") int existingProductListPage,
                                 @RequestParam(defaultValue = "1") int productInBascetListPage,
                                 @RequestParam(defaultValue = "standart") String catalogParam) {
+        ModelAndView modelAndView = new ModelAndView();
 
         this.existingProductListPage = existingProductListPage;
         int productsCount = productService.getProductCount();
-        ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("existingProductListPage", existingProductListPage);
         modelAndView.addObject("productList", productService.getAllExistingProducts(existingProductListPage));
         modelAndView.addObject("productsCount", productsCount);
@@ -68,6 +68,7 @@ public class CatalogController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("product/productDetails");
         modelAndView.addObject("existingProductListPage", existingProductListPage);
+        modelAndView.addObject("productInBascetListPage", productInBascetListPage);
         modelAndView.addObject("product", productService.getProduct(id));
 
         return modelAndView;
@@ -163,5 +164,6 @@ public class CatalogController {
 
         return modelAndView;
     }
+
 
 }

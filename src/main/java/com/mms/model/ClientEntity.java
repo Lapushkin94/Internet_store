@@ -29,6 +29,8 @@ public class ClientEntity {
     private String email;
     @Column(name = "password")
     private String password;
+    @Column(name = "isActive")
+    private boolean isActive;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "address_id")
     private ClientAddressEntity clientAddress;

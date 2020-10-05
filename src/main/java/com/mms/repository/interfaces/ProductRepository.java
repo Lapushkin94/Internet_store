@@ -13,5 +13,6 @@ public interface ProductRepository {
     void updateProduct(ProductEntity productEntity);
     ProductEntity findProductById(int id);
     int getProductCount();
+    List<ProductEntity> findAllProductsByCategoryId(int categoryId);
 
 }

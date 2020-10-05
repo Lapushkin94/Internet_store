@@ -1,8 +1,12 @@
 package com.mms.service.implementations;
 
 import com.mms.dto.CategoryDTO;
+import com.mms.dto.ProductDTO;
 import com.mms.dto.converterDTO.CategoryConverter;
+import com.mms.dto.converterDTO.ProductConverter;
+import com.mms.model.CategoryEntity;
 import com.mms.repository.interfaces.CategoryRepository;
+import com.mms.repository.interfaces.ProductRepository;
 import com.mms.service.interfaces.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +22,12 @@ import static com.mms.dto.converterDTO.CategoryConverter.toEntity;
 public class CategoryServiceImpl implements CategoryService {
 
     private CategoryRepository categoryRepository;
+    private ProductRepository productRepository;
+
+    @Autowired
+    public void setProductRepository(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
 
     @Autowired
     public void setCategoryRepository(CategoryRepository categoryRepository) {
@@ -75,4 +85,17 @@ public class CategoryServiceImpl implements CategoryService {
     public CategoryDTO getCategoryByName(String nameOfCategory) {
         return CategoryConverter.toDto(categoryRepository.findCategoryByName(nameOfCategory));
     }
+
+    @Override
+    @Transactional
+    public void changeCategoriesForProductList(List<ProductDTO> productDTOS) {
+
+        CategoryEntity newCategoryDTO = categoryRepository.findCategoryById(1);
+        for (ProductDTO prod : productDTOS) {
+            prod.setCategory(newCategoryDTO);
+            productRepository.updateProduct(ProductConverter.toEntity(prod));
+        }
+
+    }
+
 }

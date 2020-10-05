@@ -48,7 +48,7 @@
                         </div>
                     </li>
                     <li class="nav-item" style="margin-left: 15px">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/contacts">Contacts</a>
+                        <a class="nav-link" href="${pageContext.request.contextPath}/contacts">Contact us</a>
                     </li>
 
                     <security:authorize access="hasRole('ADMIN') or hasRole('MANAGER')">
@@ -63,7 +63,10 @@
                                     <div class="dropdown-divider"></div>
                                 </security:authorize>
 
+                                <security:authorize access="hasRole('ADMIN') or hasRole('MANAGER')">
                                     <a class="dropdown-item" href="${pageContext.request.contextPath}/orderList">Order list</a>
+                                </security:authorize>
+
                             </div>
                         </li>
                     </security:authorize>
