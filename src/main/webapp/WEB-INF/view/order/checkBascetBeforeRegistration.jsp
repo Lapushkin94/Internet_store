@@ -19,8 +19,8 @@
         <th>№</th>
         <th>Quantity</th>
         <th>Product</th>
-        <th>Alt name</th>
-        <th>Brand</th>
+        <th>Author</th>
+        <th>Publisher</th>
         <th>Price</th>
         <th>Info</th>
         <th>Action</th>

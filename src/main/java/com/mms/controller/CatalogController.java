@@ -35,6 +35,13 @@ public class CatalogController {
         this.categoryService = categoryService;
     }
 
+    /**
+     *
+     * @param existingProductListPage current catalog list page
+     * @param productInBascetListPage current basket page
+     * @param catalogParam determines successful / unsuccessful product addition
+     * @return catalog page with list of products and client's basket
+     */
     @GetMapping
     public ModelAndView catalog(@RequestParam(defaultValue = "1") int existingProductListPage,
                                 @RequestParam(defaultValue = "1") int productInBascetListPage,
@@ -55,13 +62,18 @@ public class CatalogController {
         modelAndView.addObject("productsInBascetCount", productsInBascetCount);
         modelAndView.addObject("productInBascetPagesCount", (productsInBascetCount + 9) / 10);
 
+        modelAndView.addObject("categoryList", categoryService.getAllCategoriesWithoutPages());
         modelAndView.addObject("catalogParam", catalogParam);
         modelAndView.setViewName("product/catalog");
 
         return modelAndView;
     }
 
-    // shows detail information about chosen product
+    /**
+     *
+     * @param id product id to get product details
+     * @return product details-page
+     */
     @GetMapping(value = "/productDetails/{id}")
     public ModelAndView getDetails(@PathVariable("id") int id) {
 
@@ -74,7 +86,11 @@ public class CatalogController {
         return modelAndView;
     }
 
-    // redirects to edit-page of chosen product
+    /**
+     *
+     * @param id product id to edit it
+     * @return product edit-page
+     */
     @GetMapping(value = "/editProduct/{id}")
     public ModelAndView editPage(@PathVariable("id") int id) {
 
@@ -87,7 +103,12 @@ public class CatalogController {
         return modelAndView;
     }
 
-    // allows edit chosen product
+    /**
+     *
+     * @param product new Product object to edit existing
+     * @param nameOfCategory chosen category for new product to edit existing
+     * @return redirect to catalog oage after editing product
+     */
     @PostMapping(value = "/editProduct")
     public ModelAndView editProduct(@ModelAttribute("product") ProductDTO product,
                                     @RequestParam("nameOfCategory") String nameOfCategory) {
@@ -101,7 +122,10 @@ public class CatalogController {
         return modelAndView;
     }
 
-    // redirect to add-page (page for adding products)
+    /**
+     *
+     * @return product add-page
+     */
     @GetMapping(value = "/addProduct")
     public ModelAndView addPage() {
 
@@ -112,7 +136,12 @@ public class CatalogController {
         return modelAndView;
     }
 
-    // allows to add a new product and productDetails
+    /**
+     *
+     * @param product new Product object
+     * @param nameOfCategory chosen category for new product
+     * @return return to catalog page after adding product
+     */
     @PostMapping(value = "/add")
     public ModelAndView addProduct(
             @ModelAttribute("product") ProductDTO product,
@@ -127,7 +156,11 @@ public class CatalogController {
         return modelAndView;
     }
 
-    // deletes chosen product
+    /**
+     *
+     * @param id product id to delete it
+     * @return redirect to catalog page after deleting
+     */
     @GetMapping(value = "/delete/{id}")
     public ModelAndView deleteProduct(@PathVariable("id") int id) {
 
@@ -139,6 +172,11 @@ public class CatalogController {
         return modelAndView;
     }
 
+    /**
+     *
+     * @param id product in basket id to delete it
+     * @return redirect to catalog page after deleting product from basket
+     */
     @GetMapping(value = "/deleteProductInBascet/{id}")
     public ModelAndView deleteProductInBascet(@PathVariable("id") int id) {
 
@@ -150,6 +188,12 @@ public class CatalogController {
         return modelAndView;
     }
 
+    /**
+     *
+     * @param id product id to add it to basket
+     * @param numberOfOrderedProducts number of adding products
+     * @return redirect to catalog page after adding products in basket
+     */
     @PostMapping(value = "/get/{id}")
     public ModelAndView getProductIntBascet(@PathVariable("id") int id,
                                             @RequestParam("quantity") int numberOfOrderedProducts) {
@@ -161,6 +205,17 @@ public class CatalogController {
 
 
         modelAndView.setViewName("redirect:/catalog/?existingProductListPage=" + this.existingProductListPage + "&productInBascetListPage=" + productInBascetListPage + "&catalogParam=" + catalogParam);
+
+        return modelAndView;
+    }
+
+    @GetMapping(value = "/catalogFilterPage")
+    public ModelAndView getFilterPage() {
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("product/catalogFilterPage");
+
+
 
         return modelAndView;
     }

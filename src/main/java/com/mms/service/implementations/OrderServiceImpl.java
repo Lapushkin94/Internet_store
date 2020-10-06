@@ -154,4 +154,12 @@ public class OrderServiceImpl implements OrderService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    @Transactional
+    public List<OrderedProductForHistoryDTO> getOrdersProductHistoryByOrderIdWithoutPages(int orderId) {
+        return orderRepository.findOrdersProductHistoryByOrderIdWithoutPages(orderId).stream()
+                .map(OrderedProductForHistoryConverter::toDto)
+                .collect(Collectors.toList());
+    }
+
 }

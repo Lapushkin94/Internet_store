@@ -1,10 +1,12 @@
 package com.mms.service.implementations;
 
+import com.mms.dto.OrderedProductForHistoryDTO;
 import com.mms.dto.ProductInBascetDTO;
 import com.mms.dto.converterDTO.ProductInBascetConverter;
 import com.mms.model.ProductInBascetEntity;
 import com.mms.repository.interfaces.ProductInBascetRepository;
 import com.mms.service.interfaces.ProductInBascetService;
+import com.mms.service.interfaces.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +22,12 @@ import static com.mms.dto.converterDTO.ProductInBascetConverter.toEntity;
 public class ProductInBascetServiceImpl implements ProductInBascetService {
 
     private ProductInBascetRepository productInBascetRepository;
+    private ProductService productService;
+
+    @Autowired
+    public void setProductService(ProductService productService) {
+        this.productService = productService;
+    }
 
     @Autowired
     public void setProductInBascetRepository(ProductInBascetRepository productInBascetRepository) {
@@ -121,8 +129,19 @@ public class ProductInBascetServiceImpl implements ProductInBascetService {
     public int getSummPriceForAllProducts(List<ProductInBascetDTO> productInBascetDTOList) {
         int summPrice = 0;
         for(ProductInBascetDTO prod : productInBascetDTOList) {
-            summPrice += prod.getProduct().getPrice();
+            summPrice += prod.getProduct().getPrice() * prod.getQuantity();
         }
         return summPrice;
     }
+
+    @Override
+    @Transactional
+    public void clearBasket() {
+        for(ProductInBascetEntity prod : productInBascetRepository.findAllProductsInBascetWithoutPages()) {
+            productInBascetRepository.deleteProductInBascet(prod);
+        }
+    }
+
+
+
 }

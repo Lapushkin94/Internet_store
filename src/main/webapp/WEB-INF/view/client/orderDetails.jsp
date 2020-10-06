@@ -44,6 +44,7 @@
                             </div>
                         </c:if>
                     </div>
+
                     <div class="col-4" style="margin-top: 10px">
                         <form action="${pageContext.request.contextPath}/orderList/orderDetails/changeOrderStatus"
                               method="post">

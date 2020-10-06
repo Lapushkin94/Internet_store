@@ -1,5 +1,6 @@
 package com.mms.service.interfaces;
 
+import com.mms.dto.OrderedProductForHistoryDTO;
 import com.mms.dto.ProductInBascetDTO;
 
 import java.util.List;
@@ -16,5 +17,6 @@ public interface ProductInBascetService {
     String checkQuantityDifferenceThenAddProductInBascet(ProductInBascetDTO productInBascetDTO, int numberOfOrderedProducts);
     void resetProductInBascetTable();
     int getSummPriceForAllProducts(List<ProductInBascetDTO> productInBascetDTOList);
+    void clearBasket();
 
 }

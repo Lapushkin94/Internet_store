@@ -18,5 +18,6 @@ public interface OrderRepository {
     int getOrderCountByClientId(int clientId);
     int getProductsCountByOrdersId(int orderId);
     List<OrderedProductForHistoryEntity> findOrdersProductHistoryByOrderId(int orderId, int orderHistoryPage);
+    List<OrderedProductForHistoryEntity> findOrdersProductHistoryByOrderIdWithoutPages(int orderId);
 
 }

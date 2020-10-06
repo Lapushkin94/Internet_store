@@ -6,6 +6,7 @@ import com.mms.dto.converterDTO.OrderConverter;
 import com.mms.dto.converterDTO.OrderStatusConverter;
 import com.mms.service.interfaces.ClientService;
 import com.mms.service.interfaces.OrderService;
+import com.mms.service.interfaces.ProductInBascetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,9 +25,15 @@ public class ProfileController {
     private ClientService clientService;
     private PasswordEncoder passwordEncoder;
     private OrderService orderService;
+    private ProductInBascetService productInBascetService;
 
     private int orderListPage;
     private int orderHistoryListPage;
+
+    @Autowired
+    public void setProductInBascetService(ProductInBascetService productInBascetService) {
+        this.productInBascetService = productInBascetService;
+    }
 
     @Autowired
     public void setOrderService(OrderService orderService) {
@@ -166,5 +173,16 @@ public class ProfileController {
 
         return modelAndView;
     }
+
+//    @GetMapping("/repeatOrder/{orderId}")
+//    public ModelAndView repeatOrder(@PathVariable("orderId") int orderId) {
+//        ModelAndView modelAndView = new ModelAndView();
+//
+//        productInBascetService.clearBasket();
+//
+//
+//
+//        return modelAndView;
+//    }
 
 }

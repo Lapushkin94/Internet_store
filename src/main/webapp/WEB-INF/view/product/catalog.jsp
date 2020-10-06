@@ -17,15 +17,25 @@
 <div class="container-fluid" style="margin-top: 10px">
     <div class="row">
         <div class="col-8">
-            <h3 style="background-color: darksalmon; padding: 5px; margin-bottom: 10px">Our product</h3>
+            <div style="background-color: darksalmon; padding: 5px; margin-bottom: 10px; float: left; width: 1100px; height: 55px"><h3>Library:</h3></div>
+
+            <div style="background-color: darksalmon; padding: 5px;height: 55px">
+                <a href="catalog/catalogFilterPage">
+                <button type="button" class="btn btn-warning">
+                    Filter catalog
+                </button>
+                </a>
+            </div>
+
+
             <table class="table table-striped table-hover table-sm" style="background-color: cornsilk">
                 <thead>
                 <th>№</th>
                 <th>Name</th>
-                <th>Alt name</th>
-                <th>Brand name</th>
+                <th>Author</th>
+                <th>Publisher</th>
+                <th>In store</th>
                 <th>Price</th>
-                <th>Total in store</th>
                 <th>Info</th>
                 <th>Quantity</th>
                 <security:authorize access="hasRole('ADMIN') or hasRole('MANAGER')">
@@ -39,8 +49,8 @@
                         <td>${product.name}</td>
                         <td>${product.alternative_name}</td>
                         <td>${product.brandName}</td>
-                        <td>${product.price}</td>
                         <td>${product.quantityInStore}</td>
+                        <td>${product.price}</td>
 
                         <td>
                             <a href="/catalog/productDetails/${product.id}" style="color: wheat">
@@ -102,7 +112,7 @@
 
                 <c:forEach begin="1" end="${productPagesCount}" step="1" varStatus="i">
                     <div class="row-3; border border-danger"
-                         style="background-color: khaki; margin-left: 30px; padding: 10px">
+                         style="background-color: khaki; margin-left: 30px; padding: 4px">
                         <c:url value="/catalog" var="url">
                             <c:param name="existingProductListPage" value="${i.index}"/>
                             <c:param name="productInBascetListPage" value="${productInBascetListPage}"/>
@@ -117,7 +127,7 @@
 
         <div class="col-4">
             <table class="table table-striped table-hover table-sm" style="background-color: cornsilk">
-                <h3 style="background-color: darksalmon; padding: 5px; margin-bottom: 10px">Your basket</h3>
+                <div style="background-color: darksalmon; padding: 5px; margin-bottom: 10px; height: 55px"><h3>Your basket</h3></div>
                 <thead>
                 <th>№</th>
                 <th>Quantity</th>

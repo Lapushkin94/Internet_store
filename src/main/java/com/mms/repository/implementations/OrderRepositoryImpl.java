@@ -85,5 +85,11 @@ public class OrderRepositoryImpl implements OrderRepository {
         return session.createQuery("from OrderedProductForHistoryEntity orderedProductForHistory WHERE orderedProductForHistory.orderInHistory.id =: orderId").setParameter("orderId", orderId).setFirstResult(10 * (orderHistoryPage - 1)).setMaxResults(10).list();
     }
 
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<OrderedProductForHistoryEntity> findOrdersProductHistoryByOrderIdWithoutPages(int orderId) {
+        Session session = sessionFactory.getCurrentSession();
+        return session.createQuery("from OrderedProductForHistoryEntity orderedProductForHistory WHERE orderedProductForHistory.orderInHistory.id =: orderId").setParameter("orderId", orderId).list();
 
+    }
 }

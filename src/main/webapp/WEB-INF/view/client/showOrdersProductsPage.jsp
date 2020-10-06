@@ -18,6 +18,8 @@
     <div class="row">
         <div>
             <h2 style="background-color: darksalmon; padding: 10px; margin-bottom: 10px">Orders products
+                <div class="row">
+                    <div class="col">
                 <c:if test="${orderStatus.name == 'Opened'}">
                     <div>
                         <button type="submit" class="btn btn-info" style="margin-top: 20px" disabled>
@@ -41,6 +43,18 @@
                         </button>
                     </div>
                 </c:if>
+                    </div>
+                    <div class="col">
+
+                <div>
+                    <a href="${pageContext.request.contextPath}/myProfile/repeatOrder/${ordersId}">
+                        <button type="button" class="btn btn-warning" style="margin-top: 20px">
+                            Repeat order
+                        </button>
+                    </a>
+                </div>
+                </div>
+                </div>
             </h2>
             <table class="table table-striped table-hover" style="background-color: cornsilk">
                 <thead>
