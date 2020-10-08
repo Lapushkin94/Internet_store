@@ -119,4 +119,12 @@ public class OrderController {
         return modelAndView;
     }
 
+    @GetMapping(value = "/statistics")
+    public String getStatisticsPage() {
+        return "stats/statisticsPage";
+    }
+
+
+
+
 }

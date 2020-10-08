@@ -29,10 +29,10 @@
     <div class="alert alert-warning">
         <h2>
             <c:if test="${empty product.name}">
-                <p class="text-center">Add page</p>
+                <p class="text-center">Add-page</p>
             </c:if>
             <c:if test="${!empty product.name}">
-                <p class="text-center">Edit page</p>
+                <p class="text-center">Edit-page</p>
             </c:if>
         </h2>
     </div>
@@ -49,12 +49,12 @@
                         <input type="text" name="name" value="${product.name}" class="form-control">
                     </div>
                     <div class="col-md-4 mb-3">
-                        <label for="alternative_name">Alternative name</label>
+                        <label for="alternative_name">Author</label>
                         <input type="text" name="alternative_name" value="${product.alternative_name}"
                                class="form-control">
                     </div>
                     <div class="col-md-4 mb-3">
-                        <label for="brandName">Brand name</label>
+                        <label for="brandName">Publisher</label>
                         <input type="text" name="brandName" value="${product.brandName}" class="form-control">
                     </div>
                     <div class="col-md-1 mb-3">
@@ -85,6 +85,16 @@
                                class="form-control">
                     </div>
                 </div>
+
+                <div class="col-md-4 mb-3">
+                    <label for="nameOfCategory1">Category</label>
+                    <select name="nameOfCategory" id="nameOfCategory1" class="custom-select">
+                        <option value="${product.category.nameOfCategory}" selected>${product.category.nameOfCategory}</option>
+                        <c:forEach var="categoryInputList" items="${categoryList}">
+                            <option>${categoryInputList.nameOfCategory}</option>
+                        </c:forEach>
+                    </select>
+                </div>
             </c:if>
 
             <c:if test="${empty product.name}">
@@ -94,11 +104,11 @@
                         <input type="text" name="name" id="name" class="form-control">
                     </div>
                     <div class="col-md-4 mb-3">
-                        <label for="alternative_name">Alternative name</label>
+                        <label for="alternative_name">Author</label>
                         <input type="text" name="alternative_name" id="alternative_name" class="form-control">
                     </div>
                     <div class="col-md-4 mb-3">
-                        <label for="brandName">Brand name</label>
+                        <label for="brandName">Publisher</label>
                         <input type="text" name="brandName" id="brandName" class="form-control">
                     </div>
                     <div class="col-md-4 mb-3">
@@ -128,25 +138,26 @@
                         <input type="text" name="quantityInStore" id="quantityInStore" class="form-control">
                     </div>
                 </div>
+
+                <div class="col-md-4 mb-3">
+                    <label for="nameOfCategory2">Category</label>
+                    <select name="nameOfCategory" id="nameOfCategory2" class="custom-select">
+                        <c:forEach var="categoryInputList" items="${categoryList}">
+                            <option>${categoryInputList.nameOfCategory}</option>
+                        </c:forEach>
+                    </select>
+                </div>
             </c:if>
 
-            <div class="col-md-4 mb-3">
-                <label for="nameOfCategory">Category</label>
-                <select name="nameOfCategory" id="nameOfCategory" class="custom-select">
-                    <c:forEach var="categoryInputList" items="${categoryList}">
-                        <option>${categoryInputList.nameOfCategory}</option>
-                    </c:forEach>
-                </select>
-            </div>
 
 
             <c:if test="${!empty product.name}">
-                <button type="submit" class="btn btn-success">
+                <button type="submit" class="btn btn-success" style="margin-top: 25px">
                     Edit product
                 </button>
             </c:if>
             <c:if test="${empty product.name}">
-                <button type="submit" class="btn btn-success">
+                <button type="submit" class="btn btn-success" style="margin-top: 25px">
                     Add product
                 </button>
             </c:if>

@@ -1,5 +1,6 @@
 package com.mms.service.implementations;
 
+import com.mms.model.ProductEntity;
 import com.mms.repository.interfaces.ProductRepository;
 import com.mms.dto.ProductDTO;
 import com.mms.dto.converterDTO.ProductConverter;
@@ -34,8 +35,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public List<ProductDTO> getAllProductsInStore(int page) {
-        return productRepository.findAllProductsInStore(page).stream()
+    public List<ProductDTO> getAllProductsInStoreNotNullQuantity(int page) {
+        return productRepository.findAllProductsInStoreNotNullQuantity(page).stream()
                 .map(ProductConverter::toDto)
                 .collect(Collectors.toList());
     }
@@ -44,6 +45,12 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     public int getProductCount() {
         return productRepository.getProductCount();
+    }
+
+    @Override
+    @Transactional
+    public int getProductCountNotNullQuantity() {
+        return productRepository.getProductCountNotNullQuantity();
     }
 
     @Override
@@ -76,6 +83,32 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findAllProductsByCategoryId(categoryId).stream()
                 .map(ProductConverter::toDto)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public int getMaxProductPriceInStore() {
+        return productRepository.getMaxProductPriceInStore();
+    }
+
+    @Override
+    @Transactional
+    public int getMinProductPriceInStore() {
+        return productRepository.getMinProductPriceInStore();
+    }
+
+    @Override
+    @Transactional
+    public List<ProductDTO> getAllProductsUsingFilter(int page, String inputProductName, Boolean isInStore, Integer minPrice, Integer maxPrice, String inputNameOfCategory) {
+        return productRepository.findAllProductsUsingFilter(page, inputProductName, isInStore, minPrice, maxPrice, inputNameOfCategory).stream()
+                .map(ProductConverter::toDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public int getProductCountUsingFilter(String inputProductName, Boolean isInStore, Integer minPrice, Integer maxPrice, String inputNameOfCategory) {
+        return productRepository.findAllProductsUsingFilterWithoutPages(inputProductName, isInStore, minPrice, maxPrice, inputNameOfCategory).size();
     }
 
 }

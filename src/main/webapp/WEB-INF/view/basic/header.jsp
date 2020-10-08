@@ -65,6 +65,11 @@
 
                                 <security:authorize access="hasRole('ADMIN') or hasRole('MANAGER')">
                                     <a class="dropdown-item" href="${pageContext.request.contextPath}/orderList">Order list</a>
+                                    <div class="dropdown-divider"></div>
+                                </security:authorize>
+
+                                <security:authorize access="hasRole('ADMIN') or hasRole('MANAGER')">
+                                    <a class="dropdown-item" href="${pageContext.request.contextPath}/order/statistics">Statistics</a>
                                 </security:authorize>
 
                             </div>
@@ -72,8 +77,8 @@
                     </security:authorize>
 
                 </ul>
-                <form class="form-inline my-2 my-lg-0" style="margin-left: 15px">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Book title" aria-label="Search">
+                <form class="form-inline my-2 my-lg-0" style="margin-left: 15px" action="${pageContext.request.contextPath}/catalog/filterCatalog" method="post">
+                    <input class="form-control mr-sm-2" type="text" placeholder="Book title" aria-label="Search" name="productName">
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search it!</button>
                 </form>
             </div>

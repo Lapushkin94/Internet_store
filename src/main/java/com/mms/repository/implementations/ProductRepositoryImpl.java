@@ -28,10 +28,65 @@ public class ProductRepositoryImpl implements ProductRepository {
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<ProductEntity> findAllProductsInStore(int page) {
+    public List<ProductEntity> findAllProductsInStoreNotNullQuantity(int page) {
         Session session = sessionFactory.getCurrentSession();
         return session.createQuery("from ProductEntity WHERE quantityInStore!=0").setFirstResult(10 * (page - 1)).setMaxResults(10).list();
     }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<ProductEntity> findAllProductsUsingFilter(int page, String inputProductName, Boolean isInStore, Integer minPrice, Integer maxPrice, String inputNameOfCategory) {
+        Session session = sessionFactory.getCurrentSession();
+
+        Integer inputQuantity;
+        if (isInStore == null) inputQuantity = 0;
+        else if (isInStore) inputQuantity = 0;
+        else inputQuantity = null;
+
+        if(inputProductName != null) inputProductName = "%" + inputProductName + "%";
+
+        return session.createQuery("select products from ProductEntity products where" +
+                "(:inputProductName is null or products.name like :inputProductName)" +
+                "and(trim(:inputQuantity) is null or products.quantityInStore != :inputQuantity)" +
+                "and(trim(:minPrice) is null or products.price > :minPrice)" +
+                "and(trim(:maxPrice) is null or products.price < :maxPrice)" +
+                "and(trim(:inputNameOfCategory) is null or products.category.nameOfCategory = :inputNameOfCategory)")
+                .setParameter("inputProductName", inputProductName)
+                .setParameter("inputQuantity", inputQuantity)
+                .setParameter("minPrice", minPrice)
+                .setParameter("maxPrice", maxPrice)
+                .setParameter("inputNameOfCategory", inputNameOfCategory)
+                .setFirstResult(10 * (page - 1))
+                .setMaxResults(10)
+                .list();
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<ProductEntity> findAllProductsUsingFilterWithoutPages(String inputProductName, Boolean isInStore, Integer minPrice, Integer maxPrice, String inputNameOfCategory) {
+        Session session = sessionFactory.getCurrentSession();
+
+        String inputQuantity;
+        if (isInStore == null) inputQuantity = "NotNull";
+        else if (isInStore) inputQuantity = "NotNull";
+        else inputQuantity = null;
+
+        if(inputProductName != null) inputProductName = "%" + inputProductName + "%";
+
+        return session.createQuery("select products from ProductEntity products where" +
+                "(:inputProductName is null or products.name like :inputProductName)" +
+                "and(trim(:inputQuantity) is null or products.quantityInStore != 0)" +
+                "and(trim(:minPrice) is null or products.price >= :minPrice)" +
+                "and(trim(:maxPrice) is null or products.price <= :maxPrice)" +
+                "and(:inputNameOfCategory is null or products.category.nameOfCategory = :inputNameOfCategory)")
+                .setParameter("inputProductName", inputProductName)
+                .setParameter("inputQuantity", inputQuantity)
+                .setParameter("minPrice", minPrice)
+                .setParameter("maxPrice", maxPrice)
+                .setParameter("inputNameOfCategory", inputNameOfCategory)
+                .list();
+    }
+
 
     @Override
     public void saveProduct(ProductEntity productEntity) {
@@ -64,9 +119,27 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
     @Override
+    public int getProductCountNotNullQuantity() {
+        Session session = sessionFactory.getCurrentSession();
+        return session.createQuery("select count (*) from ProductEntity WHERE quantityInStore!=0", Number.class).getSingleResult().intValue();
+    }
+
+    @Override
     @SuppressWarnings("unchecked")
     public List<ProductEntity> findAllProductsByCategoryId(int categoryId) {
         Session session = sessionFactory.getCurrentSession();
         return session.createQuery("from ProductEntity productEn WHERE productEn.category.id =: categoryId").setParameter("categoryId", categoryId).list();
+    }
+
+    @Override
+    public int getMinProductPriceInStore() {
+        Session session = sessionFactory.getCurrentSession();
+        return session.createQuery("select MIN(price) from ProductEntity", Number.class).getSingleResult().intValue();
+    }
+
+    @Override
+    public int getMaxProductPriceInStore() {
+        Session session = sessionFactory.getCurrentSession();
+        return session.createQuery("select MAX(price) from ProductEntity", Number.class).getSingleResult().intValue();
     }
 }

@@ -22,12 +22,6 @@ import static com.mms.dto.converterDTO.ProductInBascetConverter.toEntity;
 public class ProductInBascetServiceImpl implements ProductInBascetService {
 
     private ProductInBascetRepository productInBascetRepository;
-    private ProductService productService;
-
-    @Autowired
-    public void setProductService(ProductService productService) {
-        this.productService = productService;
-    }
 
     @Autowired
     public void setProductInBascetRepository(ProductInBascetRepository productInBascetRepository) {

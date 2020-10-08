@@ -20,6 +20,12 @@ public class CatalogController {
     private int existingProductListPage;
     private int productInBascetListPage;
 
+    private String temporaryProductName;
+    private Boolean temporaryOnlyInStore;
+    private Integer temporaryMinPrice;
+    private Integer temporaryMaxPrice;
+    private String temporaryNameOfCategory;
+
     @Autowired
     public void setProductService(ProductService productService) {
         this.productService = productService;
@@ -36,22 +42,38 @@ public class CatalogController {
     }
 
     /**
-     *
      * @param existingProductListPage current catalog list page
      * @param productInBascetListPage current basket page
-     * @param catalogParam determines successful / unsuccessful product addition
+     * @param catalogParam            determines successful / unsuccessful product addition
      * @return catalog page with list of products and client's basket
      */
     @GetMapping
-    public ModelAndView catalog(@RequestParam(defaultValue = "1") int existingProductListPage,
-                                @RequestParam(defaultValue = "1") int productInBascetListPage,
-                                @RequestParam(defaultValue = "standart") String catalogParam) {
+    public ModelAndView catalog(@RequestParam(name = "existingProductListPage", defaultValue = "1") int existingProductListPage,
+                                @RequestParam(name = "productInBascetListPage", defaultValue = "1") int productInBascetListPage,
+                                @RequestParam(name = "catalogParam", defaultValue = "standart") String catalogParam,
+                                @RequestParam(name = "productName", required = false) String productName,
+                                @RequestParam(name = "onlyInStore", required = false) Boolean onlyInStore,
+                                @RequestParam(name = "minPrice", required = false) Integer minPrice,
+                                @RequestParam(name = "maxPrice", required = false) Integer maxPrice,
+                                @RequestParam(name = "nameOfCategory", required = false) String nameOfCategory) {
         ModelAndView modelAndView = new ModelAndView();
 
+        if (productName != null) temporaryProductName = productName;
+        if (onlyInStore != null) temporaryOnlyInStore = onlyInStore;
+        if (minPrice != null) temporaryMinPrice = minPrice -1;
+        if (maxPrice != null) temporaryMaxPrice = maxPrice + 1;
+        if (nameOfCategory != null) temporaryNameOfCategory = nameOfCategory;
+
+        modelAndView.addObject("temporaryProductName", temporaryProductName);
+        modelAndView.addObject("temporaryOnlyInStore", temporaryOnlyInStore);
+        modelAndView.addObject("temporaryMinPrice", temporaryMinPrice);
+        modelAndView.addObject("temporaryMaxPrice", temporaryMaxPrice);
+        modelAndView.addObject("temporaryNameOfCategory", temporaryNameOfCategory);
+
         this.existingProductListPage = existingProductListPage;
-        int productsCount = productService.getProductCount();
+        int productsCount = productService.getProductCountUsingFilter(temporaryProductName, temporaryOnlyInStore, temporaryMinPrice, temporaryMaxPrice, temporaryNameOfCategory);
         modelAndView.addObject("existingProductListPage", existingProductListPage);
-        modelAndView.addObject("productList", productService.getAllExistingProducts(existingProductListPage));
+        modelAndView.addObject("productList", productService.getAllProductsUsingFilter(existingProductListPage, temporaryProductName, temporaryOnlyInStore, temporaryMinPrice, temporaryMaxPrice, temporaryNameOfCategory));
         modelAndView.addObject("productsCount", productsCount);
         modelAndView.addObject("productPagesCount", (productsCount + 9) / 10);
 
@@ -70,7 +92,6 @@ public class CatalogController {
     }
 
     /**
-     *
      * @param id product id to get product details
      * @return product details-page
      */
@@ -87,7 +108,6 @@ public class CatalogController {
     }
 
     /**
-     *
      * @param id product id to edit it
      * @return product edit-page
      */
@@ -104,8 +124,7 @@ public class CatalogController {
     }
 
     /**
-     *
-     * @param product new Product object to edit existing
+     * @param product        new Product object to edit existing
      * @param nameOfCategory chosen category for new product to edit existing
      * @return redirect to catalog oage after editing product
      */
@@ -123,7 +142,6 @@ public class CatalogController {
     }
 
     /**
-     *
      * @return product add-page
      */
     @GetMapping(value = "/addProduct")
@@ -137,8 +155,7 @@ public class CatalogController {
     }
 
     /**
-     *
-     * @param product new Product object
+     * @param product        new Product object
      * @param nameOfCategory chosen category for new product
      * @return return to catalog page after adding product
      */
@@ -157,7 +174,6 @@ public class CatalogController {
     }
 
     /**
-     *
      * @param id product id to delete it
      * @return redirect to catalog page after deleting
      */
@@ -173,7 +189,6 @@ public class CatalogController {
     }
 
     /**
-     *
      * @param id product in basket id to delete it
      * @return redirect to catalog page after deleting product from basket
      */
@@ -189,8 +204,7 @@ public class CatalogController {
     }
 
     /**
-     *
-     * @param id product id to add it to basket
+     * @param id                      product id to add it to basket
      * @param numberOfOrderedProducts number of adding products
      * @return redirect to catalog page after adding products in basket
      */
@@ -215,9 +229,56 @@ public class CatalogController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("product/catalogFilterPage");
 
+        modelAndView.addObject("existingProductListPage", existingProductListPage);
+        modelAndView.addObject("productInBascetListPage", productInBascetListPage);
 
+        modelAndView.addObject("categoryList", categoryService.getAllCategoriesWithoutPages());
+        modelAndView.addObject("maxPrice", productService.getMaxProductPriceInStore());
+        modelAndView.addObject("minPrice", productService.getMinProductPriceInStore());
+
+        modelAndView.addObject("temporaryProductName", temporaryProductName);
+        modelAndView.addObject("temporaryOnlyInStore", temporaryOnlyInStore);
+        modelAndView.addObject("temporaryMinPrice", temporaryMinPrice);
+        modelAndView.addObject("temporaryMaxPrice", temporaryMaxPrice);
+        modelAndView.addObject("temporaryNameOfCategory", temporaryNameOfCategory);
 
         return modelAndView;
+    }
+
+    @PostMapping(value = "/filterCatalog")
+    public String useCatalogFilter(@RequestParam(name = "productName", required = false) String productName,
+                                   @RequestParam(name = "onlyInStore", required = false) Boolean onlyInStore,
+                                   @RequestParam(name = "minPrice", required = false) Integer minPrice,
+                                   @RequestParam(name = "maxPrice", required = false) Integer maxPrice,
+                                   @RequestParam(name = "nameOfCategory", required = false) String nameOfCategory) {
+        String redirect = "redirect:/catalog/?catalogParam=standart";
+        if (productName != null) redirect += "&productName=" + productName;
+        if (onlyInStore != null) redirect += "&onlyInStore=" + onlyInStore;
+        else temporaryOnlyInStore = false;
+        if (minPrice != null) redirect += "&minPrice=" + minPrice;
+        if (maxPrice != null) redirect += "&maxPrice=" + maxPrice;
+        if (nameOfCategory != null && !nameOfCategory.equals("All")) {
+            redirect += "&nameOfCategory=" + nameOfCategory;
+        }
+        if (nameOfCategory != null) {
+            if (nameOfCategory.equals("All")) {
+                temporaryNameOfCategory = null;
+            }
+        }
+
+        return redirect;
+    }
+
+    @GetMapping(value = "/resetFilter")
+    public String resetFilter() {
+
+        temporaryProductName = null;
+        temporaryOnlyInStore = null;
+        temporaryMinPrice = null;
+        temporaryMaxPrice = null;
+        temporaryNameOfCategory = null;
+
+        return "redirect:/catalog";
     }
 
 

@@ -14,19 +14,27 @@
 
 <jsp:include page="../basic/header.jsp"/>
 
-<div class="container-fluid" style="margin-top: 10px">
+<div class="container-fluid" style="margin-top: 2px">
     <div class="row">
         <div class="col-8">
-            <div style="background-color: darksalmon; padding: 5px; margin-bottom: 10px; float: left; width: 1100px; height: 55px"><h3>Library:</h3></div>
-
-            <div style="background-color: darksalmon; padding: 5px;height: 55px">
-                <a href="catalog/catalogFilterPage">
-                <button type="button" class="btn btn-warning">
-                    Filter catalog
-                </button>
-                </a>
-            </div>
-
+            <div style="background-color: darksalmon; padding: 5px; height: 55px"><h4>
+                Library:
+                <c:if test="${!empty temporaryProductName}">
+                    name like: ${temporaryProductName};
+                </c:if>
+                <c:if test="${!empty temporaryOnlyInStore}">
+                    only in store;
+                </c:if>
+                <c:if test="${!empty temporaryMinPrice}">
+                    min price: ${temporaryMinPrice + 1};
+                </c:if>
+                <c:if test="${!empty temporaryMaxPrice}">
+                    max price: ${temporaryMaxPrice - 1};
+                </c:if>
+                <c:if test="${!empty temporaryNameOfCategory}">
+                    category: ${temporaryNameOfCategory};
+                </c:if>
+            </h4></div>
 
             <table class="table table-striped table-hover table-sm" style="background-color: cornsilk">
                 <thead>
@@ -97,14 +105,14 @@
             <div class="row">
                 <security:authorize access="hasRole('ADMIN') or hasRole('MANAGER')">
                     <div class="row-1; border border-danger"
-                         style="background-color: khaki; padding: 10px; margin-left: 15px">
+                         style="background-color: khaki; padding: 10px; margin-left: 15px; height: 50px">
                         <a href="${pageContext.request.contextPath}/catalog/addProduct">Add new product</a>
                     </div>
                 </security:authorize>
 
                 <security:authorize access="hasRole('ADMIN') or hasRole('MANAGER')">
                     <div class="row-1; border border-danger"
-                         style="background-color: khaki; padding: 10px; margin-left: 15px">
+                         style="background-color: khaki; padding: 10px; margin-left: 15px; height: 50px">
                         <a href="${pageContext.request.contextPath}/categories">Categories</a>
                     </div>
                 </security:authorize>
@@ -112,7 +120,7 @@
 
                 <c:forEach begin="1" end="${productPagesCount}" step="1" varStatus="i">
                     <div class="row-3; border border-danger"
-                         style="background-color: khaki; margin-left: 30px; padding: 4px">
+                         style="background-color: khaki; margin-left: 30px; padding: 4px; height: 50px">
                         <c:url value="/catalog" var="url">
                             <c:param name="existingProductListPage" value="${i.index}"/>
                             <c:param name="productInBascetListPage" value="${productInBascetListPage}"/>
@@ -121,13 +129,30 @@
                     </div>
                 </c:forEach>
 
+                <div style="padding: 5px; height: 55px; margin-left: 15px">
+                    <a href="${pageContext.request.contextPath}/catalog/catalogFilterPage">
+                        <button type="button" class="btn btn-warning">
+                            Filter catalog
+                        </button>
+                    </a>
+                </div>
+
+                <div style="padding: 5px; height: 55px; margin-left: 10px">
+                    <a href="${pageContext.request.contextPath}/catalog/resetFilter">
+                        <button type="submit" class="btn btn-warning">
+                            Reset filter
+                        </button>
+                    </a>
+                </div>
+
             </div>
 
         </div>
 
         <div class="col-4">
             <table class="table table-striped table-hover table-sm" style="background-color: cornsilk">
-                <div style="background-color: darksalmon; padding: 5px; margin-bottom: 10px; height: 55px"><h3>Your basket</h3></div>
+                <div style="background-color: darksalmon; padding: 5px; margin-bottom: 10px; height: 55px"><h4>Your
+                    basket</h4></div>
                 <thead>
                 <th>№</th>
                 <th>Quantity</th>
@@ -182,19 +207,19 @@
     </div>
     <c:choose>
         <c:when test="${catalogParam == 'catalogFalse'}">
-            <div class="alert alert-danger" role="alert" style="margin-top: 10px">
+            <div class="alert alert-danger" role="alert" style="margin-top: 5px">
                 You want too many. You can <a href="${pageContext.request.contextPath}/contacts" class="alert-link">contact</a>
                 us. We will do everything possible!
             </div>
         </c:when>
         <c:when test="${catalogParam == 'catalogSuccess'}">
-            <div class="alert alert-success" role="alert" style="margin-top: 10px">
+            <div class="alert alert-success" role="alert" style="margin-top: 5px">
                 Product successful added to your <a href="${pageContext.request.contextPath}/order" class="alert-link">bascet</a>.
                 Nice choice!
             </div>
         </c:when>
         <c:otherwise>
-            <div class="alert alert-info" role="alert" style="margin-top: 10px">
+            <div class="alert alert-info" role="alert" style="margin-top: 5px">
                 It is our choices that show what we truly are, far more than our abilities (c).
             </div>
         </c:otherwise>

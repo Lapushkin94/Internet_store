@@ -29,7 +29,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                     .antMatchers("/signIn", "/signUp", "/signUpPage").anonymous()
                     .antMatchers("/logout", "/myProfile/**", "/order/**").authenticated()
-                    .antMatchers("/orderList", "/catalog/editProduct/**", "/catalog/addProduct", "/catalog/delete/**", "/clientControl/**", "/orderList/**", "/categories/**")
+                    .antMatchers("/orderList", "/catalog/editProduct/**", "/catalog/addProduct", "/catalog/delete/**", "/clientControl/**", "/orderList/**", "/categories/**", "/statistics/**")
                         .access("hasRole('ADMIN') or hasRole('MANAGER')")
                 .and()
                     .csrf().disable()

@@ -26,47 +26,115 @@
 
     <div>
 
-        <form action="${pageContext.request.contextPath}/catalog" method="POST">
-
+        <form action="${pageContext.request.contextPath}/catalog/filterCatalog" method="POST">
 
             <div class="form-row">
-                <input type="hidden" name="id" value="${client.clientAddress.id}"/>
-                <div class="col-md-4 mb-3">
-                    <label for="country">Country</label>
-                    <input type="text" name="country" value="${client.clientAddress.country}" class="form-control" id="country">
-                </div>
-                <div class="col-md-4 mb-3">
-                    <label for="city">City</label>
-                    <input type="text" name="city" value="${client.clientAddress.city}"
-                           class="form-control" id="city">
-                </div>
-                <div class="col-md-4 mb-3">
-                    <label for="postalCode">Postal code</label>
-                    <input type="text" name="postalCode" value="${client.clientAddress.postalCode}" class="form-control" id="postalCode">
-                </div>
-                <div class="col-md-5 mb-3">
-                    <label for="street">Street</label>
-                    <input type="text" name="street" value="${client.clientAddress.street}" class="form-control" id="street">
-                </div>
-                <div class="col-md-5 mb-3">
-                    <label for="houseNumber">House number</label>
-                    <input type="text" name="houseNumber" value="${client.clientAddress.houseNumber}" class="form-control" id="houseNumber">
-                </div>
-                <div class="col-md-5 mb-3">
-                    <label for="flatNumber">Flat number</label>
-                    <input type="text" name="flatNumber" value="${client.clientAddress.flatNumber}" class="form-control" id="flatNumber">
-                </div>
+
+                <c:if test="${empty temporaryProductName}">
+                    <div class="col-md-4 mb-3" style="margin-top: 30px">
+                        <label for="productName1"><h3>Name</h3></label>
+                        <input type="text" name="productName" class="form-control" id="productName1" placeholder="Enter product name">
+                    </div>
+                </c:if>
+
+                <c:if test="${!empty temporaryProductName}">
+                    <div class="col-md-4 mb-3" style="margin-top: 30px">
+                        <label for="productName2"><h3>Name</h3></label>
+                        <input type="text" name="productName" class="form-control" id="productName2" value="${temporaryProductName}">
+                    </div>
+                </c:if>
+
+
+                <c:if test="${temporaryOnlyInStore != false}">
+                    <div class="col-md-2 mb-3" style="margin-left: 40px; margin-top: 30px">
+                        <label for="onlyInStore1"><h3>Only in store</h3></label>
+                        <input type="checkbox" name="onlyInStore" class="form-control" id="onlyInStore1" checked>
+                    </div>
+                </c:if>
+
+                <c:if test="${temporaryOnlyInStore == false}">
+                    <div class="col-md-2 mb-3" style="margin-left: 40px; margin-top: 30px">
+                        <label for="onlyInStore2"><h3>Only in store</h3></label>
+                        <input type="checkbox" name="onlyInStore" class="form-control" id="onlyInStore2">
+                    </div>
+                </c:if>
+
+
+                <c:if test="${!empty temporaryNameOfCategory}">
+                    <div class="col-md-4 mb-3" style="margin-left: 40px; margin-top: 30px">
+                        <label for="nameOfCategory1"><h3>Category</h3></label>
+                        <select name="nameOfCategory" id="nameOfCategory1" class="custom-select">
+                            <option value="${temporaryNameOfCategory}" selected>${temporaryNameOfCategory}</option>
+                            <option>All</option>
+                            <c:forEach var="categoryInputList" items="${categoryList}">
+                                <option>${categoryInputList.nameOfCategory}</option>
+                            </c:forEach>
+                        </select>
+                    </div>
+                </c:if>
+
+                <c:if test="${empty temporaryNameOfCategory}">
+                    <div class="col-md-4 mb-3" style="margin-left: 40px; margin-top: 30px">
+                        <label for="nameOfCategory2"><h3>Category</h3></label>
+                        <select name="nameOfCategory" id="nameOfCategory2" class="custom-select">
+                            <option>All</option>
+                            <c:forEach var="categoryInputList" items="${categoryList}">
+                                <option>${categoryInputList.nameOfCategory}</option>
+                            </c:forEach>
+                        </select>
+                    </div>
+                </c:if>
+
+
+                <c:if test="${!empty temporaryMinPrice}">
+                    <div class="col-md-5 mb-3" style="margin-top: 30px">
+                        <label for="minPrice1"><h3>Min price</h3></label>
+                        <input type="text" name="minPrice" class="form-control" id="minPrice1" value="${temporaryMinPrice + 1}">
+                    </div>
+                </c:if>
+
+                <c:if test="${empty temporaryMinPrice}">
+                    <div class="col-md-5 mb-3" style="margin-top: 30px">
+                        <label for="minPrice2"><h3>Min price</h3></label>
+                        <input type="text" name="minPrice" class="form-control" id="minPrice2" placeholder="${minPrice}">
+                    </div>
+                </c:if>
+
+
+                <c:if test="${!empty temporaryMaxPrice}">
+                    <div class="col-md-5 mb-3" style="margin-top: 30px">
+                        <label for="maxPrice1"><h3>Max price</h3></label>
+                        <input type="text" name="maxPrice" class="form-control" id="maxPrice1" value="${temporaryMaxPrice - 1}">
+                    </div>
+                </c:if>
+
+                <c:if test="${empty temporaryMaxPrice}">
+                    <div class="col-md-5 mb-3" style="margin-top: 30px">
+                        <label for="maxPrice2"><h3>Max price</h3></label>
+                        <input type="text" name="maxPrice" class="form-control" id="maxPrice2" placeholder="${maxPrice}">
+                    </div>
+                </c:if>
 
             </div>
-            <button type="submit" class="btn btn-success" style="margin-top: 15px">
-                Edit address
+
+            <button type="submit" class="btn btn-success" style="margin-top: 25px">
+                Filter
             </button>
+
         </form>
 
-        <div>
-            <a href="${pageContext.request.contextPath}/myProfile" style="color: wheat">
-                <button type="button" class="btn btn-secondary">
-                    Back
+        <div style="margin-top: 25px">
+                <c:url value="/catalog" var="url">
+                    <c:param name="existingProductListPage" value="${existingProductListPage}"/>
+                    <c:param name="productInBascetListPage" value="${productInBascetListPage}"/>
+                </c:url>
+                <a class="btn btn-secondary" href="${url}">Back</a>
+        </div>
+
+        <div style="margin-top: 25px">
+            <a href="${pageContext.request.contextPath}/catalog/resetFilter" style="color: wheat">
+                <button type="button" class="btn btn-warning">
+                    Rest filter
                 </button>
             </a>
         </div>
