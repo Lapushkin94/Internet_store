@@ -1,7 +1,6 @@
 package com.mms.repository.interfaces;
 
 import com.mms.model.OrderEntity;
-import com.mms.model.OrderStatusEntity;
 import com.mms.model.OrderedProductForHistoryEntity;
 
 import java.util.List;
@@ -19,5 +18,7 @@ public interface OrderRepository {
     int getProductsCountByOrdersId(int orderId);
     List<OrderedProductForHistoryEntity> findOrdersProductHistoryByOrderId(int orderId, int orderHistoryPage);
     List<OrderedProductForHistoryEntity> findOrdersProductHistoryByOrderIdWithoutPages(int orderId);
+    List<OrderEntity> findAllOrdersWithoutPages();
+    List<OrderEntity> findListOrdersByNumberOfDays(String currentDateMinusNumberOfDays);
 
 }

@@ -1,7 +1,6 @@
 package com.mms.repository.implementations;
 
 import com.mms.model.OrderEntity;
-import com.mms.model.OrderStatusEntity;
 import com.mms.model.OrderedProductForHistoryEntity;
 import com.mms.repository.interfaces.OrderRepository;
 import org.hibernate.Session;
@@ -26,6 +25,13 @@ public class OrderRepositoryImpl implements OrderRepository {
     public List<OrderEntity> findAllOrders(int page) {
         Session session = sessionFactory.getCurrentSession();
         return session.createQuery("from OrderEntity ").setFirstResult(10 * (page - 1)).setMaxResults(10).list();
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<OrderEntity> findAllOrdersWithoutPages() {
+        Session session = sessionFactory.getCurrentSession();
+        return session.createQuery("from OrderEntity ").list();
     }
 
     @Override
@@ -90,6 +96,15 @@ public class OrderRepositoryImpl implements OrderRepository {
     public List<OrderedProductForHistoryEntity> findOrdersProductHistoryByOrderIdWithoutPages(int orderId) {
         Session session = sessionFactory.getCurrentSession();
         return session.createQuery("from OrderedProductForHistoryEntity orderedProductForHistory WHERE orderedProductForHistory.orderInHistory.id =: orderId").setParameter("orderId", orderId).list();
-
     }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<OrderEntity> findListOrdersByNumberOfDays(String currentDateMinusNumberOfDays) {
+
+        Session session = sessionFactory.getCurrentSession();
+
+        return session.createQuery("from OrderEntity myOrder where myOrder.date > :currentDateMinusNumberOfDays").setParameter("currentDateMinusNumberOfDays", currentDateMinusNumberOfDays).list();
+    }
+
 }

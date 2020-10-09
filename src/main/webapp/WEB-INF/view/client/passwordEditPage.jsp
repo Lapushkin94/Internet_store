@@ -49,16 +49,16 @@
 
                     <div class="col-md-8 mb-3">
                         <label for="usersPassword">Password</label>
-                        <input type="password" name="usersPassword" class="form-control" id="usersPassword">
+                        <input type="password" name="usersPassword" class="form-control" id="usersPassword" minlength="3" required>
                     </div>
                     <div class="col-md-8 mb-3">
                         <label for="firstNewPassword">New password №1</label>
                         <input type="password" name="firstNewPassword"
-                               class="form-control" id="firstNewPassword">
+                               class="form-control" id="firstNewPassword" minlength="3" required>
                     </div>
                     <div class="col-md-8 mb-3">
                         <label for="secondNewPassword">New password №2</label>
-                        <input type="password" name="secondNewPassword" class="form-control" id="secondNewPassword">
+                        <input type="password" name="secondNewPassword" class="form-control" id="secondNewPassword" minlength="3" required>
                     </div>
 
                 </div>

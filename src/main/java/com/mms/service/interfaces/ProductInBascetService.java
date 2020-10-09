@@ -1,6 +1,5 @@
 package com.mms.service.interfaces;
 
-import com.mms.dto.OrderedProductForHistoryDTO;
 import com.mms.dto.ProductInBascetDTO;
 
 import java.util.List;

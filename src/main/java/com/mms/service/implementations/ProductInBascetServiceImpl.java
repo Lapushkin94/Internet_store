@@ -1,12 +1,10 @@
 package com.mms.service.implementations;
 
-import com.mms.dto.OrderedProductForHistoryDTO;
 import com.mms.dto.ProductInBascetDTO;
 import com.mms.dto.converterDTO.ProductInBascetConverter;
 import com.mms.model.ProductInBascetEntity;
 import com.mms.repository.interfaces.ProductInBascetRepository;
 import com.mms.service.interfaces.ProductInBascetService;
-import com.mms.service.interfaces.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

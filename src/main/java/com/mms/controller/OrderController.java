@@ -2,7 +2,6 @@ package com.mms.controller;
 
 import com.mms.dto.*;
 import com.mms.dto.converterDTO.*;
-import com.mms.model.OrderEntity;
 import com.mms.service.interfaces.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -12,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 
@@ -23,11 +23,16 @@ public class OrderController {
     private ProductInBascetService productInBascetService;
     private OrderStatusService orderStatusService;
     private ClientService clientService;
+    private OrderedProductForHistoryService orderedProductForHistoryService;
 
-    private int orderListPage;
     private int productInBascetListPage;
 
     private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd G 'at' HH:mm:ss z");
+
+    @Autowired
+    public void setOrderedProductForHistoryService(OrderedProductForHistoryService orderedProductForHistoryService) {
+        this.orderedProductForHistoryService = orderedProductForHistoryService;
+    }
 
     @Autowired
     public void setClientService(ClientService clientService) {
@@ -120,11 +125,26 @@ public class OrderController {
     }
 
     @GetMapping(value = "/statistics")
-    public String getStatisticsPage() {
-        return "stats/statisticsPage";
+    public ModelAndView getStatisticsPage() {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("stats/statisticsPage");
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        calendar.add(Calendar.DATE, -1);
+        Date dateMinusOneDay = calendar.getTime();
+        calendar.add(Calendar.DATE, -2);
+        Date dateMinusThreeDays = calendar.getTime();
+        calendar.add(Calendar.DATE, -4);
+        Date dateMinusSevenDays = calendar.getTime();
+
+        modelAndView.addObject("topTenProducts", orderedProductForHistoryService.getTop10ProductsBySoldNumber());
+        modelAndView.addObject("top10clientsByProfit", orderedProductForHistoryService.getTop10clientsByProfit());
+        modelAndView.addObject("totalProfitOfTheDay", orderedProductForHistoryService.getTotalProfitByNumberOfDays(dateFormat.format(dateMinusOneDay)));
+        modelAndView.addObject("totalProfitOfTheThreeDays", orderedProductForHistoryService.getTotalProfitByNumberOfDays(dateFormat.format(dateMinusThreeDays)));
+        modelAndView.addObject("totalProfitOfTheWeek", orderedProductForHistoryService.getTotalProfitByNumberOfDays(dateFormat.format(dateMinusSevenDays)));
+
+        return modelAndView;
     }
-
-
-
 
 }

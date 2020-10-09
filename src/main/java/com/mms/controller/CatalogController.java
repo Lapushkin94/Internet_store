@@ -4,9 +4,12 @@ import com.mms.dto.*;
 import com.mms.dto.converterDTO.*;
 import com.mms.service.interfaces.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.persistence.PersistenceException;
 
 
 @Controller
@@ -112,10 +115,13 @@ public class CatalogController {
      * @return product edit-page
      */
     @GetMapping(value = "/editProduct/{id}")
-    public ModelAndView editPage(@PathVariable("id") int id) {
+    public ModelAndView editPage(@PathVariable("id") int id,
+                                 @RequestParam(name = "uniqName", defaultValue = "1") int uniqName) {
 
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("product/editProduct");
+
+        modelAndView.addObject("uniqName", uniqName);
         modelAndView.addObject("existingProductListPage", existingProductListPage);
         modelAndView.addObject("product", productService.getProduct(id));
         modelAndView.addObject("categoryList", categoryService.getAllCategoriesWithoutPages());
@@ -129,26 +135,32 @@ public class CatalogController {
      * @return redirect to catalog oage after editing product
      */
     @PostMapping(value = "/editProduct")
-    public ModelAndView editProduct(@ModelAttribute("product") ProductDTO product,
+    public String editProduct(@ModelAttribute("product") ProductDTO product,
                                     @RequestParam("nameOfCategory") String nameOfCategory) {
 
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("redirect:/catalog/?existingProductListPage=" + this.existingProductListPage + "&productInBascetLstPage=" + productInBascetListPage);
         product.setCategory(CategoryConverter.toEntity(categoryService.getCategoryByName(nameOfCategory)));
 
-        productService.editProduct(product);
+        // needs refactor
+        try {
+            productService.editProduct(product);
+        }
+        catch (DataIntegrityViolationException exc) {
+            return "redirect:/catalog/editProduct/" + product.getId() + "/?uniqName=0";
+        }
 
-        return modelAndView;
+        return "redirect:/catalog/?existingProductListPage=" + this.existingProductListPage + "&productInBascetLstPage=" + productInBascetListPage;
+
     }
 
     /**
      * @return product add-page
      */
     @GetMapping(value = "/addProduct")
-    public ModelAndView addPage() {
-
+    public ModelAndView addPage(@RequestParam(name = "uniqName", defaultValue = "1") int uniqName) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("product/editProduct");
+
+        modelAndView.addObject("uniqName", uniqName);
         modelAndView.addObject("categoryList", categoryService.getAllCategoriesWithoutPages());
 
         return modelAndView;
@@ -160,17 +172,21 @@ public class CatalogController {
      * @return return to catalog page after adding product
      */
     @PostMapping(value = "/add")
-    public ModelAndView addProduct(
+    public String addProduct(
             @ModelAttribute("product") ProductDTO product,
             @ModelAttribute(name = "nameOfCategory") String nameOfCategory) {
 
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("redirect:/catalog/?existingProductListPage=" + this.existingProductListPage + "&productInBascetLstPage=" + productInBascetListPage);
-
         product.setCategory(CategoryConverter.toEntity(categoryService.getCategoryByName(nameOfCategory)));
-        productService.addProduct(product);
 
-        return modelAndView;
+        // needs refactor
+        try {
+            productService.addProduct(product);
+        }
+        catch (PersistenceException exc) {
+            return "redirect:/catalog/addProduct/?uniqName=0";
+        }
+
+        return "redirect:/catalog/?existingProductListPage=" + this.existingProductListPage + "&productInBascetLstPage=" + productInBascetListPage;
     }
 
     /**
@@ -217,7 +233,6 @@ public class CatalogController {
         productInBascetDTO.setProduct(ProductConverter.toEntity(productService.getProduct(id)));
         String catalogParam = productInBascetService.checkQuantityDifferenceThenAddProductInBascet(productInBascetDTO, numberOfOrderedProducts);
 
-
         modelAndView.setViewName("redirect:/catalog/?existingProductListPage=" + this.existingProductListPage + "&productInBascetListPage=" + productInBascetListPage + "&catalogParam=" + catalogParam);
 
         return modelAndView;
@@ -252,6 +267,7 @@ public class CatalogController {
                                    @RequestParam(name = "maxPrice", required = false) Integer maxPrice,
                                    @RequestParam(name = "nameOfCategory", required = false) String nameOfCategory) {
         String redirect = "redirect:/catalog/?catalogParam=standart";
+
         if (productName != null) redirect += "&productName=" + productName;
         if (onlyInStore != null) redirect += "&onlyInStore=" + onlyInStore;
         else temporaryOnlyInStore = false;

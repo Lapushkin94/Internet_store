@@ -1,6 +1,5 @@
 package com.mms.repository.implementations;
 
-import com.mms.dto.OrderDTO;
 import com.mms.model.ClientEntity;
 import com.mms.model.OrderEntity;
 import com.mms.model.RoleEntity;
@@ -89,5 +88,11 @@ public class ClientRepositoryImpl implements ClientRepository {
         return session.createQuery("from OrderEntity orderEntity WHERE orderEntity.client.id =: clientId").setParameter("clientId", clientId).setFirstResult(10 * (page - 1)).setMaxResults(10).list();
     }
 
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<ClientEntity> findAllClientsWithoutPages() {
+        Session session = sessionFactory.getCurrentSession();
+        return session.createQuery("from ClientEntity").list();
 
+    }
 }

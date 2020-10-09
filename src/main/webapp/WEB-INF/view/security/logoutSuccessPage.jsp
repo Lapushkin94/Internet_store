@@ -9,7 +9,7 @@
 </head>
 <body>
 <jsp:include page="../basic/header.jsp"/>
-<div class="jumbotron text-center" style="margin-top: 200px">
+<div class="text-center" style="margin-top: 200px">
     <h1 class="display-3">Successful logout!</h1>
     <p class="lead"><strong>Whant to <a href="${pageContext.request.contextPath}/signIn"> sign in?</a></strong> It will be nice!</p>
     <hr>

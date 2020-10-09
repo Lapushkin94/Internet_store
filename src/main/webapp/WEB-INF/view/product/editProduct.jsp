@@ -37,6 +37,12 @@
         </h2>
     </div>
 
+    <c:if test="${uniqName == 0}">
+        <div class="alert alert-danger" role="alert" style="margin-top: 5px">
+            Not uniq name!
+        </div>
+    </c:if>
+
     <div>
 
         <form action="${var}" method="POST">
@@ -46,16 +52,16 @@
                     <input type="hidden" name="id" value="${product.id}"/>
                     <div class="col-md-4 mb-3">
                         <label for="name">Name</label>
-                        <input type="text" name="name" value="${product.name}" class="form-control">
+                        <input type="text" name="name" value="${product.name}" class="form-control" minlength="1" required>
                     </div>
                     <div class="col-md-4 mb-3">
                         <label for="alternative_name">Author</label>
                         <input type="text" name="alternative_name" value="${product.alternative_name}"
-                               class="form-control">
+                               class="form-control" minlength="1">
                     </div>
                     <div class="col-md-4 mb-3">
                         <label for="brandName">Publisher</label>
-                        <input type="text" name="brandName" value="${product.brandName}" class="form-control">
+                        <input type="text" name="brandName" value="${product.brandName}" class="form-control" minlength="1">
                     </div>
                     <div class="col-md-1 mb-3">
                         <label for="color">Color</label>
@@ -65,7 +71,7 @@
                 <div class="form-row">
                     <div class="col-md-4 mb-3">
                         <label for="weight">Weight</label>
-                        <input type="text" name="weight" value="${product.weight}" class="form-control">
+                        <input type="text" name="weight" value="${product.weight}" class="form-control" min="0" minlength="1" required>
                     </div>
                     <div class="col-md-4 mb-3">
                         <label for="country">Country</label>
@@ -73,16 +79,16 @@
                     </div>
                     <div class="col-md-4 mb-3">
                         <label for="description">Description</label>
-                        <input type="text" name="description" value="${product.description}" class="form-control">
+                        <input type="text" name="description" value="${product.description}" class="form-control" minlength="5">
                     </div>
                     <div class="col-md-4 mb-3">
                         <label for="price">Price</label>
-                        <input type="text" name="price" value="${product.price}" class="form-control">
+                        <input type="text" name="price" value="${product.price}" class="form-control" minlength="1" required>
                     </div>
                     <div class="col-md-4 mb-3">
                         <label for="quantityInStore">Quantity</label>
                         <input type="text" name="quantityInStore" value="${product.quantityInStore}"
-                               class="form-control">
+                               class="form-control" minlength="1" required>
                     </div>
                 </div>
 
@@ -101,15 +107,15 @@
                 <div class="form-row">
                     <div class="col-md-4 mb-3">
                         <label for="name">Name</label>
-                        <input type="text" name="name" id="name" class="form-control">
+                        <input type="text" name="name" id="name" class="form-control" minlength="1" required>
                     </div>
                     <div class="col-md-4 mb-3">
                         <label for="alternative_name">Author</label>
-                        <input type="text" name="alternative_name" id="alternative_name" class="form-control">
+                        <input type="text" name="alternative_name" id="alternative_name" class="form-control" minlength="1">
                     </div>
                     <div class="col-md-4 mb-3">
                         <label for="brandName">Publisher</label>
-                        <input type="text" name="brandName" id="brandName" class="form-control">
+                        <input type="text" name="brandName" id="brandName" class="form-control" minlength="1">
                     </div>
                     <div class="col-md-4 mb-3">
                         <label for="color">Color</label>
@@ -119,23 +125,23 @@
                 <div class="form-row">
                     <div class="col-md-4 mb-3">
                         <label for="weight">Weight</label>
-                        <input type="text" name="weight" id="weight" class="form-control">
+                        <input type="text" name="weight" id="weight" class="form-control" min="0" minlength="1" required>
                     </div>
                     <div class="col-md-4 mb-3">
                         <label for="country">Country</label>
-                        <input type="text" name="country" id="country" class="form-control">
+                        <input type="text" name="country" id="country" class="form-control" minlength="1">
                     </div>
                     <div class="col-md-4 mb-3">
                         <label for="description">Description</label>
-                        <input type="text" name="description" id="description" class="form-control">
+                        <input type="text" name="description" id="description" class="form-control" minlength="5">
                     </div>
                     <div class="col-md-4 mb-3">
                         <label for="price">Price</label>
-                        <input type="text" name="price" id="price" class="form-control">
+                        <input type="text" name="price" id="price" class="form-control" min="0" minlength="1" required>
                     </div>
                     <div class="col-md-4 mb-3">
                         <label for="quantityInStore">Quantity</label>
-                        <input type="text" name="quantityInStore" id="quantityInStore" class="form-control">
+                        <input type="text" name="quantityInStore" id="quantityInStore" class="form-control" min="0" minlength="1" required>
                     </div>
                 </div>
 

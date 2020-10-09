@@ -26,14 +26,14 @@
 
                     <div class="col-md-6">
                         <div class="md-form mb-0">
-                            <input type="text" id="name" name="name" class="form-control">
+                            <input type="text" id="name" name="name" class="form-control" minlength="1" required>
                             <label for="name" class="">Your name</label>
                         </div>
                     </div>
 
                     <div class="col-md-6">
                         <div class="md-form mb-0">
-                            <input type="text" id="email" name="email" class="form-control">
+                            <input type="text" id="email" name="email" class="form-control" minlength="3" required>
                             <label for="email" class="">Your email</label>
                         </div>
                     </div>
@@ -54,7 +54,7 @@
                     <div class="col-md-12">
 
                         <div class="md-form">
-                            <textarea type="text" id="message" name="message" rows="2" class="form-control md-textarea"></textarea>
+                            <textarea type="text" id="message" name="message" rows="2" class="form-control md-textarea" required></textarea>
                             <label for="message">Your message</label>
                         </div>
 

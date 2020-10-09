@@ -21,14 +21,22 @@
     <div class="alert alert-warning">
         <h2>
             <p class="text-center">Sign up</p>
+
         </h2>
+        <c:if test="${passwordStatus == 1}">
+            <div class="alert alert-danger">
+                Passwords not equals!
+            </div>
+        </c:if>
+
+        <c:if test="${emailStatus == 1}">
+            <div class="alert alert-danger">
+                Email already exists!
+            </div>
+        </c:if>
     </div>
 
-    <c:if test="${passwordStatus == 1}">
-    <div class="alert alert-danger" style="float: left">
-        Passwords not equals!
-    </div>
-    </c:if>
+
 
     <div style="margin-top: 25px">
 
@@ -37,11 +45,13 @@
             <div class="form-row">
                 <div class="col-md-4 mb-3">
                     <label for="name">Name</label>
-                    <input type="text" name="name" class="form-control" id="name" placeholder="1-20 symbols">
+                    <input type="text" name="name" class="form-control" id="name" placeholder="1-20 symbols"
+                           minlength="1" required>
                 </div>
                 <div class="col-md-4 mb-3">
                     <label for="secondName">Last name</label>
-                    <input type="text" name="secondName" class="form-control" id="secondName" placeholder="1-20 symbols">
+                    <input type="text" name="secondName" class="form-control" id="secondName"
+                           placeholder="1-20 symbols">
                 </div>
                 <div class="col-md-4 mb-3">
                     <label for="birthday">Birthday</label>
@@ -49,15 +59,18 @@
                 </div>
                 <div class="col-md-4 mb-3">
                     <label for="email">Email</label>
-                    <input type="email" name="email" class="form-control" id="email" placeholder="Email address">
+                    <input type="email" name="email" class="form-control" id="email" placeholder="Email address" minlength="3"
+                           required>
                 </div>
                 <div class="col-md-4 mb-3">
                     <label for="password1">Password</label>
-                    <input type="password" name="firstPassword" class="form-control" id="password1" placeholder="1-20 symbols">
+                    <input type="password" name="firstPassword" class="form-control" id="password1"
+                           placeholder="1-20 symbols" minlength="3" required>
                 </div>
                 <div class="col-md-4 mb-3">
                     <label for="password2">Confirm password</label>
-                    <input type="password" name="secondPassword" class="form-control" id="password2" placeholder="1-20 symbols">
+                    <input type="password" name="secondPassword" class="form-control" id="password2"
+                           placeholder="1-20 symbols" minlength="3" required>
                 </div>
                 <div class="col-md-4 mb-3">
                     <label for="country" style="margin-top: 50px">Country</label>
@@ -69,7 +82,8 @@
                 </div>
                 <div class="col-md-4 mb-3">
                     <label for="postalCode" style="margin-top: 50px">Postal code</label>
-                    <input type="text" name="postalCode" class="form-control" id="postalCode" placeholder="6 numbers">
+                    <input type="text" name="postalCode" class="form-control" id="postalCode" placeholder="6 numbers"
+                           required>
                 </div>
                 <div class="col-md-4 mb-3">
                     <label for="street">Street</label>
@@ -77,11 +91,13 @@
                 </div>
                 <div class="col-md-4 mb-3">
                     <label for="houseNumber">House number</label>
-                    <input type="text" name="houseNumber" class="form-control" id="houseNumber" placeholder="1-8 numbers">
+                    <input type="text" name="houseNumber" class="form-control" id="houseNumber"
+                           placeholder="1-8 numbers" required>
                 </div>
                 <div class="col-md-4 mb-3">
                     <label for="flatNumber">Flat number</label>
-                    <input type="text" name="flatNumber" class="form-control" id="flatNumber" placeholder="1-8 numbers">
+                    <input type="text" name="flatNumber" class="form-control" id="flatNumber" placeholder="1-8 numbers"
+                           required>
                 </div>
 
             </div>

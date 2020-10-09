@@ -4,7 +4,6 @@ package com.mms.controller;
 import com.mms.dto.ClientAddressDTO;
 import com.mms.dto.ClientDTO;
 import com.mms.dto.OrderDTO;
-import com.mms.dto.OrderStatusDTO;
 import com.mms.dto.converterDTO.ClientAddressConverter;
 import com.mms.dto.converterDTO.OrderStatusConverter;
 import com.mms.dto.converterDTO.RoleConverter;
@@ -15,8 +14,9 @@ import com.mms.service.interfaces.ProductInBascetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.persistence.PersistenceException;
 
 @Controller
 public class SecurityController {
@@ -67,10 +67,12 @@ public class SecurityController {
     }
 
     @GetMapping("/signUpPage")
-    public ModelAndView getSignUpPage(@RequestParam(value = "passwordStatus", defaultValue = "0") String passwordStatus) {
+    public ModelAndView getSignUpPage(@RequestParam(value = "passwordStatus", defaultValue = "0") int passwordStatus,
+                                      @RequestParam(value = "emailStatus", defaultValue = "0") int emailStatus) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("security/signUpPage");
 
+        modelAndView.addObject("emailStatus", emailStatus);
         modelAndView.addObject("passwordStatus", passwordStatus);
 
         return modelAndView;
@@ -83,15 +85,21 @@ public class SecurityController {
                             @RequestParam("secondPassword") String secondPassword) {
 
         if (!firstPassword.equals(secondPassword)) {
-            return "redirect:/signUpPage?passwordStatus=1";
+            return "redirect:/signUpPage/?passwordStatus=1";
         }
 
-        // Добавить @Valid или обработать bad request
-            clientDTO.setPassword(firstPassword);
-            clientDTO.setClientAddress(ClientAddressConverter.toEntity(clientAddressDTO));
-            clientDTO.setRole(RoleConverter.toEntity(clientService.getRoleByRoleName("ROLE_CLIENT")));
+        clientDTO.setPassword(firstPassword);
+        clientDTO.setClientAddress(ClientAddressConverter.toEntity(clientAddressDTO));
+        clientDTO.setRole(RoleConverter.toEntity(clientService.getRoleByRoleName("ROLE_CLIENT")));
+
+        // Добавить проверку на наличие email, убрать try-catch
+        try {
             clientService.addClient(clientDTO);
-            return "redirect:/signIn";
+        } catch (PersistenceException exc) {
+            return "redirect:/signUpPage/?emailStatus=1";
+        }
+
+        return "redirect:/signIn";
     }
 
     @GetMapping("/clientControl")

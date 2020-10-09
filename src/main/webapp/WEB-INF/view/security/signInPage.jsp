@@ -48,13 +48,13 @@
                     <!-- User name -->
                     <div style="margin-bottom: 25px" class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                        <input type="text" name="email" placeholder="email" class="form-control">
+                        <input type="text" name="email" placeholder="email" class="form-control" minlength="1" required>
                     </div>
 
                     <!-- Password -->
                     <div style="margin-bottom: 25px" class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                        <input type="password" name="password" placeholder="password" class="form-control">
+                        <input type="password" name="password" placeholder="password" class="form-control" minlength="1" required>
                     </div>
 
                     <!-- Login/Submit Button -->
@@ -66,9 +66,8 @@
                 </form>
 
                 <div>
-                    No acc?
                     <a href="${pageContext.request.contextPath}/signUpPage">
-                        <button type="button" class="btn btn-light">Sign Up!</button>
+                        <button type="button" class="btn btn-light">No acc? Sign Up!</button>
                     </a>
                 </div>
                 <div style="margin-top: 20px">

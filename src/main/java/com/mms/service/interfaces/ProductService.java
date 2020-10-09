@@ -1,7 +1,6 @@
 package com.mms.service.interfaces;
 
 import com.mms.dto.ProductDTO;
-import com.mms.model.ProductEntity;
 
 import java.util.List;
 

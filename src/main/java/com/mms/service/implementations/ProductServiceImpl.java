@@ -1,6 +1,5 @@
 package com.mms.service.implementations;
 
-import com.mms.model.ProductEntity;
 import com.mms.repository.interfaces.ProductRepository;
 import com.mms.dto.ProductDTO;
 import com.mms.dto.converterDTO.ProductConverter;

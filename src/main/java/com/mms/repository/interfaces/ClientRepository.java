@@ -1,6 +1,5 @@
 package com.mms.repository.interfaces;
 
-import com.mms.dto.OrderDTO;
 import com.mms.model.ClientEntity;
 import com.mms.model.OrderEntity;
 import com.mms.model.RoleEntity;
@@ -19,5 +18,6 @@ public interface ClientRepository {
     RoleEntity findRoleByRoleName(String roleName);
     List<RoleEntity> findAllRoles();
     List<OrderEntity> findOrderListByClientId(int clientId, int page);
+    List<ClientEntity> findAllClientsWithoutPages();
 
 }

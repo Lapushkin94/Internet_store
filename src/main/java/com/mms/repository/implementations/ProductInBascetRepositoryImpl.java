@@ -4,9 +4,7 @@ import com.mms.model.ProductInBascetEntity;
 import com.mms.repository.interfaces.ProductInBascetRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.converter.json.GsonBuilderUtils;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

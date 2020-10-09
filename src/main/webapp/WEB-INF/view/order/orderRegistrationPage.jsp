@@ -36,36 +36,36 @@
                 <div class="col-md-6 mb-3">
                     <label for="country">Country</label>
                     <input type="text" name="country" value="${client.clientAddress.country}" class="form-control"
-                           id="country">
+                           id="country" required>
                 </div>
 
                 <div class="col-md-6 mb-3">
                     <label for="city">City</label>
-                    <input type="text" name="city" value="${client.clientAddress.city}" class="form-control" id="city">
+                    <input type="text" name="city" value="${client.clientAddress.city}" class="form-control" id="city" required>
                 </div>
 
                 <div class="col-md-6 mb-3">
                     <label for="postalCode">Postal Code</label>
                     <input type="text" name="postalCode" value="${client.clientAddress.postalCode}" class="form-control"
-                           id="postalCode">
+                           id="postalCode" required>
                 </div>
 
                 <div class="col-md-6 mb-3">
                     <label for="street">Street</label>
                     <input type="text" name="street" value="${client.clientAddress.street}" class="form-control"
-                           id="street">
+                           id="street" required>
                 </div>
 
                 <div class="col-md-6 mb-3">
                     <label for="houseNumber">House number</label>
                     <input type="text" name="houseNumber" value="${client.clientAddress.houseNumber}"
-                           class="form-control" id="houseNumber">
+                           class="form-control" id="houseNumber" required>
                 </div>
 
                 <div class="col-md-6 mb-3">
                     <label for="flatNumber">Flat number</label>
                     <input type="text" name="flatNumber" value="${client.clientAddress.flatNumber}" class="form-control"
-                           id="flatNumber">
+                           id="flatNumber" required>
                 </div>
 
                 <div class="col-md-10 mb-6">

@@ -2,12 +2,12 @@ package com.mms.controller;
 
 import com.mms.dto.*;
 import com.mms.dto.converterDTO.ClientAddressConverter;
-import com.mms.dto.converterDTO.OrderConverter;
 import com.mms.dto.converterDTO.OrderStatusConverter;
 import com.mms.service.interfaces.ClientService;
 import com.mms.service.interfaces.OrderService;
 import com.mms.service.interfaces.ProductInBascetService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -61,26 +61,33 @@ public class ProfileController {
     }
 
     @GetMapping(value = "/editProfile")
-    public ModelAndView getProfileEditPage(@AuthenticationPrincipal User user) {
+    public ModelAndView getProfileEditPage(@AuthenticationPrincipal User user,
+                                           @RequestParam(value = "emailStatus", defaultValue = "0") int emailStatus) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("client/profileEditPage");
 
+        modelAndView.addObject("emailStatus", emailStatus);
         modelAndView.addObject("client", clientService.getClientByEmail(user.getUsername()));
 
         return modelAndView;
     }
 
     @PostMapping(value = "/editProfile")
-    public ModelAndView editProfile(@AuthenticationPrincipal User user,
+    public String editProfile(@AuthenticationPrincipal User user,
                                     @ModelAttribute ClientDTO clientDTO) {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("redirect:/myProfile");
 
         clientDTO.setClientAddress(clientService.getClientByEmail(user.getUsername()).getClientAddress());
         clientDTO.setRole(clientService.getClientByEmail(user.getUsername()).getRole());
-        clientService.editClient(clientDTO);
 
-        return modelAndView;
+        // Заменить try-catch на проверку email
+        try {
+            clientService.editClient(clientDTO);
+        }
+        catch (DataIntegrityViolationException exc) {
+            return "redirect:/myProfile/editProfile/?emailStatus=1";
+        }
+
+        return "redirect:/myProfile";
     }
 
     @GetMapping(value = "/editAddress")
@@ -174,15 +181,5 @@ public class ProfileController {
         return modelAndView;
     }
 
-//    @GetMapping("/repeatOrder/{orderId}")
-//    public ModelAndView repeatOrder(@PathVariable("orderId") int orderId) {
-//        ModelAndView modelAndView = new ModelAndView();
-//
-//        productInBascetService.clearBasket();
-//
-//
-//
-//        return modelAndView;
-//    }
 
 }

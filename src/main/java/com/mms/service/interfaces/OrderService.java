@@ -1,7 +1,6 @@
 package com.mms.service.interfaces;
 
 import com.mms.dto.OrderDTO;
-import com.mms.dto.OrderStatusDTO;
 import com.mms.dto.OrderedProductForHistoryDTO;
 import com.mms.dto.ProductInBascetDTO;
 

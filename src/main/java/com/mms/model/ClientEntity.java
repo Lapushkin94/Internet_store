@@ -1,6 +1,5 @@
 package com.mms.model;
 
-import com.sun.istack.NotNull;
 import lombok.*;
 
 import javax.persistence.*;

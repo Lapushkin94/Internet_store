@@ -8,7 +8,7 @@
           integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 
 
-        <title>Edit profile</title>
+    <title>Edit profile</title>
 
 </head>
 <body>
@@ -20,36 +20,42 @@
 
     <div class="alert alert-warning">
         <h2>
-                <p class="text-center">Edit profile</p>
+            <p class="text-center">Edit profile</p>
         </h2>
+
+        <c:if test="${emailStatus == 1}">
+            <div class="alert alert-danger">
+                Email already exists!
+            </div>
+        </c:if>
     </div>
 
     <div>
 
         <form action="${pageContext.request.contextPath}/myProfile/editProfile" method="POST">
 
-                <div class="form-row">
-                    <input type="hidden" name="id" value="${client.id}"/>
-                    <input type="hidden" name="password" value="${client.password}"/>
-                    <div class="col-md-4 mb-3">
-                        <label for="name">Name</label>
-                        <input type="text" name="name" value="${client.name}" class="form-control" id="name">
-                    </div>
-                    <div class="col-md-4 mb-3">
-                        <label for="secondName">Last name</label>
-                        <input type="text" name="secondName" value="${client.secondName}"
-                               class="form-control" id="secondName">
-                    </div>
-                    <div class="col-md-4 mb-3">
-                        <label for="birthday">Birthday</label>
-                        <input type="date" name="birthday" value="${client.birthday}" class="form-control" id="birthday">
-                    </div>
-                    <div class="col-md-5 mb-3">
-                        <label for="email">Email</label>
-                        <input type="email" name="email" value="${client.email}" class="form-control" id="email">
-                    </div>
-
+            <div class="form-row">
+                <input type="hidden" name="id" value="${client.id}"/>
+                <input type="hidden" name="password" value="${client.password}"/>
+                <div class="col-md-4 mb-3">
+                    <label for="name">Name</label>
+                    <input type="text" name="name" value="${client.name}" class="form-control" id="name" required>
                 </div>
+                <div class="col-md-4 mb-3">
+                    <label for="secondName">Last name</label>
+                    <input type="text" name="secondName" value="${client.secondName}"
+                           class="form-control" id="secondName">
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="birthday">Birthday</label>
+                    <input type="date" name="birthday" value="${client.birthday}" class="form-control" id="birthday">
+                </div>
+                <div class="col-md-5 mb-3">
+                    <label for="email">Email</label>
+                    <input type="email" name="email" value="${client.email}" class="form-control" id="email" minlength="3" required>
+                </div>
+
+            </div>
             <button type="submit" class="btn btn-success" style="margin-top: 15px">
                 Edit profile
             </button>
