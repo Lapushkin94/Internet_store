@@ -63,7 +63,7 @@ public class SecurityController {
     @GetMapping("/logoutSuccessPage")
     public String getLogoutPage() {
         productInBascetService.resetProductInBascetTable();
-        return "security/logoutSuccessPage";
+        return "redirect:/catalog/resetFilterAfterLogout";
     }
 
     @GetMapping("/signUpPage")
@@ -132,7 +132,7 @@ public class SecurityController {
     @GetMapping(value = "/clientControl/deleteClient/{id}")
     public ModelAndView deleteClient(@PathVariable("id") int id) {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("redirect:/catalog/?clientListPage=" + this.clientListPage);
+        modelAndView.setViewName("redirect:/clientControl/?clientListPage=" + this.clientListPage);
 
         clientService.deleteClient(clientService.getClient(id));
 

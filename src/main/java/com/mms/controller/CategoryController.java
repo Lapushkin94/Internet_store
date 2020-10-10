@@ -75,16 +75,4 @@ public class CategoryController {
         return modelAndView;
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
 }

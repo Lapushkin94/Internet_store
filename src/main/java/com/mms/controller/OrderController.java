@@ -137,12 +137,15 @@ public class OrderController {
         Date dateMinusThreeDays = calendar.getTime();
         calendar.add(Calendar.DATE, -4);
         Date dateMinusSevenDays = calendar.getTime();
+        calendar.add(Calendar.DATE, -27);
+        Date dateMinusMonth = calendar.getTime();
 
         modelAndView.addObject("topTenProducts", orderedProductForHistoryService.getTop10ProductsBySoldNumber());
         modelAndView.addObject("top10clientsByProfit", orderedProductForHistoryService.getTop10clientsByProfit());
         modelAndView.addObject("totalProfitOfTheDay", orderedProductForHistoryService.getTotalProfitByNumberOfDays(dateFormat.format(dateMinusOneDay)));
         modelAndView.addObject("totalProfitOfTheThreeDays", orderedProductForHistoryService.getTotalProfitByNumberOfDays(dateFormat.format(dateMinusThreeDays)));
         modelAndView.addObject("totalProfitOfTheWeek", orderedProductForHistoryService.getTotalProfitByNumberOfDays(dateFormat.format(dateMinusSevenDays)));
+        modelAndView.addObject("totalProfitOfTheMonth", orderedProductForHistoryService.getTotalProfitByNumberOfDays(dateFormat.format(dateMinusMonth)));
 
         return modelAndView;
     }

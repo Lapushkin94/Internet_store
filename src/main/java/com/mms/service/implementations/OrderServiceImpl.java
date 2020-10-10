@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -49,9 +50,11 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public List<OrderDTO> getAllOrders(int page) {
-        return orderRepository.findAllOrders(page).stream()
+        List<OrderDTO> orderDTOList = orderRepository.findAllOrders(page).stream()
                 .map(OrderConverter::toDto)
                 .collect(Collectors.toList());
+        Collections.reverse(orderDTOList);
+        return orderDTOList;
     }
 
     @Override

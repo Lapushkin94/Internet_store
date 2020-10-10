@@ -118,6 +118,17 @@
 
                 </table>
 
+                <table class="table table-striped table-hover table-sm" style="background-color: cornsilk">
+
+                    <h4 style="background-color: wheat">Profit of the month</h4>
+                    <tbody>
+                    <tr>
+                        <td>${totalProfitOfTheMonth}</td>
+                    </tr>
+                    </tbody>
+
+                </table>
+
             </div>
 
         </div>

@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.NoResultException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -118,11 +119,11 @@ public class ClientServiceImpl implements ClientService {
     @Override
     @Transactional
     public List<OrderDTO> getOrderListByClientId(int clientId, int page) {
-        return clientRepository.findOrderListByClientId(clientId, page).stream()
+        List<OrderDTO> orderDTOList = clientRepository.findOrderListByClientId(clientId, page).stream()
                 .map(OrderConverter::toDto)
                 .collect(Collectors.toList());
+        Collections.reverse(orderDTOList);
+        return orderDTOList;
     }
-
-
 
 }

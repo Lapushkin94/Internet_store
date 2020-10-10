@@ -45,6 +45,7 @@ public class CatalogController {
     }
 
     /**
+     * method function
      * @param existingProductListPage current catalog list page
      * @param productInBascetListPage current basket page
      * @param catalogParam            determines successful / unsuccessful product addition
@@ -160,6 +161,7 @@ public class CatalogController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("product/editProduct");
 
+        modelAndView.addObject("existingProductListPage", existingProductListPage);
         modelAndView.addObject("uniqName", uniqName);
         modelAndView.addObject("categoryList", categoryService.getAllCategoriesWithoutPages());
 
@@ -295,6 +297,18 @@ public class CatalogController {
         temporaryNameOfCategory = null;
 
         return "redirect:/catalog";
+    }
+
+    @GetMapping(value = "/resetFilterAfterLogout")
+    public String resetFilterAfterLogout() {
+
+        temporaryProductName = null;
+        temporaryOnlyInStore = null;
+        temporaryMinPrice = null;
+        temporaryMaxPrice = null;
+        temporaryNameOfCategory = null;
+
+        return "security/logoutSuccessPage";
     }
 
 

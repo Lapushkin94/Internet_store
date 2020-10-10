@@ -51,44 +51,44 @@
                 <div class="form-row">
                     <input type="hidden" name="id" value="${product.id}"/>
                     <div class="col-md-4 mb-3">
-                        <label for="name">Name</label>
-                        <input type="text" name="name" value="${product.name}" class="form-control" minlength="1" required>
+                        <label for="name2">Name</label>
+                        <input type="text" name="name" id="name2" value="${product.name}" class="form-control" minlength="1" required>
                     </div>
                     <div class="col-md-4 mb-3">
-                        <label for="alternative_name">Author</label>
-                        <input type="text" name="alternative_name" value="${product.alternative_name}"
+                        <label for="alternative_name2">Author</label>
+                        <input type="text" name="alternative_name" value="${product.alternative_name}" id="alternative_name2"
                                class="form-control" minlength="1">
                     </div>
                     <div class="col-md-4 mb-3">
-                        <label for="brandName">Publisher</label>
-                        <input type="text" name="brandName" value="${product.brandName}" class="form-control" minlength="1">
+                        <label for="brandName2">Publisher</label>
+                        <input type="text" name="brandName" id="brandName2" value="${product.brandName}" class="form-control" minlength="1">
                     </div>
                     <div class="col-md-1 mb-3">
-                        <label for="color">Color</label>
-                        <input type="color" name="color" value="${product.color}" class="form-control">
+                        <label for="color2">Color</label>
+                        <input type="color" name="color" id="color2" value="${product.color}" class="form-control">
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="col-md-4 mb-3">
-                        <label for="weight">Weight</label>
-                        <input type="text" name="weight" value="${product.weight}" class="form-control" min="0" minlength="1" required>
+                        <label for="weight2">Weight</label>
+                        <input type="text" name="weight" value="${product.weight}" id="weight2" class="form-control" min="0" minlength="1" required>
                     </div>
                     <div class="col-md-4 mb-3">
-                        <label for="country">Country</label>
-                        <input type="text" name="country" value="${product.country}" class="form-control">
+                        <label for="country2">Country</label>
+                        <input type="text" name="country" id="country2" value="${product.country}" class="form-control">
                     </div>
                     <div class="col-md-4 mb-3">
-                        <label for="description">Description</label>
-                        <input type="text" name="description" value="${product.description}" class="form-control" minlength="5">
+                        <label for="description2">Description</label>
+                        <input type="text" name="description" value="${product.description}" id="description2" class="form-control" minlength="5">
                     </div>
                     <div class="col-md-4 mb-3">
-                        <label for="price">Price</label>
-                        <input type="text" name="price" value="${product.price}" class="form-control" minlength="1" required>
+                        <label for="price2">Price</label>
+                        <input type="text" name="price" value="${product.price}" id="price2" class="form-control" minlength="1" required>
                     </div>
                     <div class="col-md-4 mb-3">
-                        <label for="quantityInStore">Quantity</label>
+                        <label for="quantityInStore1">Quantity</label>
                         <input type="text" name="quantityInStore" value="${product.quantityInStore}"
-                               class="form-control" minlength="1" required>
+                               id="quantityInStore1" class="form-control" minlength="1" required>
                     </div>
                 </div>
 
@@ -175,7 +175,7 @@
     <div>
 
         <c:url value="/catalog" var="url">
-            <c:param name="productListPage" value="${existingProductListPage}"/>
+            <c:param name="existingProductListPage" value="${existingProductListPage}"/>
         </c:url>
         <a href="${url}" style="color: wheat">
             <button type="button" class="btn btn-secondary">
