@@ -10,10 +10,13 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 @Controller
 @RequestMapping(value = "/categories")
 public class CategoryController {
+
+    private static final Logger logger = Logger.getLogger(CategoryController.class.getName());
 
     private CategoryService categoryService;
     private ProductService productService;
@@ -45,8 +48,11 @@ public class CategoryController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("redirect:/categories?isEdited=1");
 
+        logger.info("getting category " + categoryId);
         CategoryDTO categoryDTO = categoryService.getCategory(categoryId);
         categoryDTO.setNameOfCategory(newNameOfCategory);
+
+        logger.info("editing category " + categoryId);
         categoryService.editCategory(categoryDTO);
 
         return modelAndView;
@@ -57,8 +63,13 @@ public class CategoryController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("redirect:/categories?isEdited=2");
 
+        logger.info("getting all products by category id " + categoryId);
         List<ProductDTO> productDTOS = productService.getAllProductsByCategoryId(categoryId);
+
+        logger.info("swapping categories");
         categoryService.changeCategoriesForProductList(productDTOS);
+
+        logger.info("deleting category " + categoryId);
         categoryService.deleteCategory(categoryService.getCategory(categoryId));
 
         return modelAndView;
@@ -70,6 +81,7 @@ public class CategoryController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("redirect:/categories?isEdited=3");
 
+        logger.info("adding category " + categoryDTO.getId());
         categoryService.addCategory(categoryDTO);
 
         return modelAndView;

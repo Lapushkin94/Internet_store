@@ -151,7 +151,7 @@
 
         <div class="col-4">
             <table class="table table-striped table-hover table-sm" style="background-color: cornsilk">
-                <div style="background-color: darksalmon; padding: 5px; margin-bottom: 10px; height: 55px"><h4>Your
+                <div style="background-color: darksalmon; padding: 5px; height: 55px"><h4>Your
                     basket</h4></div>
                 <thead>
                 <th>№</th>

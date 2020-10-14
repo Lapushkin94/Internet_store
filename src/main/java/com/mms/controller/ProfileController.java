@@ -17,10 +17,13 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 @Controller
 @RequestMapping(value = "/myProfile")
 public class ProfileController {
+
+    private static final Logger logger = Logger.getLogger(ProfileController.class.getName());
 
     private ClientService clientService;
     private PasswordEncoder passwordEncoder;
@@ -81,9 +84,11 @@ public class ProfileController {
 
         // Заменить try-catch на проверку email
         try {
+            logger.info("editing profile " + user.getUsername());
             clientService.editClient(clientDTO);
         }
         catch (DataIntegrityViolationException exc) {
+            logger.info("editing fail " + user.getUsername());
             return "redirect:/myProfile/editProfile/?emailStatus=1";
         }
 
@@ -109,6 +114,7 @@ public class ProfileController {
         ClientDTO clientDTO = clientService.getClientByEmail(user.getUsername());
         clientDTO.setClientAddress(ClientAddressConverter.toEntity(clientAddressDTO));
         clientDTO.setRole(clientService.getClientByEmail(user.getUsername()).getRole());
+        logger.info("editing address " + user.getUsername());
         clientService.editClient(clientDTO);
 
         return modelAndView;
@@ -130,16 +136,20 @@ public class ProfileController {
         modelAndView.setViewName("redirect:/myProfile");
 
         if (!firstNewPassword.equals(secondNewPassword)) {
+            logger.info("first password not equals to second");
             return "redirect:/myProfile/editPassword/?error=1";
         }
 
+        logger.info("getting client by email " + SecurityContextHolder.getContext().getAuthentication().getName());
         ClientDTO clientDTO = clientService.getClientByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
 
         if (!passwordEncoder.matches(usersPassword, clientDTO.getPassword())) {
+            logger.info("wrong password");
             return "redirect:/myProfile/editPassword/?error=2";
         }
 
         clientDTO.setPassword(passwordEncoder.encode(firstNewPassword));
+        logger.info("editing clients password " + passwordEncoder.encode(firstNewPassword));
         clientService.editClient(clientDTO);
 
         return "redirect:/myProfile";
@@ -152,7 +162,9 @@ public class ProfileController {
         modelAndView.setViewName("client/myOrders");
 
         this.orderListPage = orderListPage;
+        logger.info("getting order count");
         int ordersCount = orderService.getOrderCountByClientId(clientService.getClientByEmail(user.getUsername()).getId());
+
         modelAndView.addObject("orderListPage", orderListPage);
         modelAndView.addObject("orderListByClientId", clientService.getOrderListByClientId(clientService.getClientByEmail(user.getUsername()).getId(), orderListPage));
         modelAndView.addObject("ordersCount", ordersCount);
@@ -168,6 +180,7 @@ public class ProfileController {
         modelAndView.setViewName("client/showOrdersProductsPage");
 
         this.orderHistoryListPage = orderHistoryListPage;
+        logger.info("getting history order count");
         int orderHistoryCount = orderService.getProductsCountByOrdersId(id);
 
         modelAndView.addObject("orderListPage", orderListPage);

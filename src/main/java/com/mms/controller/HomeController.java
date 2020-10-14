@@ -8,9 +8,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.logging.Logger;
+
 
 @Controller
 public class HomeController {
+
+    private static final Logger logger = Logger.getLogger(HomeController.class.getName());
 
     private ClientService clientService;
 
@@ -23,15 +27,12 @@ public class HomeController {
     public ModelAndView homePage(@AuthenticationPrincipal User user) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("basic/home");
+
+        logger.info("getting username");
         if (user != null) {
             modelAndView.addObject("clientName", clientService.getClientByEmail(user.getUsername()).getName());
         }
         return modelAndView;
-    }
-
-    @GetMapping(value = "/profile")
-    public String myProfile() {
-        return "profile";
     }
 
     @GetMapping(value = "/aboutUs")

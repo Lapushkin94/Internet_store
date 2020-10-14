@@ -176,6 +176,7 @@
 
         <c:url value="/catalog" var="url">
             <c:param name="existingProductListPage" value="${existingProductListPage}"/>
+            <c:param name="productInBascetListPage" value="${productInBascetListPage}"/>
         </c:url>
         <a href="${url}" style="color: wheat">
             <button type="button" class="btn btn-secondary">

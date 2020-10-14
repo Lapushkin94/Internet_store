@@ -17,9 +17,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.persistence.PersistenceException;
+import java.util.logging.Logger;
 
 @Controller
 public class SecurityController {
+
+    private static final Logger logger = Logger.getLogger(SecurityController.class.getName());
 
     private ClientService clientService;
     private ProductInBascetService productInBascetService;
@@ -62,6 +65,7 @@ public class SecurityController {
 
     @GetMapping("/logoutSuccessPage")
     public String getLogoutPage() {
+        logger.info("resetting basket");
         productInBascetService.resetProductInBascetTable();
         return "redirect:/catalog/resetFilterAfterLogout";
     }
@@ -85,6 +89,7 @@ public class SecurityController {
                             @RequestParam("secondPassword") String secondPassword) {
 
         if (!firstPassword.equals(secondPassword)) {
+            logger.info("passwords not equals");
             return "redirect:/signUpPage/?passwordStatus=1";
         }
 
@@ -92,10 +97,12 @@ public class SecurityController {
         clientDTO.setClientAddress(ClientAddressConverter.toEntity(clientAddressDTO));
         clientDTO.setRole(RoleConverter.toEntity(clientService.getRoleByRoleName("ROLE_CLIENT")));
 
-        // Добавить проверку на наличие email, убрать try-catch
+        // needs refactor
         try {
+            logger.info("adding client " + clientDTO.getId());
             clientService.addClient(clientDTO);
         } catch (PersistenceException exc) {
+            logger.info("fail adding client");
             return "redirect:/signUpPage/?emailStatus=1";
         }
 
@@ -108,7 +115,9 @@ public class SecurityController {
         modelAndView.setViewName("client/clientControlPage");
 
         this.clientListPage = clientListPage;
+        logger.info("getting client count");
         int clientCount = clientService.getClientCount("ROLE_CLIENT");
+
         modelAndView.addObject("clientListPage", clientListPage);
         modelAndView.addObject("clientList", clientService.getAllClients(clientListPage, "ROLE_CLIENT"));
         modelAndView.addObject("clientCount", clientCount);
@@ -134,6 +143,7 @@ public class SecurityController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("redirect:/clientControl/?clientListPage=" + this.clientListPage);
 
+        logger.info("deleting client " + id);
         clientService.deleteClient(clientService.getClient(id));
 
         return modelAndView;
@@ -146,7 +156,9 @@ public class SecurityController {
         modelAndView.setViewName("order/orderListPage");
 
         this.orderListPage = orderListPage;
+        logger.info("getting order count");
         int ordersCount = orderService.getOrderCount();
+
         modelAndView.addObject("orderListPage", orderListPage);
         modelAndView.addObject("orderList", orderService.getAllOrders(orderListPage));
         modelAndView.addObject("ordersCount", ordersCount);
@@ -173,6 +185,7 @@ public class SecurityController {
         modelAndView.setViewName("client/orderDetails");
 
         this.orderProductsListPage = orderProductsListPage;
+        logger.info("getting products count");
         int orderProductsCount = orderService.getProductsCountByOrdersId(id);
         modelAndView.addObject("orderStatusList", orderStatusService.getAllOrderStatus());
         modelAndView.addObject("orderListPage", orderListPage);
@@ -192,8 +205,10 @@ public class SecurityController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("redirect:/orderList/orderDetails/" + enterOrderId + "?orderProductsListPage=" + this.orderProductsListPage);
 
+        logger.info("getting order by id " + enterOrderId);
         OrderDTO orderDTO = orderService.getOrder(enterOrderId);
         orderDTO.setOrderStatus(OrderStatusConverter.toEntity(orderStatusService.getOrderStatusByName(statusName)));
+        logger.info("editing order " + orderDTO.getId());
         orderService.editOrder(orderDTO);
 
         return modelAndView;

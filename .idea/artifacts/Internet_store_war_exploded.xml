@@ -53,6 +53,8 @@
           <element id="library" level="project" name="Maven: org.springframework.security:spring-security-config:5.3.4.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework.security:spring-security-taglibs:5.3.4.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework.security:spring-security-acl:5.3.4.RELEASE" />
+          <element id="library" level="project" name="Maven: org.apache.logging.log4j:log4j-api:2.12.0" />
+          <element id="library" level="project" name="Maven: org.apache.logging.log4j:log4j-core:2.12.0" />
         </element>
       </element>
       <element id="directory" name="META-INF">

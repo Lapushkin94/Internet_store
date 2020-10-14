@@ -13,11 +13,14 @@ import org.springframework.web.servlet.ModelAndView;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.logging.Logger;
 
 
 @Controller
 @RequestMapping(value = "/order")
 public class OrderController {
+
+    private static final Logger logger = Logger.getLogger(OrderConverter.class.getName());
 
     private OrderService orderService;
     private ProductInBascetService productInBascetService;
@@ -60,6 +63,8 @@ public class OrderController {
         modelAndView.setViewName("order/checkBascetBeforeRegistration");
 
         this.productInBascetListPage = productInBascetListPage;
+
+        logger.info("getting products count");
         int productsInBascetCount = productInBascetService.getProductCount();
         modelAndView.addObject("summPrice", productInBascetService.getSummPriceForAllProducts(productInBascetService.getAllProductsInBascetWithoutPages()));
         modelAndView.addObject("productInBascetListPage", productInBascetListPage);
@@ -87,9 +92,11 @@ public class OrderController {
                                       @ModelAttribute("clientAddress") ClientAddressDTO clientAddressDTO,
                                       @AuthenticationPrincipal User user) {
 
+        logger.info("getting client by email " + user.getUsername());
         ClientDTO clientDTO = clientService.getClientByEmail(user.getUsername());
         clientDTO.setClientAddress(ClientAddressConverter.toEntity(clientAddressDTO));
         clientDTO.setActive(true);
+        logger.info("editing client " + clientDTO.getId());
         clientService.editClient(clientDTO);
 
         // needs refactoring
@@ -98,10 +105,13 @@ public class OrderController {
         orderDTO.setOrderStatus(OrderStatusConverter.toEntity(orderStatusService.getOpenedStatus()));
         orderDTO.setDate(dateFormat.format(new Date()));
 
+        logger.info("adding order " + orderDTO.getId());
         int orderId = orderService.addOrderAndReturnId(orderDTO);
 
         // needs refactoring
-        String result = orderService.calculateProductNumberInStoreAlsoCopyProductInfoToTheHistoryTableAndResetProductBascet(productInBascetService.getAllProductsInBascetWithoutPages(), orderId);
+        logger.info("creating order + quantity calculating");
+        String result = orderService.calculateProductNumberInStoreAlsoCopyProductInfoToTheHistoryTableAndResetProductBascet(
+                productInBascetService.getAllProductsInBascetWithoutPages(), orderId);
 
         if (!result.equals("completedSuccessfully")) {
             return "order/notEnoughProducts";

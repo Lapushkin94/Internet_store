@@ -10,11 +10,15 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.persistence.PersistenceException;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 
 
 @Controller
 @RequestMapping(value = "/catalog")
 public class CatalogController {
+
+    private static final Logger logger = Logger.getLogger(CatalogController.class.getName());
 
     private ProductService productService;
     private ProductInBascetService productInBascetService;
@@ -75,13 +79,17 @@ public class CatalogController {
         modelAndView.addObject("temporaryNameOfCategory", temporaryNameOfCategory);
 
         this.existingProductListPage = existingProductListPage;
-        int productsCount = productService.getProductCountUsingFilter(temporaryProductName, temporaryOnlyInStore, temporaryMinPrice, temporaryMaxPrice, temporaryNameOfCategory);
+        logger.info("getting products count");
+        int productsCount = productService.getProductCountUsingFilter(temporaryProductName, temporaryOnlyInStore,
+                temporaryMinPrice, temporaryMaxPrice, temporaryNameOfCategory);
         modelAndView.addObject("existingProductListPage", existingProductListPage);
-        modelAndView.addObject("productList", productService.getAllProductsUsingFilter(existingProductListPage, temporaryProductName, temporaryOnlyInStore, temporaryMinPrice, temporaryMaxPrice, temporaryNameOfCategory));
+        modelAndView.addObject("productList", productService.getAllProductsUsingFilter(existingProductListPage,
+                temporaryProductName, temporaryOnlyInStore, temporaryMinPrice, temporaryMaxPrice, temporaryNameOfCategory));
         modelAndView.addObject("productsCount", productsCount);
         modelAndView.addObject("productPagesCount", (productsCount + 9) / 10);
 
         this.productInBascetListPage = productInBascetListPage;
+        logger.info("getting products in basket count");
         int productsInBascetCount = productInBascetService.getProductCount();
         modelAndView.addObject("productInBascetListPage", productInBascetListPage);
         modelAndView.addObject("productInBascetList", productInBascetService.getAllProductsInBascet(productInBascetListPage));
@@ -124,6 +132,7 @@ public class CatalogController {
 
         modelAndView.addObject("uniqName", uniqName);
         modelAndView.addObject("existingProductListPage", existingProductListPage);
+        modelAndView.addObject("productInBascetListPage", productInBascetListPage);
         modelAndView.addObject("product", productService.getProduct(id));
         modelAndView.addObject("categoryList", categoryService.getAllCategoriesWithoutPages());
 
@@ -143,13 +152,15 @@ public class CatalogController {
 
         // needs refactor
         try {
+            logger.info("editing product with id = " + product.getId());
             productService.editProduct(product);
         }
         catch (DataIntegrityViolationException exc) {
+            logger.info("fail edit product " + product.getId());
             return "redirect:/catalog/editProduct/" + product.getId() + "/?uniqName=0";
         }
 
-        return "redirect:/catalog/?existingProductListPage=" + this.existingProductListPage + "&productInBascetLstPage=" + productInBascetListPage;
+        return "redirect:/catalog/?existingProductListPage=" + this.existingProductListPage + "&productInBascetListPage=" + productInBascetListPage;
 
     }
 
@@ -162,6 +173,7 @@ public class CatalogController {
         modelAndView.setViewName("product/editProduct");
 
         modelAndView.addObject("existingProductListPage", existingProductListPage);
+        modelAndView.addObject("productInBascetListPage", productInBascetListPage);
         modelAndView.addObject("uniqName", uniqName);
         modelAndView.addObject("categoryList", categoryService.getAllCategoriesWithoutPages());
 
@@ -182,13 +194,15 @@ public class CatalogController {
 
         // needs refactor
         try {
+            logger.info("adding product " + product.getId());
             productService.addProduct(product);
         }
         catch (PersistenceException exc) {
+            logger.info("fail adding product " + product.getId());
             return "redirect:/catalog/addProduct/?uniqName=0";
         }
 
-        return "redirect:/catalog/?existingProductListPage=" + this.existingProductListPage + "&productInBascetLstPage=" + productInBascetListPage;
+        return "redirect:/catalog/?existingProductListPage=" + this.existingProductListPage + "&productInBascetListPage=" + productInBascetListPage;
     }
 
     /**
@@ -199,8 +213,9 @@ public class CatalogController {
     public ModelAndView deleteProduct(@PathVariable("id") int id) {
 
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("redirect:/catalog/?existingProductListPage=" + this.existingProductListPage + "&productInBascetLstPage=" + productInBascetListPage);
+        modelAndView.setViewName("redirect:/catalog/?existingProductListPage=" + existingProductListPage + "&productInBascetListPage=" + productInBascetListPage);
 
+        logger.info("deleting product " + id);
         productService.deleteProduct(productService.getProduct(id));
 
         return modelAndView;
@@ -214,8 +229,9 @@ public class CatalogController {
     public ModelAndView deleteProductInBascet(@PathVariable("id") int id) {
 
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("redirect:/catalog/?existingProductListPage=" + this.existingProductListPage + "&productInBascetLstPage=" + productInBascetListPage);
+        modelAndView.setViewName("redirect:/catalog/?existingProductListPage=" + existingProductListPage + "&productInBascetListPage=" + productInBascetListPage);
 
+        logger.info("deleting product in basket " + id);
         productInBascetService.deleteProduct(productInBascetService.getProduct(id));
 
         return modelAndView;
@@ -233,9 +249,11 @@ public class CatalogController {
 
         ProductInBascetDTO productInBascetDTO = new ProductInBascetDTO();
         productInBascetDTO.setProduct(ProductConverter.toEntity(productService.getProduct(id)));
+
+        logger.info("adding product " + id + " in basket");
         String catalogParam = productInBascetService.checkQuantityDifferenceThenAddProductInBascet(productInBascetDTO, numberOfOrderedProducts);
 
-        modelAndView.setViewName("redirect:/catalog/?existingProductListPage=" + this.existingProductListPage + "&productInBascetListPage=" + productInBascetListPage + "&catalogParam=" + catalogParam);
+        modelAndView.setViewName("redirect:/catalog/?existingProductListPage=" + existingProductListPage + "&productInBascetListPage=" + productInBascetListPage + "&catalogParam=" + catalogParam);
 
         return modelAndView;
     }
@@ -270,6 +288,7 @@ public class CatalogController {
                                    @RequestParam(name = "nameOfCategory", required = false) String nameOfCategory) {
         String redirect = "redirect:/catalog/?catalogParam=standart";
 
+        logger.info("set filter parameters");
         if (productName != null) redirect += "&productName=" + productName;
         if (onlyInStore != null) redirect += "&onlyInStore=" + onlyInStore;
         else temporaryOnlyInStore = false;
@@ -290,6 +309,7 @@ public class CatalogController {
     @GetMapping(value = "/resetFilter")
     public String resetFilter() {
 
+        logger.info("resetting filter");
         temporaryProductName = null;
         temporaryOnlyInStore = null;
         temporaryMinPrice = null;
@@ -302,6 +322,7 @@ public class CatalogController {
     @GetMapping(value = "/resetFilterAfterLogout")
     public String resetFilterAfterLogout() {
 
+        logger.info("resetting filter after logout");
         temporaryProductName = null;
         temporaryOnlyInStore = null;
         temporaryMinPrice = null;
