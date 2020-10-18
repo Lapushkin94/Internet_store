@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.NoResultException;
 import java.util.List;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import static com.mms.dto.converterDTO.ProductInBascetConverter.toDto;
@@ -18,6 +19,8 @@ import static com.mms.dto.converterDTO.ProductInBascetConverter.toEntity;
 
 @Service
 public class ProductInBascetServiceImpl implements ProductInBascetService {
+
+    private static final Logger logger = Logger.getLogger(ProductInBascetServiceImpl.class.getName());
 
     private ProductInBascetRepository productInBascetRepository;
 
@@ -46,13 +49,16 @@ public class ProductInBascetServiceImpl implements ProductInBascetService {
     @Override
     @Transactional
     public void addProduct(ProductInBascetDTO productInBascetDTO, int numberOfOrderedProducts) {
-        // Заменить на if - else
         productInBascetDTO.setQuantity(numberOfOrderedProducts);
+
+        //needs refactor
         try {
+            logger.info("updating product in basket quantity " + numberOfOrderedProducts);
             ProductInBascetEntity productInBascetEntity = productInBascetRepository.findProductInBascetByProductId(productInBascetDTO.getProduct().getId());
             productInBascetEntity.setQuantity(productInBascetEntity.getQuantity() + numberOfOrderedProducts);
             productInBascetRepository.updateProduct(productInBascetEntity);
         } catch (NoResultException exc) {
+            logger.info("adding new product in basket " + productInBascetDTO.getId());
             productInBascetRepository.saveProduct(toEntity(productInBascetDTO));
         }
 
@@ -67,6 +73,7 @@ public class ProductInBascetServiceImpl implements ProductInBascetService {
     @Override
     @Transactional
     public void editProduct(ProductInBascetDTO productInBascetDTO) {
+        logger.info("editing product in basket " + productInBascetDTO.getId());
         productInBascetRepository.updateProduct(toEntity(productInBascetDTO));
     }
 
@@ -86,21 +93,28 @@ public class ProductInBascetServiceImpl implements ProductInBascetService {
     @Transactional
     public String checkQuantityDifferenceThenAddProductInBascet(ProductInBascetDTO productInBascetDTO, int numberOfOrderedProducts) {
 
+        // needs refactor
         try {
+            logger.info("adding product to bascet and calculate quantity in store");
             if ((productInBascetRepository
                     .findProductInBascetByProductId(productInBascetDTO.getProduct().getId())
                     .getQuantity() + numberOfOrderedProducts) > productInBascetDTO.getProduct().getQuantityInStore()) {
+                logger.info("not enough products in store");
                 return "catalogFalse";
             } else {
+                logger.info("adding product in basket");
                 addProduct(productInBascetDTO, numberOfOrderedProducts);
                 return "catalogSuccess";
             }
         }
         catch (NoResultException exc) {
+            logger.info("no such product in store");
             if (numberOfOrderedProducts > productInBascetDTO.getProduct().getQuantityInStore()) {
+                logger.info("not enough products in store");
                 return "catalogFalse";
             }
             else {
+                logger.info("adding product in basket");
                 addProduct(productInBascetDTO, numberOfOrderedProducts);
                 return "catalogSuccess";
             }

@@ -82,7 +82,7 @@ public class ProfileController {
         clientDTO.setClientAddress(clientService.getClientByEmail(user.getUsername()).getClientAddress());
         clientDTO.setRole(clientService.getClientByEmail(user.getUsername()).getRole());
 
-        // Заменить try-catch на проверку email
+        // needs refactor
         try {
             logger.info("editing profile " + user.getUsername());
             clientService.editClient(clientDTO);
@@ -140,7 +140,6 @@ public class ProfileController {
             return "redirect:/myProfile/editPassword/?error=1";
         }
 
-        logger.info("getting client by email " + SecurityContextHolder.getContext().getAuthentication().getName());
         ClientDTO clientDTO = clientService.getClientByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
 
         if (!passwordEncoder.matches(usersPassword, clientDTO.getPassword())) {
@@ -149,7 +148,7 @@ public class ProfileController {
         }
 
         clientDTO.setPassword(passwordEncoder.encode(firstNewPassword));
-        logger.info("editing clients password " + passwordEncoder.encode(firstNewPassword));
+        logger.info("editing clients password");
         clientService.editClient(clientDTO);
 
         return "redirect:/myProfile";
@@ -162,7 +161,6 @@ public class ProfileController {
         modelAndView.setViewName("client/myOrders");
 
         this.orderListPage = orderListPage;
-        logger.info("getting order count");
         int ordersCount = orderService.getOrderCountByClientId(clientService.getClientByEmail(user.getUsername()).getId());
 
         modelAndView.addObject("orderListPage", orderListPage);
@@ -180,7 +178,6 @@ public class ProfileController {
         modelAndView.setViewName("client/showOrdersProductsPage");
 
         this.orderHistoryListPage = orderHistoryListPage;
-        logger.info("getting history order count");
         int orderHistoryCount = orderService.getProductsCountByOrdersId(id);
 
         modelAndView.addObject("orderListPage", orderListPage);

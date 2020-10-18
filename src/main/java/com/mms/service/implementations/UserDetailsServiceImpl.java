@@ -18,9 +18,12 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Logger;
 
 @Service("userDetailsService")
 public class UserDetailsServiceImpl implements UserDetailsService {
+
+    private static final Logger logger = Logger.getLogger(UserDetailsServiceImpl.class.getName());
 
     private ClientRepository clientRepository;
 
@@ -34,9 +37,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(final String email) {
         ClientEntity clientEntity;
         try {
+            logger.info("finding client by email " + email);
             clientEntity = clientRepository.findByEmail(email);
             }
         catch (NoResultException e) {
+            logger.info("fail finding client by email " + email);
             throw new UsernameNotFoundException("User not found");
         }
 

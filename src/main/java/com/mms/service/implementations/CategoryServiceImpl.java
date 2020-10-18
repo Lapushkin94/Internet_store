@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import static com.mms.dto.converterDTO.CategoryConverter.toDto;
@@ -20,6 +21,8 @@ import static com.mms.dto.converterDTO.CategoryConverter.toEntity;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
+
+    private static final Logger logger = Logger.getLogger(CategoryServiceImpl.class.getName());
 
     private CategoryRepository categoryRepository;
     private ProductRepository productRepository;
@@ -53,6 +56,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     @Transactional
     public void addCategory(CategoryDTO categoryDTO) {
+        logger.info("adding category");
         categoryRepository.saveCategory(toEntity(categoryDTO));
     }
 
@@ -65,6 +69,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     @Transactional
     public void editCategory(CategoryDTO categoryDTO) {
+        logger.info("editing category");
         categoryRepository.updateCategory(toEntity(categoryDTO));
     }
 
@@ -90,6 +95,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Transactional
     public void changeCategoriesForProductList(List<ProductDTO> productDTOS) {
 
+        logger.info("changing categories to delete");
         CategoryEntity newCategoryDTO = categoryRepository.findCategoryById(1);
         for (ProductDTO prod : productDTOS) {
             prod.setCategory(newCategoryDTO);

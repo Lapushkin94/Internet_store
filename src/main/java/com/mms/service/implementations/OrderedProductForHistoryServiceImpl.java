@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 
@@ -23,6 +24,8 @@ import static com.mms.dto.converterDTO.OrderedProductForHistoryConverter.toEntit
 
 @Service
 public class OrderedProductForHistoryServiceImpl implements OrderedProductForHistoryService {
+
+    private static final Logger logger = Logger.getLogger(OrderedProductForHistoryServiceImpl.class.getName());
 
     private OrderedProductForHistoryRepository orderedProductForHistoryRepository;
     private OrderRepository orderRepository;
@@ -63,6 +66,7 @@ public class OrderedProductForHistoryServiceImpl implements OrderedProductForHis
     @Override
     @Transactional
     public void addProduct(OrderedProductForHistoryDTO orderedProductForHistoryDTO) {
+        logger.info("adding product to history table");
         orderedProductForHistoryRepository.saveProduct(toEntity(orderedProductForHistoryDTO));
     }
 
@@ -75,6 +79,8 @@ public class OrderedProductForHistoryServiceImpl implements OrderedProductForHis
     @Override
     @Transactional
     public Map<String, Integer> getTop10ProductsBySoldNumber() {
+
+        logger.info("getting top 10 products stat");
 
         List<OrderedProductForHistoryDTO> orderedProductForHistoryDTOList = orderedProductForHistoryRepository.findAllProductsWithoutPages().stream()
                 .map(OrderedProductForHistoryConverter::toDto)
@@ -102,6 +108,8 @@ public class OrderedProductForHistoryServiceImpl implements OrderedProductForHis
     @Transactional
     public Map<String, Integer> getTop10clientsByProfit() {
 
+        logger.info("getting top 10 clients stat");
+
         Map<String, Integer> top10clientsByProfit = new HashMap<>();
         int clientProfit;
         String clientEmail;
@@ -114,7 +122,8 @@ public class OrderedProductForHistoryServiceImpl implements OrderedProductForHis
 
             clientEmail = clientDTO.getEmail();
 
-            List<OrderedProductForHistoryDTO> orderedProductForHistoryDTOList = orderedProductForHistoryRepository.findAllProductsInHistoryByClientEmail(clientEmail).stream()
+            List<OrderedProductForHistoryDTO> orderedProductForHistoryDTOList = orderedProductForHistoryRepository
+                    .findAllProductsInHistoryByClientEmail(clientEmail).stream()
                     .map(OrderedProductForHistoryConverter::toDto)
                     .collect(Collectors.toList());
 
@@ -143,6 +152,8 @@ public class OrderedProductForHistoryServiceImpl implements OrderedProductForHis
     @Transactional
     public int getTotalProfitByNumberOfDays(String currentDateMinusNumberOfDays) {
 
+        logger.info("getting total profit by " + currentDateMinusNumberOfDays + " days stat");
+
         List<OrderDTO> listOrdersByDate = orderRepository.findListOrdersByNumberOfDays(currentDateMinusNumberOfDays).stream()
                 .map(OrderConverter::toDto)
                 .collect(Collectors.toList());
@@ -151,7 +162,8 @@ public class OrderedProductForHistoryServiceImpl implements OrderedProductForHis
 
         for (OrderDTO orderDTO : listOrdersByDate) {
 
-            List<OrderedProductForHistoryDTO> orderedProductForHistoryDTOList = orderedProductForHistoryRepository.findAllProductsInHistoryByOrderId(orderDTO.getId()).stream()
+            List<OrderedProductForHistoryDTO> orderedProductForHistoryDTOList = orderedProductForHistoryRepository
+                    .findAllProductsInHistoryByOrderId(orderDTO.getId()).stream()
                     .map(OrderedProductForHistoryConverter::toDto)
                     .collect(Collectors.toList());
 

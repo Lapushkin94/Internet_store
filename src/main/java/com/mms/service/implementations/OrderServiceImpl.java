@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import static com.mms.dto.converterDTO.OrderConverter.toDto;
@@ -21,6 +22,8 @@ import static com.mms.dto.converterDTO.OrderConverter.toEntity;
 
 @Service
 public class OrderServiceImpl implements OrderService {
+
+    private static final Logger logger = Logger.getLogger(OrderStatusServiceImpl.class.getName());
 
     private OrderRepository orderRepository;
     private ProductInBascetRepository productInBascetRepository;
@@ -60,6 +63,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public void addOrder(OrderDTO orderDTO) {
+        logger.info("adding order");
         orderRepository.saveOrder(toEntity(orderDTO));
     }
 
@@ -72,6 +76,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public void editOrder(OrderDTO orderDTO) {
+        logger.info("editing order");
         orderRepository.updateOrder(toEntity(orderDTO));
     }
 
@@ -90,6 +95,8 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public String calculateProductNumberInStoreAlsoCopyProductInfoToTheHistoryTableAndResetProductBascet(List<ProductInBascetDTO> productInBascetDTOList, int orderId) {
+
+        logger.info("creating order history " + orderId);
 
         for (ProductInBascetDTO prod : productInBascetDTOList) {
             if (ProductConverter.toDto(prod.getProduct()).getQuantityInStore() < prod.getQuantity()) {
@@ -131,6 +138,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public int addOrderAndReturnId(OrderDTO orderDTO) {
+        logger.info("adding order");
         return orderRepository.saveOrderAndReturnId(OrderConverter.toEntity(orderDTO));
     }
 

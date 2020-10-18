@@ -31,6 +31,12 @@ public class CategoryController {
         this.categoryService = categoryService;
     }
 
+    /**
+     * shows page with categories
+     *
+     * @param isEdited param to show edit result
+     * @return get category-list page
+     */
     @GetMapping
     public ModelAndView getCategoriesControlPage(@RequestParam(name = "isEdited", defaultValue = "0") int isEdited) {
         ModelAndView modelAndView = new ModelAndView();
@@ -42,17 +48,16 @@ public class CategoryController {
         return modelAndView;
     }
 
+
     @PostMapping(value = "/editCategory/{categoryId}")
     public ModelAndView editCategory(@PathVariable("categoryId") int categoryId,
                                      @RequestParam("nameOfCategory") String newNameOfCategory) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("redirect:/categories?isEdited=1");
 
-        logger.info("getting category " + categoryId);
+        logger.info("getting category params to edit: id - " + categoryId + " name - " + newNameOfCategory);
         CategoryDTO categoryDTO = categoryService.getCategory(categoryId);
         categoryDTO.setNameOfCategory(newNameOfCategory);
-
-        logger.info("editing category " + categoryId);
         categoryService.editCategory(categoryDTO);
 
         return modelAndView;
@@ -63,13 +68,8 @@ public class CategoryController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("redirect:/categories?isEdited=2");
 
-        logger.info("getting all products by category id " + categoryId);
         List<ProductDTO> productDTOS = productService.getAllProductsByCategoryId(categoryId);
-
-        logger.info("swapping categories");
         categoryService.changeCategoriesForProductList(productDTOS);
-
-        logger.info("deleting category " + categoryId);
         categoryService.deleteCategory(categoryService.getCategory(categoryId));
 
         return modelAndView;
@@ -81,7 +81,7 @@ public class CategoryController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("redirect:/categories?isEdited=3");
 
-        logger.info("adding category " + categoryDTO.getId());
+        logger.info("adding category");
         categoryService.addCategory(categoryDTO);
 
         return modelAndView;

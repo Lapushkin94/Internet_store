@@ -18,6 +18,7 @@ import javax.persistence.NoResultException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import static com.mms.dto.converterDTO.ClientConverter.toDto;
@@ -25,6 +26,8 @@ import static com.mms.dto.converterDTO.ClientConverter.toEntity;
 
 @Service
 public class ClientServiceImpl implements ClientService {
+
+    private static final Logger logger = Logger.getLogger(ClientServiceImpl.class.getName());
 
     private ClientRepository clientRepository;
     private PasswordEncoder passwordEncoder;
@@ -50,6 +53,7 @@ public class ClientServiceImpl implements ClientService {
     @Override
     @Transactional
     public void addClient(ClientDTO clientDTO) {
+        logger.info("adding client");
         clientDTO.setPassword(passwordEncoder.encode(clientDTO.getPassword()));
         clientRepository.saveClient(toEntity(clientDTO));
     }
@@ -83,9 +87,11 @@ public class ClientServiceImpl implements ClientService {
     public ClientDTO getClientByEmail(String inputEmail) {
         ClientDTO clientDTO;
         try {
+            logger.info("getting client by email " + inputEmail);
             clientDTO = ClientConverter.toDto(clientRepository.findByEmail(inputEmail));
         }
         catch (NoResultException exc) {
+            logger.info("cant find client by email " + inputEmail);
             throw new UsernameNotFoundException("UserNotFound");
         }
         return clientDTO;

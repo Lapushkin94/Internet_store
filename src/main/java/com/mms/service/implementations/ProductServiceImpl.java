@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import static com.mms.dto.converterDTO.ProductConverter.toDto;
@@ -16,6 +17,8 @@ import static com.mms.dto.converterDTO.ProductConverter.toEntity;
 
 @Service
 public class ProductServiceImpl implements ProductService {
+
+    private static final Logger logger = Logger.getLogger(ProductServiceImpl.class.getName());
 
     private ProductRepository productRepository;
 
@@ -55,24 +58,28 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
     public void addProduct(ProductDTO productDTO) {
+        logger.info("adding product " + productDTO.getId());
         productRepository.saveProduct(toEntity(productDTO));
     }
 
     @Override
     @Transactional
     public void deleteProduct(ProductDTO productDTO) {
+        logger.info("deleting product " + productDTO.getId());
         productRepository.deleteProduct(toEntity(productDTO));
     }
 
     @Override
     @Transactional
     public void editProduct(ProductDTO productDTO) {
+        logger.info("editing product " + productDTO.getId());
         productRepository.updateProduct(toEntity(productDTO));
     }
 
     @Override
     @Transactional
     public ProductDTO getProduct(int id) {
+        logger.info("getting product by id " + id);
         return toDto(productRepository.findProductById(id));
     }
 

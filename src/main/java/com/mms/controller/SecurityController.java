@@ -115,7 +115,6 @@ public class SecurityController {
         modelAndView.setViewName("client/clientControlPage");
 
         this.clientListPage = clientListPage;
-        logger.info("getting client count");
         int clientCount = clientService.getClientCount("ROLE_CLIENT");
 
         modelAndView.addObject("clientListPage", clientListPage);
@@ -143,7 +142,6 @@ public class SecurityController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("redirect:/clientControl/?clientListPage=" + this.clientListPage);
 
-        logger.info("deleting client " + id);
         clientService.deleteClient(clientService.getClient(id));
 
         return modelAndView;
@@ -156,7 +154,6 @@ public class SecurityController {
         modelAndView.setViewName("order/orderListPage");
 
         this.orderListPage = orderListPage;
-        logger.info("getting order count");
         int ordersCount = orderService.getOrderCount();
 
         modelAndView.addObject("orderListPage", orderListPage);
@@ -185,7 +182,6 @@ public class SecurityController {
         modelAndView.setViewName("client/orderDetails");
 
         this.orderProductsListPage = orderProductsListPage;
-        logger.info("getting products count");
         int orderProductsCount = orderService.getProductsCountByOrdersId(id);
         modelAndView.addObject("orderStatusList", orderStatusService.getAllOrderStatus());
         modelAndView.addObject("orderListPage", orderListPage);
@@ -205,10 +201,9 @@ public class SecurityController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("redirect:/orderList/orderDetails/" + enterOrderId + "?orderProductsListPage=" + this.orderProductsListPage);
 
-        logger.info("getting order by id " + enterOrderId);
+        logger.info("setting new status " + statusName);
         OrderDTO orderDTO = orderService.getOrder(enterOrderId);
         orderDTO.setOrderStatus(OrderStatusConverter.toEntity(orderStatusService.getOrderStatusByName(statusName)));
-        logger.info("editing order " + orderDTO.getId());
         orderService.editOrder(orderDTO);
 
         return modelAndView;
