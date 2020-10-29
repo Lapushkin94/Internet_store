@@ -9,9 +9,15 @@ import com.mms.repository.interfaces.ProductInBascetRepository;
 import com.mms.repository.interfaces.ProductRepository;
 import com.mms.service.interfaces.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.jms.core.JmsTemplate;
+import org.springframework.jms.core.MessageCreator;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.Session;
 import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
@@ -29,6 +35,10 @@ public class OrderServiceImpl implements OrderService {
     private ProductInBascetRepository productInBascetRepository;
     private ProductRepository productRepository;
     private OrderedProductForHistoryRepository orderedProductForHistoryRepository;
+
+    @Lazy
+    @Autowired
+    private JmsTemplate jmsTemplate;
 
     @Autowired
     public void setOrderRepository(OrderRepository orderRepository) {
@@ -131,6 +141,13 @@ public class OrderServiceImpl implements OrderService {
 
             productInBascetRepository.deleteProductInBascet(ProductInBascetConverter.toEntity(productInBascetDTO));
         }
+
+        jmsTemplate.send(new MessageCreator() {
+            @Override
+            public Message createMessage(Session session) throws JMSException {
+                return session.createTextMessage("DB changes!");
+            }
+        });
 
         return "completedSuccessfully";
     }
