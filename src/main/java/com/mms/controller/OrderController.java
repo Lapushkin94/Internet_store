@@ -27,10 +27,16 @@ public class OrderController {
     private OrderStatusService orderStatusService;
     private ClientService clientService;
     private OrderedProductForHistoryService orderedProductForHistoryService;
+    private ProductForStandService productForStandService;
 
     private int productInBascetListPage;
 
     private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd G 'at' HH:mm:ss z");
+
+    @Autowired
+    public void setProductForStandService(ProductForStandService productForStandService) {
+        this.productForStandService = productForStandService;
+    }
 
     @Autowired
     public void setOrderedProductForHistoryService(OrderedProductForHistoryService orderedProductForHistoryService) {
@@ -116,6 +122,8 @@ public class OrderController {
             return "order/payment";
         }
 
+        productForStandService.sendMessageToStandApp();
+
         return "order/congratulationsPage";
     }
 
@@ -124,6 +132,7 @@ public class OrderController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("order/successfulPayment");
 
+        productForStandService.sendMessageToStandApp();
         modelAndView.addObject("clientName", clientService.getClientByEmail(user.getUsername()).getName());
 
         return modelAndView;

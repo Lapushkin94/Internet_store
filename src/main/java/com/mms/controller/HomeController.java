@@ -1,6 +1,7 @@
 package com.mms.controller;
 
 import com.mms.service.interfaces.ClientService;
+import com.mms.service.interfaces.ProductForStandService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
@@ -14,6 +15,12 @@ import org.springframework.web.servlet.ModelAndView;
 public class HomeController {
 
     private ClientService clientService;
+    private ProductForStandService productForStandService;
+
+    @Autowired
+    public void setProductForStandService(ProductForStandService productForStandService) {
+        this.productForStandService = productForStandService;
+    }
 
     @Autowired
     public void setClientService(ClientService clientService) {
@@ -22,6 +29,7 @@ public class HomeController {
 
     @GetMapping(value = "/")
     public ModelAndView homePage(@AuthenticationPrincipal User user) {
+
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("basic/home");
 
@@ -44,6 +52,17 @@ public class HomeController {
     @GetMapping(value = "/successContact")
     public String getSuccessContactPage() {
         return "client/successContact";
+    }
+
+    @GetMapping(value = "/initProductStand")
+    public ModelAndView initProductStand() {
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("redirect:/");
+
+        productForStandService.initMessage();
+
+        return modelAndView;
     }
 
 }

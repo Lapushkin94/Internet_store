@@ -3,15 +3,14 @@ package com.mms.controller;
 import com.mms.dto.ProductForStand;
 import com.mms.service.interfaces.ProductForStandService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 
-import javax.ws.rs.GET;
 import java.util.List;
 import java.util.logging.Logger;
 
-
-@RestController(value = "/showProductStand")
+@Controller
+@ResponseBody
 public class StatisticsController {
 
     private ProductForStandService productForStandService;
@@ -22,7 +21,7 @@ public class StatisticsController {
         this.productForStandService = productForStandService;
     }
 
-    @GetMapping
+    @RequestMapping(method = RequestMethod.GET, value = "/showProductStand")
     public List<ProductForStand> getProductsForStand() {
 
         logger.info("getting products for stand");
@@ -31,13 +30,5 @@ public class StatisticsController {
         return productForStandService.getProductsForStandList();
     }
 
-    //    @GET
-//    public Response getProductsForStand() {
-//
-//        logger.info("getting products for stand");
-//        logger.info(productForStandService.getProductsForStandList().toString());
-//
-//        return Response.ok().entity(productForStandService.getProductsForStandList()).build();
-//    }
 
 }

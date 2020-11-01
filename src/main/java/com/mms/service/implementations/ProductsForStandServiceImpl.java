@@ -4,16 +4,29 @@ import com.mms.dto.ProductForStand;
 import com.mms.service.interfaces.OrderedProductForHistoryService;
 import com.mms.service.interfaces.ProductForStandService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.jms.core.JmsTemplate;
+import org.springframework.jms.core.MessageCreator;
 import org.springframework.stereotype.Service;
 
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.Session;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 @Service
 public class ProductsForStandServiceImpl  implements ProductForStandService {
 
     private OrderedProductForHistoryService orderedProductForHistoryService;
+
+    @Lazy
+    @Autowired
+    private JmsTemplate jmsTemplate;
+
+    Logger logger = Logger.getLogger(ProductsForStandServiceImpl.class.getName());
 
     @Autowired
     public void setOrderedProductForHistoryService(OrderedProductForHistoryService orderedProductForHistoryService) {
@@ -39,5 +52,20 @@ public class ProductsForStandServiceImpl  implements ProductForStandService {
         return productForStandList;
     }
 
+    @Override
+    public void sendMessageToStandApp() {
+        logger.info("sending message to second app");
+        jmsTemplate.send(new MessageCreator() {
+            @Override
+            public Message createMessage(Session session) throws JMSException {
+                return session.createTextMessage("DB changes!");
+            }
+        });
+    }
 
+    @Override
+    public void initMessage() {
+        logger.info("init message");
+        sendMessageToStandApp();
+    }
 }

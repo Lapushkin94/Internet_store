@@ -13,12 +13,15 @@
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
+
                     <li class="nav-item" style="margin-left: 40px">
                         <a class="nav-link" href="${pageContext.request.contextPath}/catalog">Catalog</a>
                     </li>
+
                     <li class="nav-item" style="margin-left: 15px">
                         <a class="nav-link" href="${pageContext.request.contextPath}/aboutUs">About us</a>
                     </li>
+
                     <li class="nav-item dropdown" style="margin-left: 15px">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Profile
@@ -47,6 +50,7 @@
                             </security:authorize>
                         </div>
                     </li>
+
                     <li class="nav-item" style="margin-left: 15px">
                         <a class="nav-link" href="${pageContext.request.contextPath}/contacts">Contact us</a>
                     </li>
@@ -70,6 +74,11 @@
 
                                 <security:authorize access="hasRole('ADMIN') or hasRole('MANAGER')">
                                     <a class="dropdown-item" href="${pageContext.request.contextPath}/order/statistics">Statistics</a>
+                                    <div class="dropdown-divider"></div>
+                                </security:authorize>
+
+                                <security:authorize access="hasRole('ADMIN') or hasRole('MANAGER')">
+                                    <a class="dropdown-item" href="${pageContext.request.contextPath}/initProductStand">Init stand</a>
                                 </security:authorize>
 
                             </div>
