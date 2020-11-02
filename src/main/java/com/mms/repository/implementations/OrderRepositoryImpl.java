@@ -24,7 +24,7 @@ public class OrderRepositoryImpl implements OrderRepository {
     @SuppressWarnings("unchecked")
     public List<OrderEntity> findAllOrders(int page) {
         Session session = sessionFactory.getCurrentSession();
-        return session.createQuery("from OrderEntity ").setFirstResult(10 * (page - 1)).setMaxResults(10).list();
+        return session.createQuery("from OrderEntity order by date desc ").setFirstResult(10 * (page - 1)).setMaxResults(10).list();
     }
 
     @Override

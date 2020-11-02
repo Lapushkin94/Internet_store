@@ -3,6 +3,7 @@ package com.mms.service.implementations;
 import com.mms.dto.ProductForStand;
 import com.mms.service.interfaces.OrderedProductForHistoryService;
 import com.mms.service.interfaces.ProductForStandService;
+import org.springframework.beans.BeanInstantiationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.jms.core.JmsTemplate;
@@ -26,7 +27,7 @@ public class ProductsForStandServiceImpl  implements ProductForStandService {
     @Autowired
     private JmsTemplate jmsTemplate;
 
-    Logger logger = Logger.getLogger(ProductsForStandServiceImpl.class.getName());
+    private Logger logger = Logger.getLogger(ProductsForStandServiceImpl.class.getName());
 
     @Autowired
     public void setOrderedProductForHistoryService(OrderedProductForHistoryService orderedProductForHistoryService) {
@@ -55,17 +56,27 @@ public class ProductsForStandServiceImpl  implements ProductForStandService {
     @Override
     public void sendMessageToStandApp() {
         logger.info("sending message to second app");
-        jmsTemplate.send(new MessageCreator() {
-            @Override
-            public Message createMessage(Session session) throws JMSException {
-                return session.createTextMessage("DB changes!");
-            }
-        });
+        try {
+            jmsTemplate.send(new MessageCreator() {
+                @Override
+                public Message createMessage(Session session) throws JMSException {
+                    return session.createTextMessage("DB changes!");
+                }
+            });
+        }
+        catch (BeanInstantiationException exc) {
+            logger.info(exc.getMessage());
+        }
     }
 
     @Override
     public void initMessage() {
         logger.info("init message");
-        sendMessageToStandApp();
+        try {
+            sendMessageToStandApp();
+        }
+        catch (BeanInstantiationException exc) {
+            logger.info(exc.getMessage());
+        }
     }
 }

@@ -125,11 +125,9 @@ public class ClientServiceImpl implements ClientService {
     @Override
     @Transactional
     public List<OrderDTO> getOrderListByClientId(int clientId, int page) {
-        List<OrderDTO> orderDTOList = clientRepository.findOrderListByClientId(clientId, page).stream()
+        return clientRepository.findOrderListByClientId(clientId, page).stream()
                 .map(OrderConverter::toDto)
                 .collect(Collectors.toList());
-        Collections.reverse(orderDTOList);
-        return orderDTOList;
     }
 
 }

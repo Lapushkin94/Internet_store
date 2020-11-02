@@ -14,7 +14,7 @@
 
 <jsp:include page="../basic/header.jsp"/>
 
-<div class="container-fluid" style="margin-left: 480px; margin-top: 50px; text-align: center">
+<div class="container" style="margin-left: 480px; margin-top: 10px; text-align: center">
     <div class="row">
         <div>
             <h2 style="background-color: darksalmon; padding: 10px; margin-bottom: 10px">Your orders</h2>
@@ -49,7 +49,7 @@
 
             <c:forEach begin="1" end="${orderPagesCount}" step="1" varStatus="i">
                 <div class="border border-danger"
-                     style="background-color: khaki; margin-top: 10px; margin-left: 30px; padding: 10px; float: left; margin-bottom: 50px">
+                     style="background-color: khaki; margin-left: 30px; padding: 10px; float: left">
                     <c:url value="/myProfile/myOrders" var="url">
                         <c:param name="orderListPage" value="${i.index}"/>
                     </c:url>

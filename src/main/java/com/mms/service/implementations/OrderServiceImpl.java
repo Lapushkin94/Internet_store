@@ -55,11 +55,9 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public List<OrderDTO> getAllOrders(int page) {
-        List<OrderDTO> orderDTOList = orderRepository.findAllOrders(page).stream()
+        return orderRepository.findAllOrders(page).stream()
                 .map(OrderConverter::toDto)
                 .collect(Collectors.toList());
-        Collections.reverse(orderDTOList);
-        return orderDTOList;
     }
 
     @Override

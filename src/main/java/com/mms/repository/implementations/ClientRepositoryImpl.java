@@ -25,7 +25,10 @@ public class ClientRepositoryImpl implements ClientRepository {
     @SuppressWarnings("unchecked")
     public List<ClientEntity> findAllClients(int page, RoleEntity roleEntity) {
         Session session = sessionFactory.getCurrentSession();
-        return session.createQuery("from ClientEntity clientEntity WHERE clientEntity.role =: roleEntity").setParameter("roleEntity", roleEntity).setFirstResult(10 * (page - 1)).setMaxResults(10).list();
+        return session.createQuery("from ClientEntity clientEntity WHERE clientEntity.role =: roleEntity")
+                .setParameter("roleEntity", roleEntity).setFirstResult(10 * (page - 1))
+                .setMaxResults(10)
+                .list();
     }
 
     @Override
@@ -55,7 +58,10 @@ public class ClientRepositoryImpl implements ClientRepository {
     @Override
     public int getClientCount(RoleEntity roleEntity) {
         Session session = sessionFactory.getCurrentSession();
-        return session.createQuery("select count (*) from ClientEntity WHERE role=: roleEntity", Number.class).setParameter("roleEntity", roleEntity).getSingleResult().intValue();
+        return session.createQuery("select count (*) from ClientEntity WHERE role=: roleEntity", Number.class)
+                .setParameter("roleEntity", roleEntity)
+                .getSingleResult()
+                .intValue();
     }
 
     @Override
@@ -85,7 +91,10 @@ public class ClientRepositoryImpl implements ClientRepository {
     @SuppressWarnings("unchecked")
     public List<OrderEntity> findOrderListByClientId(int clientId, int page) {
         Session session = sessionFactory.getCurrentSession();
-        return session.createQuery("from OrderEntity orderEntity WHERE orderEntity.client.id =: clientId").setParameter("clientId", clientId).setFirstResult(10 * (page - 1)).setMaxResults(10).list();
+        return session.createQuery("from OrderEntity orderEntity WHERE orderEntity.client.id =: clientId order by date desc ")
+                .setParameter("clientId", clientId).setFirstResult(10 * (page - 1))
+                .setMaxResults(10)
+                .list();
     }
 
     @Override
