@@ -49,119 +49,157 @@
 
             <c:if test="${!empty product.name}">
                 <div class="form-row">
+
                     <input type="hidden" name="id" value="${product.id}"/>
                     <div class="col-md-4 mb-3">
                         <label for="name2">Name</label>
-                        <input type="text" name="name" id="name2" value="${product.name}" class="form-control" minlength="1" required>
+                        <input type="text" name="name" id="name2" value="${product.name}" class="form-control"
+                               minlength="1" required>
                     </div>
+
                     <div class="col-md-4 mb-3">
                         <label for="alternative_name2">Author</label>
-                        <input type="text" name="alternative_name" value="${product.alternative_name}" id="alternative_name2"
+                        <input type="text" name="alternative_name" value="${product.alternative_name}"
+                               id="alternative_name2"
                                class="form-control" minlength="1">
                     </div>
+
                     <div class="col-md-4 mb-3">
                         <label for="brandName2">Publisher</label>
-                        <input type="text" name="brandName" id="brandName2" value="${product.brandName}" class="form-control" minlength="1">
+                        <input type="text" name="brandName" id="brandName2" value="${product.brandName}"
+                               class="form-control" minlength="1">
                     </div>
+
                     <div class="col-md-1 mb-3">
                         <label for="color2">Color</label>
                         <input type="color" name="color" id="color2" value="${product.color}" class="form-control">
                     </div>
+
                 </div>
+
                 <div class="form-row">
+
                     <div class="col-md-4 mb-3">
                         <label for="weight2">Weight</label>
-                        <input type="text" name="weight" value="${product.weight}" id="weight2" class="form-control" min="0" minlength="1" required>
+                        <input type="number" name="weight" value="${product.weight}" id="weight2" class="form-control"
+                               min="0" minlength="1" required>
                     </div>
+
                     <div class="col-md-4 mb-3">
                         <label for="country2">Country</label>
                         <input type="text" name="country" id="country2" value="${product.country}" class="form-control">
                     </div>
+
                     <div class="col-md-4 mb-3">
                         <label for="description2">Description</label>
-                        <input type="text" name="description" value="${product.description}" id="description2" class="form-control" minlength="5">
+                        <input type="text" name="description" value="${product.description}" id="description2"
+                               class="form-control" minlength="5">
                     </div>
+
                     <div class="col-md-4 mb-3">
                         <label for="price2">Price</label>
-                        <input type="text" name="price" value="${product.price}" id="price2" class="form-control" minlength="1" required>
+                        <input type="number" name="price" value="${product.price}" id="price2" class="form-control"
+                               min="0" minlength="1" required>
                     </div>
+
                     <div class="col-md-4 mb-3">
                         <label for="quantityInStore1">Quantity</label>
-                        <input type="text" name="quantityInStore" value="${product.quantityInStore}"
-                               id="quantityInStore1" class="form-control" minlength="1" required>
+                        <input type="number" name="quantityInStore" value="${product.quantityInStore}"
+                               id="quantityInStore1" class="form-control" min="0" minlength="1" required>
                     </div>
+
                 </div>
 
                 <div class="col-md-4 mb-3">
+
                     <label for="nameOfCategory1">Category</label>
                     <select name="nameOfCategory" id="nameOfCategory1" class="custom-select">
-                        <option value="${product.category.nameOfCategory}" selected>${product.category.nameOfCategory}</option>
+                        <option value="${product.category.nameOfCategory}"
+                                selected>${product.category.nameOfCategory}</option>
                         <c:forEach var="categoryInputList" items="${categoryList}">
                             <option>${categoryInputList.nameOfCategory}</option>
                         </c:forEach>
                     </select>
+
                 </div>
             </c:if>
 
             <c:if test="${empty product.name}">
                 <div class="form-row">
+
                     <div class="col-md-4 mb-3">
                         <label for="name">Name</label>
                         <input type="text" name="name" id="name" class="form-control" minlength="1" required>
                     </div>
+
                     <div class="col-md-4 mb-3">
                         <label for="alternative_name">Author</label>
-                        <input type="text" name="alternative_name" id="alternative_name" class="form-control" minlength="1">
+                        <input type="text" name="alternative_name" id="alternative_name" class="form-control"
+                               minlength="1">
                     </div>
+
                     <div class="col-md-4 mb-3">
                         <label for="brandName">Publisher</label>
                         <input type="text" name="brandName" id="brandName" class="form-control" minlength="1">
                     </div>
+
                     <div class="col-md-4 mb-3">
                         <label for="color">Color</label>
                         <input type="color" name="color" id="color" class="form-control">
                     </div>
+
                 </div>
+
                 <div class="form-row">
+
                     <div class="col-md-4 mb-3">
                         <label for="weight">Weight</label>
-                        <input type="text" name="weight" id="weight" class="form-control" min="0" minlength="1" required>
+                        <input type="number" name="weight" id="weight" class="form-control" min="0" minlength="1"
+                               required>
                     </div>
+
                     <div class="col-md-4 mb-3">
                         <label for="country">Country</label>
                         <input type="text" name="country" id="country" class="form-control" minlength="1">
                     </div>
+
                     <div class="col-md-4 mb-3">
                         <label for="description">Description</label>
                         <input type="text" name="description" id="description" class="form-control" minlength="5">
                     </div>
+
                     <div class="col-md-4 mb-3">
                         <label for="price">Price</label>
-                        <input type="text" name="price" id="price" class="form-control" min="0" minlength="1" required>
+                        <input type="number" name="price" id="price" class="form-control" min="0" minlength="1"
+                               required>
                     </div>
+
                     <div class="col-md-4 mb-3">
                         <label for="quantityInStore">Quantity</label>
-                        <input type="text" name="quantityInStore" id="quantityInStore" class="form-control" min="0" minlength="1" required>
+                        <input type="number" name="quantityInStore" id="quantityInStore" class="form-control" min="0"
+                               minlength="1" required>
                     </div>
+
                 </div>
 
                 <div class="col-md-4 mb-3">
+
                     <label for="nameOfCategory2">Category</label>
                     <select name="nameOfCategory" id="nameOfCategory2" class="custom-select">
                         <c:forEach var="categoryInputList" items="${categoryList}">
                             <option>${categoryInputList.nameOfCategory}</option>
                         </c:forEach>
                     </select>
+
                 </div>
             </c:if>
-
-
 
             <c:if test="${!empty product.name}">
                 <button type="submit" class="btn btn-success" style="margin-top: 25px">
                     Edit product
                 </button>
             </c:if>
+
             <c:if test="${empty product.name}">
                 <button type="submit" class="btn btn-success" style="margin-top: 25px">
                     Add product
@@ -169,7 +207,6 @@
             </c:if>
 
         </form>
-
     </div>
 
     <div>
@@ -178,6 +215,7 @@
             <c:param name="existingProductListPage" value="${existingProductListPage}"/>
             <c:param name="productInBascetListPage" value="${productInBascetListPage}"/>
         </c:url>
+
         <a href="${url}" style="color: wheat">
             <button type="button" class="btn btn-secondary">
                 Back
@@ -185,7 +223,6 @@
         </a>
 
     </div>
-
 </div>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"

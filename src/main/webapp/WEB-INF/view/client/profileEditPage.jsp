@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
           integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 
-
     <title>Edit profile</title>
 
 </head>
@@ -16,7 +15,6 @@
 <jsp:include page="../basic/header.jsp"/>
 
 <div class="container" style="margin-top: 15px">
-
 
     <div class="alert alert-warning">
         <h2>
@@ -52,7 +50,8 @@
                 </div>
                 <div class="col-md-5 mb-3">
                     <label for="email">Email</label>
-                    <input type="email" name="email" value="${client.email}" class="form-control" id="email" minlength="3" required>
+                    <input type="email" name="email" value="${client.email}" class="form-control" id="email"
+                           minlength="3" required>
                 </div>
 
             </div>
@@ -70,7 +69,6 @@
         </div>
 
     </div>
-
 
 </div>
 

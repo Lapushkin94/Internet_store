@@ -17,7 +17,9 @@
 <div class="container-fluid" style="text-align: center; margin-top: 50px">
     <div class="row">
         <div style="margin: auto">
-            <h2 style="background-color: darksalmon; padding: 10px; margin-bottom: 10px">Your profile</h2>
+            <h2 style="background-color: darksalmon; padding: 10px; margin-bottom: 10px">
+                Your profile
+            </h2>
             <table class="table table-striped table-hover" style="background-color: cornsilk">
                 <thead>
                 <th>Name</th>
@@ -92,8 +94,18 @@
                 </a>
             </div>
 
+            <div style="margin-top: 40px">
+                <a href="${pageContext.request.contextPath}/myProfile/myOrders" style="color: wheat">
+                    <button type="button" class="btn btn-secondary">
+                        Your orders
+                    </button>
+                </a>
+            </div>
+
         </div>
+
     </div>
+
 </div>
 
 

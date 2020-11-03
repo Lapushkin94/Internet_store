@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
           integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 
-
     <title>Fail</title>
 
 </head>
@@ -18,8 +17,10 @@
 <div class="container">
     <div class="row text-center">
         <div class="col-sm-6 col-sm-offset-3">
-            <br><br> <h2 style="color:#0fad00">Not enough products sorry</h2>
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSrsJvCRz91L5AOqJ9MZEwNQTFJw3xVeXaUNg&usqp=CAU" height="200px" width="250px">
+            <br><br>
+            <h2 style="color:#0fad00">Not enough products sorry</h2>
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSrsJvCRz91L5AOqJ9MZEwNQTFJw3xVeXaUNg&usqp=CAU"
+                 height="200px" width="250px">
             <p style="font-size:20px;color:#5C5C5C;">Try again</p>
             <a href="${pageContext.request.contextPath}/" class="btn btn-success">Home</a>
             <br><br>

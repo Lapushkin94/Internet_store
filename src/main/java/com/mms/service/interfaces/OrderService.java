@@ -20,5 +20,8 @@ public interface OrderService {
     int getProductsCountByOrdersId(int orderId);
     List<OrderedProductForHistoryDTO> getOrdersProductHistoryByOrderId(int orderId, int orderHistoryPage);
     List<OrderedProductForHistoryDTO> getOrdersProductHistoryByOrderIdWithoutPages(int orderId);
+    List<OrderedProductForHistoryDTO> getProductsToAddByOrderId(int id);
+    List<OrderedProductForHistoryDTO> getEditedProductsByOrderId(int id);
+    List<OrderedProductForHistoryDTO> getMissingProductsByOrderId(int id);
 
 }

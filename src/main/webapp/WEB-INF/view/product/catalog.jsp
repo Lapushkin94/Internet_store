@@ -19,24 +19,39 @@
         <div class="col-8">
             <div style="background-color: darksalmon; padding: 5px; height: 55px"><h4>
                 Library:
+
                 <c:if test="${!empty temporaryProductName}">
                     name like: ${temporaryProductName};
                 </c:if>
-                <c:if test="${!empty temporaryOnlyInStore}">
+
+                <c:if test="${empty temporaryOnlyInStore}">
                     only in store;
                 </c:if>
+                <c:if test="${!empty temporaryOnlyInStore}">
+                    <c:if test="${temporaryOnlyInStore == true}">
+                        only in store;
+                    </c:if>
+                    <c:if test="${temporaryOnlyInStore == false}">
+                        all existing;
+                    </c:if>
+                </c:if>
+
                 <c:if test="${!empty temporaryMinPrice}">
                     min price: ${temporaryMinPrice + 1};
                 </c:if>
+
                 <c:if test="${!empty temporaryMaxPrice}">
                     max price: ${temporaryMaxPrice - 1};
                 </c:if>
+
                 <c:if test="${!empty temporaryNameOfCategory}">
                     category: ${temporaryNameOfCategory};
                 </c:if>
+
             </h4></div>
 
             <table class="table table-striped table-hover table-sm" style="background-color: cornsilk">
+
                 <thead>
                 <th>№</th>
                 <th>Name</th>
@@ -50,6 +65,7 @@
                     <th colspan="3">Action</th>
                 </security:authorize>
                 </thead>
+
                 <tbody>
                 <c:forEach var="product" items="${productList}" varStatus="i">
                     <tr>
@@ -103,6 +119,7 @@
             </table>
 
             <div class="row">
+
                 <security:authorize access="hasRole('ADMIN') or hasRole('MANAGER')">
                     <div class="row-1; border border-danger"
                          style="background-color: khaki; padding: 10px; margin-left: 15px; height: 50px">
@@ -117,8 +134,8 @@
                     </div>
                 </security:authorize>
 
-
                 <c:forEach begin="1" end="${productPagesCount}" step="1" varStatus="i">
+
                     <div class="row-3; border border-danger"
                          style="background-color: khaki; margin-left: 30px; padding: 4px; height: 50px">
                         <c:url value="/catalog" var="url">
@@ -127,6 +144,7 @@
                         </c:url>
                         <a href="${url}">${i.index}</a>
                     </div>
+
                 </c:forEach>
 
                 <div style="padding: 5px; height: 55px; margin-left: 15px">
@@ -150,14 +168,26 @@
         </div>
 
         <div class="col-4">
+
             <table class="table table-striped table-hover table-sm" style="background-color: cornsilk">
-                <div style="background-color: darksalmon; padding: 5px; height: 55px"><h4>Your
-                    basket</h4></div>
+
+                <div style="background-color: darksalmon; padding: 5px; height: 55px">
+                    <h4>Your
+                        basket
+                        <a href="${pageContext.request.contextPath}/catalog/resetBasket"
+                           style="margin-left: 280px; color: darkcyan">
+                            <button type="button" class="btn btn-secondary">
+                                Reset basket
+                            </button>
+                        </a>
+                    </h4>
+                </div>
+
                 <thead>
                 <th>№</th>
-                <th>Quantity</th>
                 <th>Product</th>
-                <th>price</th>
+                <th>Quantity</th>
+                <th>Price</th>
                 <th>Info</th>
                 <th>Action</th>
                 </thead>
@@ -166,8 +196,8 @@
                 <c:forEach var="productInBascet" items="${productInBascetList}" varStatus="i">
                     <tr>
                         <td>${i.index + 1 + (productInBascetListPage - 1) * 10}</td>
-                        <td>${productInBascet.quantity}</td>
                         <td>${productInBascet.product.name}</td>
+                        <td>${productInBascet.quantity}</td>
                         <td>${productInBascet.product.price}</td>
                         <td>
                             <a href="/catalog/productDetails/${productInBascet.product.id}" style="color: wheat">

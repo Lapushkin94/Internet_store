@@ -39,18 +39,17 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         try {
             logger.info("finding client by email " + email);
             clientEntity = clientRepository.findByEmail(email);
-            }
-        catch (NoResultException e) {
+        } catch (NoResultException e) {
             logger.info("fail finding client by email " + email);
             throw new UsernameNotFoundException("User not found");
         }
 
         List<GrantedAuthority> authorities = buildUserAuthority(clientEntity.getRole());
-        return buildUserForAuthentication(clientEntity,authorities);
+        return buildUserForAuthentication(clientEntity, authorities);
     }
 
     private User buildUserForAuthentication(ClientEntity client, List<GrantedAuthority> authorities) {
-        return new User(client.getEmail(),client.getPassword(),authorities);
+        return new User(client.getEmail(), client.getPassword(), authorities);
     }
 
     private List<GrantedAuthority> buildUserAuthority(RoleEntity clientRole) {

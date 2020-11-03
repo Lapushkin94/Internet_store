@@ -16,6 +16,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 @Controller
@@ -76,7 +78,7 @@ public class ProfileController {
 
     @PostMapping(value = "/editProfile")
     public String editProfile(@AuthenticationPrincipal User user,
-                                    @ModelAttribute ClientDTO clientDTO) {
+                              @ModelAttribute ClientDTO clientDTO) {
 
         clientDTO.setClientAddress(clientService.getClientByEmail(user.getUsername()).getClientAddress());
         clientDTO.setRole(clientService.getClientByEmail(user.getUsername()).getRole());
@@ -85,8 +87,7 @@ public class ProfileController {
         try {
             logger.info("editing profile " + user.getUsername());
             clientService.editClient(clientDTO);
-        }
-        catch (DataIntegrityViolationException exc) {
+        } catch (DataIntegrityViolationException exc) {
             logger.info("editing fail " + user.getUsername());
             return "redirect:/myProfile/editProfile/?emailStatus=1";
         }
@@ -163,7 +164,8 @@ public class ProfileController {
         int ordersCount = orderService.getOrderCountByClientId(clientService.getClientByEmail(user.getUsername()).getId());
 
         modelAndView.addObject("orderListPage", orderListPage);
-        modelAndView.addObject("orderListByClientId", clientService.getOrderListByClientId(clientService.getClientByEmail(user.getUsername()).getId(), orderListPage));
+        modelAndView.addObject("orderListByClientId",
+                clientService.getOrderListByClientId(clientService.getClientByEmail(user.getUsername()).getId(), orderListPage));
         modelAndView.addObject("ordersCount", ordersCount);
         modelAndView.addObject("orderPagesCount", (ordersCount + 9) / 10);
 
@@ -186,6 +188,26 @@ public class ProfileController {
         modelAndView.addObject("ordersProductList", orderService.getOrdersProductHistoryByOrderId(id, orderHistoryListPage));
         modelAndView.addObject("orderHistoryCount", orderHistoryCount);
         modelAndView.addObject("orderHistoryPagesCount", (orderHistoryCount + 9) / 10);
+
+        return modelAndView;
+    }
+
+    @GetMapping(value = "/repeatOrder/{id}")
+    public ModelAndView repeatOrderById(@PathVariable("id") int id) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("order/orderBasketForRepeat");
+
+        productInBascetService.resetProductInBascetTable();
+
+        modelAndView.addObject("quantityDifferenceOfNotAddedProducts", productInBascetService
+                .addProductListToBasketAndReturnQuantityDifference(orderService.getProductsToAddByOrderId(id)));
+
+        modelAndView.addObject("editedProducts", orderService.getEditedProductsByOrderId(id));
+        modelAndView.addObject("missingProducts", orderService.getMissingProductsByOrderId(id));
+
+        modelAndView.addObject("productInBascetList", productInBascetService.getAllProductsInBascetWithoutPages());
+        modelAndView.addObject("summPrice",
+                productInBascetService.getSummPriceForAllProducts(productInBascetService.getAllProductsInBascetWithoutPages()));
 
         return modelAndView;
     }

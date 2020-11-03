@@ -29,7 +29,6 @@
         <tbody>
         <c:forEach var="order" items="${orderList}" varStatus="i">
             <tr>
-
                 <td>${i.index + 1 + (orderListPage - 1) * 10}</td>
                 <td>${order.date}</td>
                 <td>${order.payStatus}</td>

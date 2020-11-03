@@ -30,5 +30,4 @@ public class StatisticsController {
         return productForStandService.getProductsForStandList();
     }
 
-
 }

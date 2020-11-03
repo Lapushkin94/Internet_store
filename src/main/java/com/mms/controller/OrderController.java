@@ -102,7 +102,6 @@ public class OrderController {
         logger.info("getting order info " + orderDTO.getId());
         clientService.editClient(clientDTO);
 
-        // needs refactoring
         orderDTO.setId(0);
         orderDTO.setClient(ClientConverter.toEntity(clientDTO));
         orderDTO.setOrderStatus(OrderStatusConverter.toEntity(orderStatusService.getOpenedStatus()));
@@ -110,7 +109,6 @@ public class OrderController {
 
         int orderId = orderService.addOrderAndReturnId(orderDTO);
 
-        // needs refactoring
         String result = orderService.calculateProductNumberInStoreAlsoCopyProductInfoToTheHistoryTableAndResetProductBascet(
                 productInBascetService.getAllProductsInBascetWithoutPages(), orderId);
 
@@ -127,7 +125,7 @@ public class OrderController {
         return "order/congratulationsPage";
     }
 
-    @GetMapping(value = "/successfulPayment")
+    @PostMapping(value = "/successfulPayment")
     public ModelAndView getSuccessfulPaymentPage(@AuthenticationPrincipal User user) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("order/successfulPayment");

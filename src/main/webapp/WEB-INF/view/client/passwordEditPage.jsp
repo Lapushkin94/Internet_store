@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
           integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 
-
     <title>Edit password</title>
 
 </head>
@@ -16,7 +15,6 @@
 <jsp:include page="../basic/header.jsp"/>
 
 <div class="container-fluid" style="margin-top: 15px">
-
 
     <div class="alert alert-warning">
         <h2>
@@ -43,29 +41,31 @@
 
         <div class="row" style="margin-top: 25px">
             <div style="margin: auto">
-            <form action="${pageContext.request.contextPath}/myProfile/editPassword" method="POST">
+                <form action="${pageContext.request.contextPath}/myProfile/editPassword" method="POST">
 
-                <div class="form-row">
+                    <div class="form-row">
 
-                    <div class="col-md-8 mb-3">
-                        <label for="usersPassword">Password</label>
-                        <input type="password" name="usersPassword" class="form-control" id="usersPassword" minlength="3" required>
-                    </div>
-                    <div class="col-md-8 mb-3">
-                        <label for="firstNewPassword">New password №1</label>
-                        <input type="password" name="firstNewPassword"
-                               class="form-control" id="firstNewPassword" minlength="3" required>
-                    </div>
-                    <div class="col-md-8 mb-3">
-                        <label for="secondNewPassword">New password №2</label>
-                        <input type="password" name="secondNewPassword" class="form-control" id="secondNewPassword" minlength="3" required>
-                    </div>
+                        <div class="col-md-8 mb-3">
+                            <label for="usersPassword">Password</label>
+                            <input type="password" name="usersPassword" class="form-control" id="usersPassword"
+                                   minlength="3" required>
+                        </div>
+                        <div class="col-md-8 mb-3">
+                            <label for="firstNewPassword">New password №1</label>
+                            <input type="password" name="firstNewPassword"
+                                   class="form-control" id="firstNewPassword" minlength="3" required>
+                        </div>
+                        <div class="col-md-8 mb-3">
+                            <label for="secondNewPassword">New password №2</label>
+                            <input type="password" name="secondNewPassword" class="form-control" id="secondNewPassword"
+                                   minlength="3" required>
+                        </div>
 
-                </div>
-                <button type="submit" class="btn btn-success" style="margin-top: 15px">
-                    Edit password
-                </button>
-            </form>
+                    </div>
+                    <button type="submit" class="btn btn-success" style="margin-top: 15px">
+                        Edit password
+                    </button>
+                </form>
 
                 <div>
                     <a href="${pageContext.request.contextPath}/myProfile" style="color: wheat">

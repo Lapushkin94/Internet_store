@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
           integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 
-
     <title>Order registration</title>
 
 </head>
@@ -22,12 +21,13 @@
         <h2>
             <p class="text-center">Order registration</p>
         </h2>
+        <p class="text-center">
+            Press "Confirm!" to create order! Also you can pay online by credit card to speed up delivery process!
+        </p>
     </div>
 
     <div>
-
         <form action="${pageContext.request.contextPath}/order/confirmation" method="POST">
-
 
             <div class="form-row">
 
@@ -41,7 +41,8 @@
 
                 <div class="col-md-6 mb-3">
                     <label for="city">City</label>
-                    <input type="text" name="city" value="${client.clientAddress.city}" class="form-control" id="city" required>
+                    <input type="text" name="city" value="${client.clientAddress.city}" class="form-control" id="city"
+                           required>
                 </div>
 
                 <div class="col-md-6 mb-3">
@@ -86,13 +87,16 @@
             <button type="submit" class="btn btn-success" style="margin-top: 15px">
                 Confirm!
             </button>
+
         </form>
 
-        <a href="${pageContext.request.contextPath}/order/orderRegistrationPage">Back</a>
+        <a href="${pageContext.request.contextPath}/order">
+            <button type="button" class="btn btn-secondary">
+                Back
+            </button>
+        </a>
 
     </div>
-
-
 </div>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"

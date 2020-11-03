@@ -12,7 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
+import javax.persistence.NoResultException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -29,7 +30,6 @@ public class OrderServiceImpl implements OrderService {
     private ProductInBascetRepository productInBascetRepository;
     private ProductRepository productRepository;
     private OrderedProductForHistoryRepository orderedProductForHistoryRepository;
-
 
 
     @Autowired
@@ -111,6 +111,10 @@ public class OrderServiceImpl implements OrderService {
         for (ProductInBascetDTO productInBascetDTO : productInBascetDTOList) {
 
             productDTO = ProductConverter.toDto(productInBascetDTO.getProduct());
+
+            // productRepository select for update to get current product quantity
+            // need to trow exception
+            // либо прервать транзакцию
             productDTO.setQuantityInStore(productInBascetDTO.getProduct().getQuantityInStore() - productInBascetDTO.getQuantity());
             productRepository.updateProduct(ProductConverter.toEntity(productDTO));
 
@@ -170,4 +174,95 @@ public class OrderServiceImpl implements OrderService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    @Transactional
+    public List<OrderedProductForHistoryDTO> getProductsToAddByOrderId(int orderId) {
+
+        List<OrderedProductForHistoryDTO> orderedProductForHistoryDTOList = orderedProductForHistoryRepository
+                .findAllProductsInHistoryByOrderId(orderId).stream()
+                .map(OrderedProductForHistoryConverter::toDto)
+                .collect(Collectors.toList());
+
+        List<OrderedProductForHistoryDTO> productsToAdd = new ArrayList<>();
+        ProductDTO productDTO;
+
+        for (OrderedProductForHistoryDTO prod : orderedProductForHistoryDTOList) {
+            try {
+                productDTO = ProductConverter.toDto(productRepository.findProductsByName(prod.getName()));
+                if (
+                        (prod.getAlternative_name().equals(productDTO.getAlternative_name()))
+                                && (prod.getBrandName().equals(productDTO.getBrandName()))
+                                && (prod.getPrice() == productDTO.getPrice())
+                                && (prod.getColor().equals(productDTO.getColor()))
+                                && (prod.getWeight() == productDTO.getWeight())
+                                && (prod.getCountry().equals(productDTO.getCountry()))
+                ) {
+                    productsToAdd.add(prod);
+                }
+            } catch (NoResultException exc) {
+                logger.info("products is missing, " + exc.getMessage());
+            }
+
+        }
+
+        return productsToAdd;
+    }
+
+    @Override
+    @Transactional
+    public List<OrderedProductForHistoryDTO> getEditedProductsByOrderId(int orderId) {
+
+        List<OrderedProductForHistoryDTO> orderedProductForHistoryDTOList = orderedProductForHistoryRepository
+                .findAllProductsInHistoryByOrderId(orderId).stream()
+                .map(OrderedProductForHistoryConverter::toDto)
+                .collect(Collectors.toList());
+
+        List<OrderedProductForHistoryDTO> editedProducts = new ArrayList<>();
+        ProductDTO productDTO;
+
+        for (OrderedProductForHistoryDTO prod : orderedProductForHistoryDTOList) {
+            try {
+                productDTO = ProductConverter.toDto(productRepository.findProductsByName(prod.getName()));
+                if (
+                        !((prod.getAlternative_name().equals(productDTO.getAlternative_name()))
+                                && (prod.getBrandName().equals(productDTO.getBrandName()))
+                                && (prod.getPrice() == productDTO.getPrice())
+                                && (prod.getColor().equals(productDTO.getColor()))
+                                && (prod.getWeight() == productDTO.getWeight())
+                                && (prod.getCountry().equals(productDTO.getCountry())))
+                ) {
+                    editedProducts.add(prod);
+                }
+            } catch (NoResultException exc) {
+                logger.info("product is missing, " + exc.getMessage());
+            }
+
+        }
+
+        return editedProducts;
+    }
+
+    @Override
+    @Transactional
+    public List<OrderedProductForHistoryDTO> getMissingProductsByOrderId(int orderId) {
+
+        List<OrderedProductForHistoryDTO> orderedProductForHistoryDTOList = orderedProductForHistoryRepository
+                .findAllProductsInHistoryByOrderId(orderId).stream()
+                .map(OrderedProductForHistoryConverter::toDto)
+                .collect(Collectors.toList());
+
+        List<OrderedProductForHistoryDTO> missingProducts = new ArrayList<>();
+
+        for (OrderedProductForHistoryDTO prod : orderedProductForHistoryDTOList) {
+            try {
+                productRepository.findProductsByName(prod.getName());
+            } catch (NoResultException exc) {
+                logger.info(exc.getMessage());
+                missingProducts.add(prod);
+            }
+
+        }
+
+        return missingProducts;
+    }
 }

@@ -18,6 +18,7 @@
     <div class="row">
         <div style="margin: auto">
             <h2 style="background-color: darksalmon; padding: 10px; margin-bottom: 10px">Client's profile</h2>
+
             <table class="table table-striped table-hover" style="background-color: cornsilk">
                 <thead>
                 <th>Name</th>
@@ -37,6 +38,7 @@
             </table>
 
             <h2 style="background-color: darksalmon; padding: 10px; margin-bottom: 10px; margin-top: 50px">Clients Address</h2>
+
             <table class="table table-striped table-hover" style="background-color: cornsilk">
                 <thead>
                 <th>Country</th>

@@ -3,7 +3,6 @@ package com.mms.service.implementations;
 import com.mms.dto.ProductForStand;
 import com.mms.service.interfaces.OrderedProductForHistoryService;
 import com.mms.service.interfaces.ProductForStandService;
-import org.springframework.beans.BeanInstantiationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.jms.core.JmsTemplate;
@@ -19,7 +18,7 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 @Service
-public class ProductsForStandServiceImpl  implements ProductForStandService {
+public class ProductsForStandServiceImpl implements ProductForStandService {
 
     private OrderedProductForHistoryService orderedProductForHistoryService;
 
@@ -64,7 +63,9 @@ public class ProductsForStandServiceImpl  implements ProductForStandService {
                 }
             });
         }
-        catch (BeanInstantiationException exc) {
+
+        // need to change exception type
+        catch (Exception exc) {
             logger.info(exc.getMessage());
         }
     }
@@ -75,7 +76,9 @@ public class ProductsForStandServiceImpl  implements ProductForStandService {
         try {
             sendMessageToStandApp();
         }
-        catch (BeanInstantiationException exc) {
+
+        // need to change exception type
+        catch (Exception exc) {
             logger.info(exc.getMessage());
         }
     }

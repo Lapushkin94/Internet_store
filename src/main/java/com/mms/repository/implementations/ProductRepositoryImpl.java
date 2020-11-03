@@ -142,4 +142,11 @@ public class ProductRepositoryImpl implements ProductRepository {
         Session session = sessionFactory.getCurrentSession();
         return session.createQuery("select MAX(price) from ProductEntity", Number.class).getSingleResult().intValue();
     }
+
+    @Override
+    public ProductEntity findProductsByName(String productName) {
+        Session session = sessionFactory.getCurrentSession();
+        return session.createQuery("from ProductEntity productEn WHERE productEn.name =: productName", ProductEntity.class)
+                .setParameter("productName", productName).getSingleResult();
+    }
 }

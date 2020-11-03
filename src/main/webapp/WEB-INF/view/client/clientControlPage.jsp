@@ -46,16 +46,16 @@
 
                         <td>
                             <c:if test="${client.active == false}">
-                            <a href="/clientControl/deleteClient/${client.id}" style="color: wheat">
-                                <button type="button" class="btn btn-info">
-                                    Delete not active client
-                                </button>
-                            </a>
+                                <a href="/clientControl/deleteClient/${client.id}" style="color: wheat">
+                                    <button type="button" class="btn btn-info">
+                                        Delete not active client
+                                    </button>
+                                </a>
                             </c:if>
                             <c:if test="${client.active != false}">
-                                    <button type="button" class="btn btn-success" disabled>
-                                        Active client
-                                    </button>
+                                <button type="button" class="btn btn-success" disabled>
+                                    Active client
+                                </button>
                             </c:if>
                         </td>
 
@@ -63,7 +63,6 @@
                 </c:forEach>
                 </tbody>
             </table>
-
 
             <div class="border border-danger"
                  style="background-color: khaki; margin-top: 10px; margin-left: 30px; padding: 10px; float: left">

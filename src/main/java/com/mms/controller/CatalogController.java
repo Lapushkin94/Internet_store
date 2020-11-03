@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.persistence.PersistenceException;
-import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 
@@ -54,11 +53,11 @@ public class CatalogController {
      * @param existingProductListPage current catalog list page
      * @param productInBascetListPage current basket page
      * @param catalogParam            determines successful / unsuccessful product addition
-     * @param productName product name to filter catalog
-     * @param onlyInStore "Only in store" param to filter catalog
-     * @param minPrice product's min price to filter catalog
-     * @param maxPrice product's max price to filter catalog
-     * @param nameOfCategory category param to filter category
+     * @param productName             product name to filter catalog
+     * @param onlyInStore             "Only in store" param to filter catalog
+     * @param minPrice                product's min price to filter catalog
+     * @param maxPrice                product's max price to filter catalog
+     * @param nameOfCategory          category param to filter category
      * @return catalog with list of products and client's basket
      */
     @GetMapping
@@ -74,7 +73,7 @@ public class CatalogController {
 
         if (productName != null) temporaryProductName = productName;
         if (onlyInStore != null) temporaryOnlyInStore = onlyInStore;
-        if (minPrice != null) temporaryMinPrice = minPrice -1;
+        if (minPrice != null) temporaryMinPrice = minPrice - 1;
         if (maxPrice != null) temporaryMaxPrice = maxPrice + 1;
         if (nameOfCategory != null) temporaryNameOfCategory = nameOfCategory;
 
@@ -128,9 +127,9 @@ public class CatalogController {
     /**
      * gets product edit-page
      *
-     * @param id product id to edit it
+     * @param id       product id to edit it
      * @param uniqName uniq-name param (is uniq? 1 = true, 0 = false)
-     * @returnproduct edit-page
+     * @return product edit-page
      */
     @GetMapping(value = "/editProduct/{id}")
     public ModelAndView editPage(@PathVariable("id") int id,
@@ -157,7 +156,7 @@ public class CatalogController {
      */
     @PostMapping(value = "/editProduct")
     public String editProduct(@ModelAttribute("product") ProductDTO product,
-                                    @RequestParam("nameOfCategory") String nameOfCategory) {
+                              @RequestParam("nameOfCategory") String nameOfCategory) {
 
         product.setCategory(CategoryConverter.toEntity(categoryService.getCategoryByName(nameOfCategory)));
 
@@ -165,8 +164,7 @@ public class CatalogController {
         try {
             logger.info("editing product with id = " + product.getId());
             productService.editProduct(product);
-        }
-        catch (DataIntegrityViolationException exc) {
+        } catch (DataIntegrityViolationException exc) {
             logger.info("fail edit product " + product.getId());
             return "redirect:/catalog/editProduct/" + product.getId() + "/?uniqName=0";
         }
@@ -211,8 +209,7 @@ public class CatalogController {
         try {
             logger.info("adding product " + product.getId());
             productService.addProduct(product);
-        }
-        catch (PersistenceException exc) {
+        } catch (PersistenceException exc) {
             logger.info("fail adding product " + product.getId());
             return "redirect:/catalog/addProduct/?uniqName=0";
         }
@@ -283,7 +280,7 @@ public class CatalogController {
     /**
      * gets filter page
      *
-     * @return
+     * @return filter page with parameters
      */
     @GetMapping(value = "/catalogFilterPage")
     public ModelAndView getFilterPage() {
@@ -309,10 +306,10 @@ public class CatalogController {
     /**
      * shows filtered catalog
      *
-     * @param productName product name to filter catalog
-     * @param onlyInStore param to filter 0-quantity products
-     * @param minPrice min price to filter catalog
-     * @param maxPrice max price to filter catalog
+     * @param productName    product name to filter catalog
+     * @param onlyInStore    param to filter 0-quantity products
+     * @param minPrice       min price to filter catalog
+     * @param maxPrice       max price to filter catalog
      * @param nameOfCategory category param to filter catalog
      * @return filtered catalog page
      */
@@ -371,5 +368,12 @@ public class CatalogController {
         return "security/logoutSuccessPage";
     }
 
+    @GetMapping(value = "/resetBasket")
+    public String resetBasket() {
+
+        productInBascetService.resetProductInBascetTable();
+
+        return "redirect:/catalog/?existingProductListPage=" + existingProductListPage;
+    }
 
 }

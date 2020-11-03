@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
           integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 
-
     <title>Success!</title>
 
 </head>
@@ -18,8 +17,10 @@
 <div class="container">
     <div class="row text-center">
         <div class="col-sm-6 col-sm-offset-3">
-            <br><br> <h2 style="color:#0fad00">Access denied</h2>
-            <img src="https://i.pinimg.com/originals/06/7a/58/067a58a89205bc6496262b38fab17489.jpg" height="300px" width="250px">
+            <br><br>
+            <h2 style="color:#0fad00">Access denied</h2>
+            <img src="https://i.pinimg.com/originals/06/7a/58/067a58a89205bc6496262b38fab17489.jpg" height="300px"
+                 width="250px">
             <h3>Sorry!</h3>
             <p style="font-size:20px;color:#5C5C5C;">You have no access for this page!</p>
             <p style="font-size:20px;color:#5C5C5C;">It could also be a developer's fault!</p>

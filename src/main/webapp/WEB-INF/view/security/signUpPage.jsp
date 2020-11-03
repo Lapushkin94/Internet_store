@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
           integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 
-
     <title>Sign up</title>
 
 </head>
@@ -36,64 +35,75 @@
         </c:if>
     </div>
 
-
-
     <div style="margin-top: 25px">
 
         <form action="${pageContext.request.contextPath}/signUp" method="POST">
 
             <div class="form-row">
+
                 <div class="col-md-4 mb-3">
                     <label for="name">Name</label>
                     <input type="text" name="name" class="form-control" id="name" placeholder="1-20 symbols"
                            minlength="1" required>
                 </div>
+
                 <div class="col-md-4 mb-3">
                     <label for="secondName">Last name</label>
                     <input type="text" name="secondName" class="form-control" id="secondName"
                            placeholder="1-20 symbols">
                 </div>
+
                 <div class="col-md-4 mb-3">
                     <label for="birthday">Birthday</label>
                     <input type="date" name="birthday" class="form-control" id="birthday">
                 </div>
+
                 <div class="col-md-4 mb-3">
                     <label for="email">Email</label>
-                    <input type="email" name="email" class="form-control" id="email" placeholder="Email address" minlength="3"
+                    <input type="email" name="email" class="form-control" id="email" placeholder="Email address"
+                           minlength="3"
                            required>
                 </div>
+
                 <div class="col-md-4 mb-3">
                     <label for="password1">Password</label>
                     <input type="password" name="firstPassword" class="form-control" id="password1"
                            placeholder="1-20 symbols" minlength="3" required>
                 </div>
+
                 <div class="col-md-4 mb-3">
                     <label for="password2">Confirm password</label>
                     <input type="password" name="secondPassword" class="form-control" id="password2"
                            placeholder="1-20 symbols" minlength="3" required>
                 </div>
+
                 <div class="col-md-4 mb-3">
                     <label for="country" style="margin-top: 50px">Country</label>
                     <input type="text" name="country" class="form-control" id="country" placeholder="Your country">
                 </div>
+
                 <div class="col-md-4 mb-3">
                     <label for="city" style="margin-top: 50px">City</label>
                     <input type="text" name="city" class="form-control" id="city" placeholder="Your city">
                 </div>
+
                 <div class="col-md-4 mb-3">
                     <label for="postalCode" style="margin-top: 50px">Postal code</label>
                     <input type="text" name="postalCode" class="form-control" id="postalCode" placeholder="6 numbers"
                            required>
                 </div>
+
                 <div class="col-md-4 mb-3">
                     <label for="street">Street</label>
                     <input type="text" name="street" class="form-control" id="street" placeholder="Your street">
                 </div>
+
                 <div class="col-md-4 mb-3">
                     <label for="houseNumber">House number</label>
                     <input type="text" name="houseNumber" class="form-control" id="houseNumber"
                            placeholder="1-8 numbers" required>
                 </div>
+
                 <div class="col-md-4 mb-3">
                     <label for="flatNumber">Flat number</label>
                     <input type="text" name="flatNumber" class="form-control" id="flatNumber" placeholder="1-8 numbers"
@@ -101,14 +111,13 @@
                 </div>
 
             </div>
+
             <button type="submit" class="btn btn-success" style="margin-top: 15px">
                 Confirm
             </button>
+
         </form>
-
     </div>
-
-
 </div>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"

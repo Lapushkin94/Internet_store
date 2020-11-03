@@ -86,7 +86,7 @@
 
                 <table class="table table-striped table-hover table-sm" style="background-color: cornsilk">
 
-                    <h4 style="background-color: wheat">Profit of the day</h4>
+                    <h4 style="background-color: wheat">Last 24 hours profit</h4>
                     <tbody>
                     <tr>
                         <td>${totalProfitOfTheDay}</td>
@@ -98,7 +98,7 @@
 
                 <table class="table table-striped table-hover table-sm" style="background-color: cornsilk">
 
-                    <h4 style="background-color: wheat">Profit of three days</h4>
+                    <h4 style="background-color: wheat">Three days profit</h4>
                     <tbody>
                     <tr>
                         <td>${totalProfitOfTheThreeDays}</td>
@@ -109,7 +109,7 @@
 
                 <table class="table table-striped table-hover table-sm" style="background-color: cornsilk">
 
-                    <h4 style="background-color: wheat">Profit of the week</h4>
+                    <h4 style="background-color: wheat">Week profit</h4>
                     <tbody>
                     <tr>
                         <td>${totalProfitOfTheWeek}</td>
@@ -120,7 +120,7 @@
 
                 <table class="table table-striped table-hover table-sm" style="background-color: cornsilk">
 
-                    <h4 style="background-color: wheat">Profit of the month</h4>
+                    <h4 style="background-color: wheat">Month profit</h4>
                     <tbody>
                     <tr>
                         <td>${totalProfitOfTheMonth}</td>

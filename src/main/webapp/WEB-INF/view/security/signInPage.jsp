@@ -28,11 +28,9 @@
 
             <div style="padding-top: 30px" class="panel-body">
 
-                <!-- Login Form -->
-                <form action="/signIn/process"
+                <form action="${pageContext.request.contextPath}/signIn/process"
                       method="POST" class="form-horizontal">
 
-                    <!-- Place for messages: error, alert etc ... -->
                     <c:if test="${param.error != null}">
                         <div class="form-group">
                             <div class="col-xs-15">
@@ -45,19 +43,17 @@
                         </div>
                     </c:if>
 
-                    <!-- User name -->
                     <div style="margin-bottom: 25px" class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
                         <input type="text" name="email" placeholder="email" class="form-control" minlength="1" required>
                     </div>
 
-                    <!-- Password -->
                     <div style="margin-bottom: 25px" class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                        <input type="password" name="password" placeholder="password" class="form-control" minlength="1" required>
+                        <input type="password" name="password" placeholder="password" class="form-control" minlength="1"
+                               required>
                     </div>
 
-                    <!-- Login/Submit Button -->
                     <div style="margin-top: 10px" class="form-group">
                         <div class="col-sm-6 controls">
                             <button type="submit" class="btn btn-success">Login</button>
@@ -70,17 +66,17 @@
                         <button type="button" class="btn btn-light">No acc? Sign Up!</button>
                     </a>
                 </div>
+
                 <div style="margin-top: 20px">
                     <a href="${pageContext.request.contextPath}/">
                         <button type="button" class="btn btn-info">Home</button>
                     </a>
                 </div>
+
             </div>
         </div>
     </div>
 </div>
-
-
 
 </body>
 </html>

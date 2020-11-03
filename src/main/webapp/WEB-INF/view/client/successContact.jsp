@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
           integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 
-
     <title>Success!</title>
 
 </head>
@@ -18,8 +17,10 @@
 <div class="container">
     <div class="row text-center">
         <div class="col-sm-6 col-sm-offset-3">
-            <br><br> <h2 style="color:#0fad00">Success</h2>
-            <img src="https://cs.pikabu.ru/post_img/big/2013/11/13/0/1384288202_362714509.jpg" height="200px" width="250px">
+            <br><br>
+            <h2 style="color:#0fad00">Success</h2>
+            <img src="https://cs.pikabu.ru/post_img/big/2013/11/13/0/1384288202_362714509.jpg" height="200px"
+                 width="250px">
             <h3>We've got your message!</h3>
             <p style="font-size:20px;color:#5C5C5C;">We will contact you as soon as possible!</p>
             <a href="${pageContext.request.contextPath}/" class="btn btn-success">Home</a>

@@ -18,31 +18,41 @@
 <section>
     <div class="container">
         <div class="row align-items-center">
+
             <div class="col-7">
                 <h1 style="margin-left: 150px">Welcome!</h1>
+
                 <security:authorize access="isAuthenticated()">
                     <h3 style="margin-left: 150px; margin-top: 25px">Glad to see you, ${clientName}</h3>
                 </security:authorize>
+
                 <security:authorize access="isAnonymous()">
                     <h3 style="margin-left: 150px; margin-top: 25px">You are not authorized</h3>
                 </security:authorize>
+
             </div>
+
             <div class="col-5">
                 <div class="row" style="margin: 10px"></div>
+
                 <a href="${pageContext.request.contextPath}/catalog">
                     <img class="w-100"
                          src="https://image.freepik.com/free-vector/book-store_53876-16926.jpg"
                          alt="Shop">
                 </a>
+
             </div>
+
         </div>
     </div>
 </section>
+
 <section>
     <div class="container">
         <div class="row" style="background-color: paleturquoise">
             <h4 style="margin-left: 10px">Instant delivery</h4>
         </div>
+
         <div class="row">
             <div class="col-9">
                 <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
@@ -59,12 +69,14 @@
                     </div>
                 </div>
             </div>
+
             <div class="col-3">
                 <a href="${pageContext.request.contextPath}/order">
                     <img src="https://secure.diary.ru/userdir/3/4/2/8/3428343/86357077.jpg" height="200" width="200"
                          alt="second" style="margin-left: 70px" class="border border-info">
                 </a>
             </div>
+
         </div>
     </div>
 </section>

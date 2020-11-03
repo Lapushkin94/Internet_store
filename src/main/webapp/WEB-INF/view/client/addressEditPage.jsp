@@ -25,16 +25,14 @@
     </div>
 
     <div>
-
         <form action="${pageContext.request.contextPath}/myProfile/editAddress" method="POST">
-
-
 
             <div class="form-row">
                 <input type="hidden" name="id" value="${client.clientAddress.id}"/>
                 <div class="col-md-4 mb-3">
                     <label for="country">Country</label>
-                    <input type="text" name="country" value="${client.clientAddress.country}" class="form-control" id="country">
+                    <input type="text" name="country" value="${client.clientAddress.country}" class="form-control"
+                           id="country">
                 </div>
                 <div class="col-md-4 mb-3">
                     <label for="city">City</label>
@@ -43,19 +41,23 @@
                 </div>
                 <div class="col-md-4 mb-3">
                     <label for="postalCode">Postal code</label>
-                    <input type="text" name="postalCode" value="${client.clientAddress.postalCode}" class="form-control" id="postalCode" required>
+                    <input type="text" name="postalCode" value="${client.clientAddress.postalCode}" class="form-control"
+                           id="postalCode" required>
                 </div>
                 <div class="col-md-5 mb-3">
                     <label for="street">Street</label>
-                    <input type="text" name="street" value="${client.clientAddress.street}" class="form-control" id="street" required>
+                    <input type="text" name="street" value="${client.clientAddress.street}" class="form-control"
+                           id="street" required>
                 </div>
                 <div class="col-md-5 mb-3">
                     <label for="houseNumber">House number</label>
-                    <input type="text" name="houseNumber" value="${client.clientAddress.houseNumber}" class="form-control" id="houseNumber" required>
+                    <input type="text" name="houseNumber" value="${client.clientAddress.houseNumber}"
+                           class="form-control" id="houseNumber" required>
                 </div>
                 <div class="col-md-5 mb-3">
                     <label for="flatNumber">Flat number</label>
-                    <input type="text" name="flatNumber" value="${client.clientAddress.flatNumber}" class="form-control" id="flatNumber" required>
+                    <input type="text" name="flatNumber" value="${client.clientAddress.flatNumber}" class="form-control"
+                           id="flatNumber" required>
                 </div>
 
             </div>
@@ -73,8 +75,6 @@
         </div>
 
     </div>
-
-
 </div>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"

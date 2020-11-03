@@ -89,8 +89,7 @@ public class ClientServiceImpl implements ClientService {
         try {
             logger.info("getting client by email " + inputEmail);
             clientDTO = ClientConverter.toDto(clientRepository.findByEmail(inputEmail));
-        }
-        catch (NoResultException exc) {
+        } catch (NoResultException exc) {
             logger.info("cant find client by email " + inputEmail);
             throw new UsernameNotFoundException("UserNotFound");
         }

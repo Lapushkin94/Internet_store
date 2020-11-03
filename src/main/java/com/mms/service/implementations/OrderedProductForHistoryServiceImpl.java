@@ -92,8 +92,7 @@ public class OrderedProductForHistoryServiceImpl implements OrderedProductForHis
             String productName = prod.getName();
             if (top10productsMap.containsKey(productName)) {
                 top10productsMap.put(productName, top10productsMap.get(productName) + prod.getQuantity());
-            }
-            else top10productsMap.put(productName, prod.getQuantity());
+            } else top10productsMap.put(productName, prod.getQuantity());
         }
 
         return top10productsMap.entrySet().stream()
@@ -135,8 +134,7 @@ public class OrderedProductForHistoryServiceImpl implements OrderedProductForHis
 
             if (top10clientsByProfit.containsKey(clientEmail)) {
                 top10clientsByProfit.put(clientEmail, top10clientsByProfit.get(clientEmail) + clientProfit);
-            }
-            else top10clientsByProfit.put(clientEmail, clientProfit);
+            } else top10clientsByProfit.put(clientEmail, clientProfit);
 
         }
 

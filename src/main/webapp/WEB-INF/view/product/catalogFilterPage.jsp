@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
           integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 
-
     <title>Filter</title>
 
 </head>
@@ -16,7 +15,6 @@
 <jsp:include page="../basic/header.jsp"/>
 
 <div class="container" style="margin-top: 15px">
-
 
     <div class="alert alert-warning">
         <h2>
@@ -33,14 +31,16 @@
                 <c:if test="${empty temporaryProductName}">
                     <div class="col-md-4 mb-3" style="margin-top: 30px">
                         <label for="productName1"><h3>Name</h3></label>
-                        <input type="text" name="productName" class="form-control" id="productName1" placeholder="Enter product name">
+                        <input type="text" name="productName" class="form-control" id="productName1"
+                               placeholder="Enter product name">
                     </div>
                 </c:if>
 
                 <c:if test="${!empty temporaryProductName}">
                     <div class="col-md-4 mb-3" style="margin-top: 30px">
                         <label for="productName2"><h3>Name</h3></label>
-                        <input type="text" name="productName" class="form-control" id="productName2" value="${temporaryProductName}">
+                        <input type="text" name="productName" class="form-control" id="productName2"
+                               value="${temporaryProductName}">
                     </div>
                 </c:if>
 
@@ -89,14 +89,16 @@
                 <c:if test="${!empty temporaryMinPrice}">
                     <div class="col-md-5 mb-3" style="margin-top: 30px">
                         <label for="minPrice1"><h3>Min price</h3></label>
-                        <input type="text" name="minPrice" class="form-control" id="minPrice1" value="${temporaryMinPrice + 1}">
+                        <input type="text" name="minPrice" class="form-control" id="minPrice1"
+                               value="${temporaryMinPrice + 1}">
                     </div>
                 </c:if>
 
                 <c:if test="${empty temporaryMinPrice}">
                     <div class="col-md-5 mb-3" style="margin-top: 30px">
                         <label for="minPrice2"><h3>Min price</h3></label>
-                        <input type="text" name="minPrice" class="form-control" id="minPrice2" placeholder="${minPrice}">
+                        <input type="text" name="minPrice" class="form-control" id="minPrice2"
+                               placeholder="${minPrice}">
                     </div>
                 </c:if>
 
@@ -104,14 +106,16 @@
                 <c:if test="${!empty temporaryMaxPrice}">
                     <div class="col-md-5 mb-3" style="margin-top: 30px">
                         <label for="maxPrice1"><h3>Max price</h3></label>
-                        <input type="text" name="maxPrice" class="form-control" id="maxPrice1" value="${temporaryMaxPrice - 1}">
+                        <input type="text" name="maxPrice" class="form-control" id="maxPrice1"
+                               value="${temporaryMaxPrice - 1}">
                     </div>
                 </c:if>
 
                 <c:if test="${empty temporaryMaxPrice}">
                     <div class="col-md-5 mb-3" style="margin-top: 30px">
                         <label for="maxPrice2"><h3>Max price</h3></label>
-                        <input type="text" name="maxPrice" class="form-control" id="maxPrice2" placeholder="${maxPrice}">
+                        <input type="text" name="maxPrice" class="form-control" id="maxPrice2"
+                               placeholder="${maxPrice}">
                     </div>
                 </c:if>
 
@@ -124,11 +128,11 @@
         </form>
 
         <div style="margin-top: 25px">
-                <c:url value="/catalog" var="url">
-                    <c:param name="existingProductListPage" value="${existingProductListPage}"/>
-                    <c:param name="productInBascetListPage" value="${productInBascetListPage}"/>
-                </c:url>
-                <a class="btn btn-secondary" href="${url}">Back</a>
+            <c:url value="/catalog" var="url">
+                <c:param name="existingProductListPage" value="${existingProductListPage}"/>
+                <c:param name="productInBascetListPage" value="${productInBascetListPage}"/>
+            </c:url>
+            <a class="btn btn-secondary" href="${url}">Back</a>
         </div>
 
         <div style="margin-top: 25px">

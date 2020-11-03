@@ -15,66 +15,98 @@
 </head>
 <body>
 
-
 <jsp:include page="../basic/header.jsp"/>
-
 
 <div class="container">
     <div class="row" style="margin-top: 50px">
+
         <div class="col-xs-12 col-md-4">
             <div class="panel panel-default">
                 <div class="panel-heading">
+
                     <h3 class="panel-title">
                         Payment Details
                     </h3>
-                    <div class="checkbox pull-right">
-                        <label>
-                            <input type="checkbox" />
-                            Remember
-                        </label>
-                    </div>
+
                 </div>
+
                 <div class="panel-body">
-                    <form role="form">
+
+                    <form action="${pageContext.request.contextPath}/order/successfulPayment" method="post">
+
                         <div class="form-group">
+
                             <label for="cardNumber">
                                 CARD NUMBER</label>
                             <div class="input-group">
-                                <input type="text" class="form-control" id="cardNumber" placeholder="Valid Card Number"
-                                       required autofocus />
+
+                                <input type="tel" class="form-control" id="cardNumber" placeholder="Card Number: XXXX-XXXX-XXXX-XXXX"
+                                       pattern="[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{4}" required autofocus/>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+
                             </div>
                         </div>
+
                         <div class="row">
+
                             <div class="col-xs-7 col-md-7">
                                 <div class="form-group">
+
                                     <label for="expityMonth">
-                                        EXPIRY DATE</label>
+                                        EXPIRY DATE
+                                    </label>
+
                                     <div class="col-xs-6 col-lg-6 pl-ziro">
-                                        <input type="text" class="form-control" id="expityMonth" placeholder="MM" required />
+                                        <input type="text" class="form-control" id="expityMonth" placeholder="MM" pattern="[0-9]{2}" required>
                                     </div>
+
                                     <div class="col-xs-6 col-lg-6 pl-ziro">
-                                        <input type="text" class="form-control" id="expityYear" placeholder="YY" required /></div>
+                                        <input type="text" class="form-control" id="expityYear" placeholder="YY" pattern="[0-9]{2}"
+                                               required>
+                                    </div>
                                 </div>
                             </div>
+
                             <div class="col-xs-5 col-md-5 pull-right">
                                 <div class="form-group">
                                     <label for="cvCode">
                                         CV CODE</label>
-                                    <input type="password" class="form-control" id="cvCode" placeholder="CV" required />
+                                    <input type="password" class="form-control" id="cvCode" placeholder="CV" minlength="3" maxlength="3" pattern="[0-9]{3}" required/>
                                 </div>
                             </div>
+
                         </div>
+
+                        <div>
+                            <ul class="nav nav-pills nav-stacked">
+                                <li class="active">
+                                    <button type="button" class="btn btn-primary" disabled>
+                                        Thank you for purchase!
+                                    </button>
+                                </li>
+                            </ul>
+                            <br/>
+                        </div>
+
+                        <div>
+                            <button type="submit" class="btn btn-success btn-lg btn-block">
+                                Pay
+                            </button>
+                        </div>
+
                     </form>
+
+                    <div>
+                        <a href="${pageContext.request.contextPath}/" style="color: wheat">
+                            <button type="button" class="btn btn-secondary">
+                                Home
+                            </button>
+                        </a>
+                    </div>
+
                 </div>
             </div>
-            <ul class="nav nav-pills nav-stacked">
-                <li class="active"><a href="#">
-                    Thank you for purchase!</a>
-                </li>
-            </ul>
-            <br/>
-            <a href="${pageContext.request.contextPath}/order/successfulPayment" class="btn btn-success btn-lg btn-block" role="button">Pay</a>
+
         </div>
     </div>
 </div>

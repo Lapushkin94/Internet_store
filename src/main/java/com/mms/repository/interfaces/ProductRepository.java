@@ -19,5 +19,6 @@ public interface ProductRepository {
     int getMinProductPriceInStore();
     List<ProductEntity> findAllProductsUsingFilter(int page, String inputProductName, Boolean isInStore, Integer minPrice, Integer maxPrice, String inputNameOfCategory);
     List<ProductEntity> findAllProductsUsingFilterWithoutPages(String inputProductName, Boolean isInStore, Integer minPrice, Integer maxPrice, String inputNameOfCategory);
+    ProductEntity findProductsByName(String productName);
 
 }

@@ -14,13 +14,15 @@
 
 <div class="container" style="margin-top: 20px">
     <table class="table table-striped table-hover table-sm" style="background-color: cornsilk">
-        <h2 style="background-color: darksalmon; padding: 10px; margin-bottom: 10px">Check your basket before order registration</h2>
+        <h2 style="background-color: darksalmon; padding: 10px; margin-bottom: 10px">Check your basket before order
+            registration</h2>
+
         <thead>
         <th>№</th>
-        <th>Quantity</th>
         <th>Product</th>
         <th>Author</th>
         <th>Publisher</th>
+        <th>Quantity</th>
         <th>Price</th>
         <th>Info</th>
         <th>Action</th>
@@ -30,10 +32,10 @@
         <c:forEach var="productInBascet" items="${productInBascetList}" varStatus="i">
             <tr>
                 <td>${i.index + 1 + (productInBascetListPage - 1) * 10}</td>
-                <td>${productInBascet.quantity}</td>
                 <td>${productInBascet.product.name}</td>
                 <td>${productInBascet.product.alternative_name}</td>
                 <td>${productInBascet.product.brandName}</td>
+                <td>${productInBascet.quantity}</td>
                 <td>${productInBascet.product.price}</td>
                 <td>
                     <a href="/catalog/productDetails/${productInBascet.product.id}">
@@ -53,6 +55,7 @@
         </c:forEach>
         </tbody>
     </table>
+
     <div class="row">
         <c:forEach begin="1" end="${productInBascetPagesCount}" step="1" varStatus="i">
             <div class="row-3; border border-danger"
@@ -63,27 +66,29 @@
                 <a href="${url}">${i.index}</a>
             </div>
         </c:forEach>
-<div class="row-3; border border-danger"
-     style="background-color: khaki; margin-left: 15px; padding: 10px; margin-top: 10px">
-    Total price: ${summPrice}
-</div>
+        <div class="row-3; border border-danger"
+             style="background-color: khaki; margin-left: 15px; padding: 10px; margin-top: 10px">
+            Total price: ${summPrice}
+        </div>
     </div>
+
     <div style="margin-top: 25px">
-    <c:if test="${!empty productInBascetList}">
-        <a href="${pageContext.request.contextPath}/order/orderRegistrationPage" style="color: wheat">
-            <button type="button" class="btn btn-info">
-                Order it!
-            </button>
-        </a>
-    </c:if>
-    <c:if test="${empty productInBascetList}">
-        <a href="${pageContext.request.contextPath}/order/orderRegistrationPage" style="color: wheat">
-            <button type="button" class="btn btn-info" disabled>
-                Order it!
-            </button>
-        </a>
-    </c:if>
+        <c:if test="${!empty productInBascetList}">
+            <a href="${pageContext.request.contextPath}/order/orderRegistrationPage" style="color: wheat">
+                <button type="button" class="btn btn-info">
+                    Order it!
+                </button>
+            </a>
+        </c:if>
+        <c:if test="${empty productInBascetList}">
+            <a href="${pageContext.request.contextPath}/order/orderRegistrationPage" style="color: wheat">
+                <button type="button" class="btn btn-info" disabled>
+                    Order it!
+                </button>
+            </a>
+        </c:if>
     </div>
+
     <div style="margin-top: 10px">
         <a href="${pageContext.request.contextPath}/catalog" style="color: wheat">
             <button type="button" class="btn btn-secondary">
@@ -91,6 +96,7 @@
             </button>
         </a>
     </div>
+
 </div>
 
 

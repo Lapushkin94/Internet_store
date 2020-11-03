@@ -1,4 +1,5 @@
 package com.mms.config;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -27,21 +28,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                    .antMatchers("/signIn", "/signUp", "/signUpPage").anonymous()
-                    .antMatchers("/logout", "/myProfile/**", "/order/**").authenticated()
-                    .antMatchers("/orderList", "/catalog/editProduct/**", "/catalog/addProduct", "/catalog/delete/**", "/clientControl/**", "/orderList/**", "/categories/**", "/catalog/statistics")
-                        .access("hasRole('ADMIN') or hasRole('MANAGER')")
+                .antMatchers("/signIn", "/signUp", "/signUpPage").anonymous()
+                .antMatchers("/logout", "/myProfile/**", "/order/**").authenticated()
+                .antMatchers("/orderList", "/catalog/editProduct/**",
+                        "/catalog/addProduct", "/catalog/delete/**",
+                        "/clientControl/**", "/orderList/**",
+                        "/categories/**", "/catalog/statistics")
+                .access("hasRole('ADMIN') or hasRole('MANAGER')")
                 .and()
-                    .csrf().disable()
-                    .formLogin()
-                    .loginPage("/signIn")
-                    .loginProcessingUrl("/signIn/process")
-                    .usernameParameter("email")
+                .csrf().disable()
+                .formLogin()
+                .loginPage("/signIn")
+                .loginProcessingUrl("/signIn/process")
+                .usernameParameter("email")
                 .and()
-                    .logout()
-                    .logoutSuccessUrl("/logoutSuccessPage")
+                .logout()
+                .logoutSuccessUrl("/logoutSuccessPage")
                 .and()
-                    .exceptionHandling().accessDeniedPage("/accessDenied");
+                .exceptionHandling().accessDeniedPage("/accessDenied");
     }
 
     @Bean
