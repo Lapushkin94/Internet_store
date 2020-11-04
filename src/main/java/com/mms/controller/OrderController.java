@@ -109,8 +109,11 @@ public class OrderController {
 
         int orderId = orderService.addOrderAndReturnId(orderDTO);
 
-        String result = orderService.calculateProductNumberInStoreAlsoCopyProductInfoToTheHistoryTableAndResetProductBascet(
-                productInBascetService.getAllProductsInBascetWithoutPages(), orderId);
+
+        String result = orderService.createOrderAndReturnResult(productInBascetService.getAllProductsInBascetWithoutPages(), orderId);
+
+//        String result = orderService.calculateProductNumberInStoreAlsoCopyProductInfoToTheHistoryTableAndResetProductBascet(
+//                productInBascetService.getAllProductsInBascetWithoutPages(), orderId);
 
         if (!result.equals("completedSuccessfully")) {
             return "order/notEnoughProducts";

@@ -8,11 +8,13 @@ import com.mms.repository.interfaces.OrderedProductForHistoryRepository;
 import com.mms.repository.interfaces.ProductInBascetRepository;
 import com.mms.repository.interfaces.ProductRepository;
 import com.mms.service.interfaces.OrderService;
+import com.mysql.cj.jdbc.exceptions.MySQLQueryInterruptedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.NoResultException;
+import java.sql.SQLDataException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -94,10 +96,21 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
+    public String createOrderAndReturnResult(List<ProductInBascetDTO> productInBascetDTOList, int orderId) {
+        try {
+            return calculateProductNumberInStoreAlsoCopyProductInfoToTheHistoryTableAndResetProductBascet(productInBascetDTOList, orderId);
+        }
+        catch (NullPointerException exc) {
+            logger.info("Not enough products");
+            return "Not enough products";
+        }
+    }
+
+    @Override
+    @Transactional
     public String calculateProductNumberInStoreAlsoCopyProductInfoToTheHistoryTableAndResetProductBascet(List<ProductInBascetDTO> productInBascetDTOList, int orderId) {
 
         logger.info("creating order history " + orderId);
-
         for (ProductInBascetDTO prod : productInBascetDTOList) {
             if (ProductConverter.toDto(prod.getProduct()).getQuantityInStore() < prod.getQuantity()) {
                 return "notEnough=" + ProductConverter.toDto(prod.getProduct()).getId();
@@ -112,9 +125,12 @@ public class OrderServiceImpl implements OrderService {
 
             productDTO = ProductConverter.toDto(productInBascetDTO.getProduct());
 
-            // productRepository select for update to get current product quantity
-            // need to trow exception
-            // либо прервать транзакцию
+            logger.info("start calculating quantity and writing products in history");
+            if (productRepository.getProductQuantityByProductId(productDTO.getId()) < productInBascetDTO.getQuantity()) {
+                logger.info("fail quantity difference");
+                throw new NullPointerException();
+            }
+
             productDTO.setQuantityInStore(productInBascetDTO.getProduct().getQuantityInStore() - productInBascetDTO.getQuantity());
             productRepository.updateProduct(ProductConverter.toEntity(productDTO));
 
@@ -127,10 +143,10 @@ public class OrderServiceImpl implements OrderService {
             orderedProductForHistoryDTO.setWeight(productInBascetDTO.getProduct().getWeight());
             orderedProductForHistoryDTO.setCountry(productInBascetDTO.getProduct().getCountry());
             orderedProductForHistoryDTO.setDescription(productInBascetDTO.getProduct().getDescription());
-
             orderedProductForHistoryDTO.setOrderInHistory(orderEntity);
 
             orderedProductForHistoryDTO.setQuantity(productInBascetDTO.getQuantity());
+
             orderedProductForHistoryRepository.saveProduct(OrderedProductForHistoryConverter.toEntity(orderedProductForHistoryDTO));
 
             productInBascetRepository.deleteProductInBascet(ProductInBascetConverter.toEntity(productInBascetDTO));

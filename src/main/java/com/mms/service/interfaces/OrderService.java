@@ -23,5 +23,6 @@ public interface OrderService {
     List<OrderedProductForHistoryDTO> getProductsToAddByOrderId(int id);
     List<OrderedProductForHistoryDTO> getEditedProductsByOrderId(int id);
     List<OrderedProductForHistoryDTO> getMissingProductsByOrderId(int id);
+    String createOrderAndReturnResult(List<ProductInBascetDTO> productInBascetDTOList, int orderId);
 
 }

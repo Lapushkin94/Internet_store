@@ -12,6 +12,8 @@ public interface ProductRepository {
     void deleteProduct(ProductEntity productEntity);
     void updateProduct(ProductEntity productEntity);
     ProductEntity findProductById(int id);
+    int getProductQuantityByProductId(int id);
+//    ProductEntity findProductByIdTransactional(int id);
     int getProductCount();
     int getProductCountNotNullQuantity();
     List<ProductEntity> findAllProductsByCategoryId(int categoryId);

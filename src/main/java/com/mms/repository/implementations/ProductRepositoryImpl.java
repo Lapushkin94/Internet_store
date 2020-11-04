@@ -5,8 +5,10 @@ import com.mms.repository.interfaces.ProductRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.LockModeType;
 import java.util.List;
 
 @Repository
@@ -110,6 +112,22 @@ public class ProductRepositoryImpl implements ProductRepository {
     public ProductEntity findProductById(int id) {
         Session session = sessionFactory.getCurrentSession();
         return session.get(ProductEntity.class, id);
+    }
+
+//    @Override
+//    @Lock(LockModeType.PESSIMISTIC_WRITE)
+//    public ProductEntity findProductByIdTransactional(int id) {
+//        Session session = sessionFactory.getCurrentSession();
+//        return session.get(ProductEntity.class, id);
+//    }
+
+    @Override
+//    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @Lock(LockModeType.OPTIMISTIC)
+    public int getProductQuantityByProductId(int inputId) {
+        Session session = sessionFactory.getCurrentSession();
+        return session.createQuery("select prod.quantityInStore from ProductEntity prod where prod.id = :inputId", Number.class)
+                .setParameter("inputId", inputId).getSingleResult().intValue();
     }
 
     @Override
