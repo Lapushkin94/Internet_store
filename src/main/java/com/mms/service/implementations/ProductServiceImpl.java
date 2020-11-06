@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.NoResultException;
 import java.util.List;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -21,7 +22,6 @@ public class ProductServiceImpl implements ProductService {
     private static final Logger logger = Logger.getLogger(ProductServiceImpl.class.getName());
 
     private ProductRepository productRepository;
-
 
     @Autowired
     public void setProductRepository(ProductRepository productRepository) {
@@ -118,4 +118,35 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findAllProductsUsingFilterWithoutPages(inputProductName, isInStore, minPrice, maxPrice, inputNameOfCategory).size();
     }
 
+    @Override
+    @Transactional
+    public String editProductAndReturnNameStatus(ProductDTO product) {
+
+        try {
+            logger.info("fail editing product " + product.getId());
+            productRepository.findProductsByName(product.getName());
+            return "redirect:/catalog/editProduct/" + product.getId() + "/?uniqName=0";
+        } catch (NoResultException exc) {
+            logger.info("editing product with id = " + product.getId());
+            productRepository.updateProduct(ProductConverter.toEntity(product));
+        }
+
+        return "okStatus";
+    }
+
+    @Override
+    @Transactional
+    public String addProductAndReturnUnicNameStatus(ProductDTO product) {
+
+        try {
+            productRepository.findProductsByName(product.getName());
+            logger.info("fail adding product " + product.getName() + " " + product.getId());
+            return "redirect:/catalog/addProduct/?uniqName=0";
+        } catch (NoResultException exc) {
+            logger.info("adding product with id = " + product.getId());
+            productRepository.saveProduct(ProductConverter.toEntity(product));
+        }
+
+        return "okStatus";
+    }
 }

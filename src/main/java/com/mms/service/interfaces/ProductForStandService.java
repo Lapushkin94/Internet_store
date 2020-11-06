@@ -7,7 +7,9 @@ import java.util.List;
 public interface ProductForStandService {
 
     List<ProductForStand> getProductsForStandList();
+
     void sendMessageToStandApp();
+
     void initMessage();
 
 }

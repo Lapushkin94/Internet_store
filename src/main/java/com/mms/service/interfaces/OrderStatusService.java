@@ -8,9 +8,13 @@ import java.util.List;
 public interface OrderStatusService {
 
     OrderStatusDTO getOpenedStatus();
+
     OrderStatusDTO getInProcessStatus();
+
     OrderStatusDTO getClosedStatus();
+
     List<OrderStatusDTO> getAllOrderStatus();
+
     OrderStatusDTO getOrderStatusByName(String name);
 
 }

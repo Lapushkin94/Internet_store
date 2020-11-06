@@ -114,21 +114,21 @@ public class ProductRepositoryImpl implements ProductRepository {
         return session.get(ProductEntity.class, id);
     }
 
-//    @Override
-//    @Lock(LockModeType.PESSIMISTIC_WRITE)
-//    public ProductEntity findProductByIdTransactional(int id) {
-//        Session session = sessionFactory.getCurrentSession();
-//        return session.get(ProductEntity.class, id);
-//    }
-
     @Override
-//    @Lock(LockModeType.PESSIMISTIC_WRITE)
-    @Lock(LockModeType.OPTIMISTIC)
-    public int getProductQuantityByProductId(int inputId) {
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    public ProductEntity findProductByIdTransactional(int id) {
         Session session = sessionFactory.getCurrentSession();
-        return session.createQuery("select prod.quantityInStore from ProductEntity prod where prod.id = :inputId", Number.class)
-                .setParameter("inputId", inputId).getSingleResult().intValue();
+        return session.get(ProductEntity.class, id);
     }
+
+//    @Override
+////    @Lock(LockModeType.PESSIMISTIC_WRITE)
+//    @Lock(LockModeType.OPTIMISTIC)
+//    public int getProductQuantityByProductId(int inputId) {
+//        Session session = sessionFactory.getCurrentSession();
+//        return session.createQuery("select prod.quantityInStore from ProductEntity prod where prod.id = :inputId", Number.class)
+//                .setParameter("inputId", inputId).getSingleResult().intValue();
+//    }
 
     @Override
     public int getProductCount() {

@@ -5,9 +5,7 @@ import com.mms.dto.converterDTO.ClientAddressConverter;
 import com.mms.dto.converterDTO.OrderStatusConverter;
 import com.mms.service.interfaces.ClientService;
 import com.mms.service.interfaces.OrderService;
-import com.mms.service.interfaces.ProductInBascetService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -16,8 +14,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.List;
-import java.util.Map;
 import java.util.logging.Logger;
 
 @Controller
@@ -29,15 +25,9 @@ public class ProfileController {
     private ClientService clientService;
     private PasswordEncoder passwordEncoder;
     private OrderService orderService;
-    private ProductInBascetService productInBascetService;
 
     private int orderListPage;
     private int orderHistoryListPage;
-
-    @Autowired
-    public void setProductInBascetService(ProductInBascetService productInBascetService) {
-        this.productInBascetService = productInBascetService;
-    }
 
     @Autowired
     public void setOrderService(OrderService orderService) {
@@ -83,15 +73,9 @@ public class ProfileController {
         clientDTO.setClientAddress(clientService.getClientByEmail(user.getUsername()).getClientAddress());
         clientDTO.setRole(clientService.getClientByEmail(user.getUsername()).getRole());
 
-        // needs refactor
-        try {
-            logger.info("editing profile " + user.getUsername());
-            clientService.editClient(clientDTO);
-        } catch (DataIntegrityViolationException exc) {
-            logger.info("editing fail " + user.getUsername());
-            return "redirect:/myProfile/editProfile/?emailStatus=1";
-        }
+        String resultStatus = clientService.checkExistingEmailsThenAddAnotherOneAndReturnStatus(clientDTO);
 
+        if (!resultStatus.equals("okStatus")) return resultStatus;
         return "redirect:/myProfile";
     }
 
@@ -191,26 +175,5 @@ public class ProfileController {
 
         return modelAndView;
     }
-
-    @GetMapping(value = "/repeatOrder/{id}")
-    public ModelAndView repeatOrderById(@PathVariable("id") int id) {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("order/orderBasketForRepeat");
-
-        productInBascetService.resetProductInBascetTable();
-
-        modelAndView.addObject("quantityDifferenceOfNotAddedProducts", productInBascetService
-                .addProductListToBasketAndReturnQuantityDifference(orderService.getProductsToAddByOrderId(id)));
-
-        modelAndView.addObject("editedProducts", orderService.getEditedProductsByOrderId(id));
-        modelAndView.addObject("missingProducts", orderService.getMissingProductsByOrderId(id));
-
-        modelAndView.addObject("productInBascetList", productInBascetService.getAllProductsInBascetWithoutPages());
-        modelAndView.addObject("summPrice",
-                productInBascetService.getSummPriceForAllProducts(productInBascetService.getAllProductsInBascetWithoutPages()));
-
-        return modelAndView;
-    }
-
 
 }

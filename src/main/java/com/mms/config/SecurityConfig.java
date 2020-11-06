@@ -29,11 +29,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/signIn", "/signUp", "/signUpPage").anonymous()
-                .antMatchers("/logout", "/myProfile/**", "/order/**").authenticated()
+                .antMatchers("/logout", "/myProfile/**", "/catalog/order/**").authenticated()
                 .antMatchers("/orderList", "/catalog/editProduct/**",
                         "/catalog/addProduct", "/catalog/delete/**",
                         "/clientControl/**", "/orderList/**",
-                        "/categories/**", "/catalog/statistics")
+                        "/categories/**", "/statistics")
                 .access("hasRole('ADMIN') or hasRole('MANAGER')")
                 .and()
                 .csrf().disable()

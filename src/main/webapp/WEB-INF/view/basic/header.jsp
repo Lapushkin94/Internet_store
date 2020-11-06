@@ -85,7 +85,7 @@
                                 </security:authorize>
 
                                 <security:authorize access="hasRole('ADMIN') or hasRole('MANAGER')">
-                                    <a class="dropdown-item" href="${pageContext.request.contextPath}/order/statistics">Statistics</a>
+                                    <a class="dropdown-item" href="${pageContext.request.contextPath}/statistics">Statistics</a>
                                     <div class="dropdown-divider"></div>
                                 </security:authorize>
 

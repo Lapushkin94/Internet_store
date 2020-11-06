@@ -71,7 +71,7 @@
             </div>
 
             <div class="col-3">
-                <a href="${pageContext.request.contextPath}/order">
+                <a href="${pageContext.request.contextPath}/catalog/order">
                     <img src="https://secure.diary.ru/userdir/3/4/2/8/3428343/86357077.jpg" height="200" width="200"
                          alt="second" style="margin-left: 70px" class="border border-info">
                 </a>

@@ -21,8 +21,8 @@
 
                 <thead>
                 <th>№</th>
-                <th>Quantity</th>
                 <th>Product</th>
+                <th>Quantity</th>
                 <th>Price</th>
                 </thead>
 
@@ -30,25 +30,43 @@
                 <c:forEach var="productInBascet" items="${productInBascetList}" varStatus="i">
                     <tr>
                         <td>${i.index + 1}</td>
-                        <td>${productInBascet.quantity}</td>
-                        <td>${productInBascet.product.name}</td>
-                        <td>${productInBascet.product.price}</td>
+                        <td>${productInBascet.value.productName}</td>
+                        <td>${productInBascet.value.quantity}</td>
+                        <td>${productInBascet.value.price}</td>
                     </tr>
                 </c:forEach>
                 </tbody>
             </table>
 
             <div class="row">
-                <div class="row-3; border border-danger"
-                     style="background-color: khaki; margin-left: 15px; padding: 10px; margin-top: 10px">
-                    Total price: ${summPrice}
-                </div>
+                <c:if test="${summQuantity != 0}">
+                    <c:if test="${summQuantity == 1}">
+                        <div class="row-3; border border-danger"
+                             style="background-color: khaki; margin-left: 15px; padding: 10px; margin-top: 10px">
+                            Book price: ${summPrice}
+                        </div>
+                    </c:if>
+                    <c:if test="${summQuantity != 1}">
+                        <div class="row-3; border border-danger"
+                             style="background-color: khaki; margin-left: 15px; padding: 10px; margin-top: 10px">
+                            Total price for ${summQuantity} books: ${summPrice}
+                        </div>
+                    </c:if>
+                </c:if>
+                <c:if test="${summQuantity == 0}">
+                    <div class="row-3; border border-danger"
+                         style="background-color: khaki; margin-left: 15px; padding: 10px; margin-top: 10px">
+                        No books
+                    </div>
+                </c:if>
             </div>
+
 
             <div style="margin-top: 25px">
 
                 <c:if test="${!empty productInBascetList}">
-                    <a href="${pageContext.request.contextPath}/order/orderRegistrationPage" style="color: wheat">
+                    <a href="${pageContext.request.contextPath}/catalog/order/orderRegistrationPage"
+                       style="color: wheat">
                         <button type="button" class="btn btn-info">
                             Order it!
                         </button>
@@ -56,14 +74,15 @@
                 </c:if>
 
                 <c:if test="${empty productInBascetList}">
-                    <a href="${pageContext.request.contextPath}/order/orderRegistrationPage" style="color: wheat">
+                    <a href="${pageContext.request.contextPath}/catalog/order/orderRegistrationPage"
+                       style="color: wheat">
                         <button type="button" class="btn btn-info" disabled>
                             Order it!
                         </button>
                     </a>
                 </c:if>
-
             </div>
+
 
             <div style="margin-top: 10px">
                 <a href="${pageContext.request.contextPath}/catalog" style="color: wheat">
@@ -72,7 +91,6 @@
                     </button>
                 </a>
             </div>
-
         </div>
 
 
@@ -196,7 +214,6 @@
         </div>
 
     </div>
-
 </div>
 
 

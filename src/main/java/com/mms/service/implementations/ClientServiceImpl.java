@@ -6,6 +6,7 @@ import com.mms.dto.RoleDTO;
 import com.mms.dto.converterDTO.ClientConverter;
 import com.mms.dto.converterDTO.OrderConverter;
 import com.mms.dto.converterDTO.RoleConverter;
+import com.mms.model.ClientEntity;
 import com.mms.repository.interfaces.ClientRepository;
 import com.mms.service.interfaces.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.NoResultException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -129,4 +129,35 @@ public class ClientServiceImpl implements ClientService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    @Transactional
+    public String checkExistingEmailsThenAddAnotherOneAndReturnStatus(ClientDTO clientDTO) {
+
+        try {
+            ClientEntity client = clientRepository.findByEmail(clientDTO.getEmail());
+            logger.info("editing fail");
+            return "redirect:/myProfile/editProfile/?emailStatus=1";
+        } catch (NoResultException exc) {
+            editClient(clientDTO);
+            return "okStatus";
+        }
+
+    }
+
+    @Override
+    @Transactional
+    public String addClientAndReturnUniqEmailStatus(ClientDTO clientDTO) {
+
+        try {
+            ClientEntity client = clientRepository.findByEmail(clientDTO.getEmail());
+            logger.info("fail adding client");
+            return "redirect:/signUpPage/?emailStatus=1";
+        } catch (NoResultException exc) {
+            logger.info("adding client " + clientDTO.getId());
+            clientDTO.setPassword(passwordEncoder.encode(clientDTO.getPassword()));
+            clientRepository.saveClient(ClientConverter.toEntity(clientDTO));
+        }
+
+        return "okStatus";
+    }
 }

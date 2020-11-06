@@ -7,12 +7,19 @@ import java.util.List;
 public interface CategoryRepository {
 
     List<CategoryEntity> findAllCategories(int page);
+
     List<CategoryEntity> findAllCategoriesWithoutPages();
+
     void saveCategory(CategoryEntity categoryEntity);
+
     void deleteCategory(CategoryEntity categoryEntity);
+
     void updateCategory(CategoryEntity categoryEntity);
+
     CategoryEntity findCategoryById(int id);
+
     int getCategoryCount();
+
     CategoryEntity findCategoryByName(String nameOfCategory);
 
 }

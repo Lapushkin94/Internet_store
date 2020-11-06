@@ -3,12 +3,12 @@ package com.mms.service.implementations;
 import com.mms.dto.*;
 import com.mms.dto.converterDTO.*;
 import com.mms.model.OrderEntity;
+import com.mms.model.ProductEntity;
 import com.mms.repository.interfaces.OrderRepository;
 import com.mms.repository.interfaces.OrderedProductForHistoryRepository;
 import com.mms.repository.interfaces.ProductInBascetRepository;
 import com.mms.repository.interfaces.ProductRepository;
 import com.mms.service.interfaces.OrderService;
-import com.mysql.cj.jdbc.exceptions.MySQLQueryInterruptedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +17,7 @@ import javax.persistence.NoResultException;
 import java.sql.SQLDataException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -96,60 +97,62 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public String createOrderAndReturnResult(List<ProductInBascetDTO> productInBascetDTOList, int orderId) {
+    public String createOrderAndReturnResult(Map<Integer, ProductInBasketForSession> productsInBasket, int orderId) {
         try {
-            return calculateProductNumberInStoreAlsoCopyProductInfoToTheHistoryTableAndResetProductBascet(productInBascetDTOList, orderId);
+            logger.info("start most long method");
+            return calculateProductNumberInStoreAlsoCopyProductInfoToTheHistoryTableAndResetProductBascet(productsInBasket, orderId);
         }
-        catch (NullPointerException exc) {
-            logger.info("Not enough products");
-            return "Not enough products";
+
+        // need to edit Exception type
+        catch (RuntimeException exc) {
+            logger.info("Not enough products" + exc.getMessage());
+            return "NotEnoughProducts";
         }
     }
 
     @Override
     @Transactional
-    public String calculateProductNumberInStoreAlsoCopyProductInfoToTheHistoryTableAndResetProductBascet(List<ProductInBascetDTO> productInBascetDTOList, int orderId) {
+    public String calculateProductNumberInStoreAlsoCopyProductInfoToTheHistoryTableAndResetProductBascet(Map<Integer, ProductInBasketForSession> productsInBasket, int orderId) {
 
         logger.info("creating order history " + orderId);
-        for (ProductInBascetDTO prod : productInBascetDTOList) {
-            if (ProductConverter.toDto(prod.getProduct()).getQuantityInStore() < prod.getQuantity()) {
-                return "notEnough=" + ProductConverter.toDto(prod.getProduct()).getId();
-            }
-        }
 
         ProductDTO productDTO;
         OrderedProductForHistoryDTO orderedProductForHistoryDTO;
         OrderEntity orderEntity = orderRepository.findOrderById(orderId);
 
-        for (ProductInBascetDTO productInBascetDTO : productInBascetDTOList) {
+        ProductEntity productEntity;
 
-            productDTO = ProductConverter.toDto(productInBascetDTO.getProduct());
+        for (Map.Entry<Integer, ProductInBasketForSession> entry : productsInBasket.entrySet()) {
 
-            logger.info("start calculating quantity and writing products in history");
-            if (productRepository.getProductQuantityByProductId(productDTO.getId()) < productInBascetDTO.getQuantity()) {
+            productEntity = productRepository.findProductByIdTransactional(entry.getKey());
+            productDTO = ProductConverter.toDto(productEntity);
+
+
+            if (productDTO.getQuantityInStore() < entry.getValue().getQuantity()) {
                 logger.info("fail quantity difference");
-                throw new NullPointerException();
+                orderRepository.deleteOrder(orderEntity);
+                throw new RuntimeException();
             }
 
-            productDTO.setQuantityInStore(productInBascetDTO.getProduct().getQuantityInStore() - productInBascetDTO.getQuantity());
-            productRepository.updateProduct(ProductConverter.toEntity(productDTO));
+//            productDTO.setQuantityInStore(productDTO.getQuantityInStore() - entry.getValue().getQuantity());
+//            productRepository.updateProduct(ProductConverter.toEntity(productDTO));
+            productEntity.setQuantityInStore(productEntity.getQuantityInStore() - entry.getValue().getQuantity());
+            productRepository.updateProduct(productEntity);
 
             orderedProductForHistoryDTO = new OrderedProductForHistoryDTO();
-            orderedProductForHistoryDTO.setName(productInBascetDTO.getProduct().getName());
-            orderedProductForHistoryDTO.setAlternative_name(productInBascetDTO.getProduct().getAlternative_name());
-            orderedProductForHistoryDTO.setBrandName(productInBascetDTO.getProduct().getBrandName());
-            orderedProductForHistoryDTO.setPrice(productInBascetDTO.getProduct().getPrice());
-            orderedProductForHistoryDTO.setColor(productInBascetDTO.getProduct().getColor());
-            orderedProductForHistoryDTO.setWeight(productInBascetDTO.getProduct().getWeight());
-            orderedProductForHistoryDTO.setCountry(productInBascetDTO.getProduct().getCountry());
-            orderedProductForHistoryDTO.setDescription(productInBascetDTO.getProduct().getDescription());
+            orderedProductForHistoryDTO.setName(entry.getValue().getProductName());
+            orderedProductForHistoryDTO.setAlternative_name(entry.getValue().getAlternative_name());
+            orderedProductForHistoryDTO.setBrandName(entry.getValue().getBrandName());
+            orderedProductForHistoryDTO.setPrice(entry.getValue().getPrice());
+            orderedProductForHistoryDTO.setColor(entry.getValue().getColor());
+            orderedProductForHistoryDTO.setWeight(entry.getValue().getWeight());
+            orderedProductForHistoryDTO.setCountry(entry.getValue().getCountry());
+            orderedProductForHistoryDTO.setDescription(entry.getValue().getDescription());
             orderedProductForHistoryDTO.setOrderInHistory(orderEntity);
-
-            orderedProductForHistoryDTO.setQuantity(productInBascetDTO.getQuantity());
+            orderedProductForHistoryDTO.setQuantity(entry.getValue().getQuantity());
 
             orderedProductForHistoryRepository.saveProduct(OrderedProductForHistoryConverter.toEntity(orderedProductForHistoryDTO));
 
-            productInBascetRepository.deleteProductInBascet(ProductInBascetConverter.toEntity(productInBascetDTO));
         }
 
         return "completedSuccessfully";

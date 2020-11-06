@@ -196,18 +196,20 @@
                 <c:forEach var="productInBascet" items="${productInBascetList}" varStatus="i">
                     <tr>
                         <td>${i.index + 1 + (productInBascetListPage - 1) * 10}</td>
-                        <td>${productInBascet.product.name}</td>
-                        <td>${productInBascet.quantity}</td>
-                        <td>${productInBascet.product.price}</td>
+                        <td>${productInBascet.value.productName}</td>
+                        <td>${productInBascet.value.quantity}</td>
+                        <td>${productInBascet.value.price}</td>
+
                         <td>
-                            <a href="/catalog/productDetails/${productInBascet.product.id}" style="color: wheat">
+                            <a href="/catalog/productDetails/${productInBascet.key}" style="color: wheat">
                                 <button type="button" class="btn btn-info">
                                     Details
                                 </button>
                             </a>
                         </td>
+
                         <td>
-                            <a href="/catalog/deleteProductInBascet/${productInBascet.id}" style="color: wheat">
+                            <a href="/catalog/deleteProductInBascet/${productInBascet.key}" style="color: wheat">
                                 <button type="button" class="btn btn-secondary">
                                     Remove
                                 </button>
@@ -231,12 +233,12 @@
 
             <div class="border border-danger"
                  style="float: left; background-color: khaki; padding: 10px; margin-left: 20px">
-                <a href="${pageContext.request.contextPath}/order">Go to order registration!</a>
+                <a href="${pageContext.request.contextPath}/catalog/order">Go to order registration!</a>
             </div>
         </div>
     </div>
     <c:choose>
-        <c:when test="${catalogParam == 'catalogFalse'}">
+        <c:when test="${catalogParam == 'catalogFail'}">
             <div class="alert alert-danger" role="alert" style="margin-top: 5px">
                 You want too many. You can <a href="${pageContext.request.contextPath}/contacts" class="alert-link">contact</a>
                 us. We will do everything possible!
@@ -244,7 +246,10 @@
         </c:when>
         <c:when test="${catalogParam == 'catalogSuccess'}">
             <div class="alert alert-success" role="alert" style="margin-top: 5px">
-                Product successful added to your <a href="${pageContext.request.contextPath}/order" class="alert-link">bascet</a>.
+                Product successful added to your
+                <a href="${pageContext.request.contextPath}/catalog/order" class="alert-link">
+                    bascet
+                </a>.
                 Nice choice!
             </div>
         </c:when>

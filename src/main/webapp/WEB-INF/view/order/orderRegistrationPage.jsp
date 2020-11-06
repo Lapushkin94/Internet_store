@@ -27,7 +27,7 @@
     </div>
 
     <div>
-        <form action="${pageContext.request.contextPath}/order/confirmation" method="POST">
+        <form action="${pageContext.request.contextPath}/catalog/order/confirmation" method="POST">
 
             <div class="form-row">
 
@@ -90,7 +90,7 @@
 
         </form>
 
-        <a href="${pageContext.request.contextPath}/order">
+        <a href="${pageContext.request.contextPath}/catalog/order">
             <button type="button" class="btn btn-secondary">
                 Back
             </button>

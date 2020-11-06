@@ -47,7 +47,7 @@
                     <div class="col">
 
                         <div>
-                            <a href="${pageContext.request.contextPath}/myProfile/repeatOrder/${ordersId}">
+                            <a href="${pageContext.request.contextPath}/catalog/repeatOrder/${ordersId}">
                                 <button type="button" class="btn btn-warning" style="margin-top: 20px">
                                     Repeat order
                                 </button>

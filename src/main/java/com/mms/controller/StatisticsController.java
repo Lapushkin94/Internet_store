@@ -13,8 +13,9 @@ import java.util.logging.Logger;
 @ResponseBody
 public class StatisticsController {
 
-    private ProductForStandService productForStandService;
     private Logger logger = Logger.getLogger(StatisticsController.class.getName());
+
+    private ProductForStandService productForStandService;
 
     @Autowired
     public void setProductForStandService(ProductForStandService productForStandService) {

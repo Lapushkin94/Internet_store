@@ -32,7 +32,7 @@
 
                 <div class="panel-body">
 
-                    <form action="${pageContext.request.contextPath}/order/successfulPayment" method="post">
+                    <form action="${pageContext.request.contextPath}/catalog/order/successfulPayment" method="post">
 
                         <div class="form-group">
 
@@ -40,7 +40,7 @@
                                 CARD NUMBER</label>
                             <div class="input-group">
 
-                                <input type="tel" class="form-control" id="cardNumber" placeholder="Card Number: XXXX-XXXX-XXXX-XXXX"
+                                <input type="tel" class="form-control" id="cardNumber" placeholder="XXXX-XXXX-XXXX-XXXX"
                                        pattern="[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{4}" required autofocus/>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
 
@@ -57,11 +57,11 @@
                                     </label>
 
                                     <div class="col-xs-6 col-lg-6 pl-ziro">
-                                        <input type="text" class="form-control" id="expityMonth" placeholder="MM" pattern="[0-9]{2}" required>
+                                        <input type="text" class="form-control" id="expityMonth" placeholder="MM" pattern="[0-1]{1}[0-9]{1}" required>
                                     </div>
 
                                     <div class="col-xs-6 col-lg-6 pl-ziro">
-                                        <input type="text" class="form-control" id="expityYear" placeholder="YY" pattern="[0-9]{2}"
+                                        <input type="text" class="form-control" id="expityYear" placeholder="YY" pattern="[0-2]{1}[0-9]{1}"
                                                required>
                                     </div>
                                 </div>
@@ -71,7 +71,7 @@
                                 <div class="form-group">
                                     <label for="cvCode">
                                         CV CODE</label>
-                                    <input type="password" class="form-control" id="cvCode" placeholder="CV" minlength="3" maxlength="3" pattern="[0-9]{3}" required/>
+                                    <input type="password" class="form-control" id="cvCode" placeholder="CV: XXX" minlength="3" maxlength="3" pattern="[0-9]{3}" required/>
                                 </div>
                             </div>
 

@@ -7,16 +7,15 @@ import com.mms.dto.OrderDTO;
 import com.mms.dto.converterDTO.ClientAddressConverter;
 import com.mms.dto.converterDTO.OrderStatusConverter;
 import com.mms.dto.converterDTO.RoleConverter;
-import com.mms.service.interfaces.ClientService;
-import com.mms.service.interfaces.OrderService;
-import com.mms.service.interfaces.OrderStatusService;
-import com.mms.service.interfaces.ProductInBascetService;
+import com.mms.service.interfaces.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.persistence.PersistenceException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.logging.Logger;
 
 @Controller
@@ -25,13 +24,20 @@ public class SecurityController {
     private static final Logger logger = Logger.getLogger(SecurityController.class.getName());
 
     private ClientService clientService;
-    private ProductInBascetService productInBascetService;
     private OrderService orderService;
     private OrderStatusService orderStatusService;
+    private OrderedProductForHistoryService orderedProductForHistoryService;
 
     private int clientListPage;
     private int orderListPage;
     private int orderProductsListPage;
+
+    private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd G 'at' HH:mm:ss z");
+
+    @Autowired
+    public void setOrderedProductForHistoryService(OrderedProductForHistoryService orderedProductForHistoryService) {
+        this.orderedProductForHistoryService = orderedProductForHistoryService;
+    }
 
     @Autowired
     public void setOrderStatusService(OrderStatusService orderStatusService) {
@@ -44,35 +50,32 @@ public class SecurityController {
     }
 
     @Autowired
-    public void setProductInBascetService(ProductInBascetService productInBascetService) {
-        this.productInBascetService = productInBascetService;
-    }
-
-    @Autowired
     public void setClientService(ClientService clientService) {
         this.clientService = clientService;
     }
 
     @GetMapping("/signIn")
     public String showMySignInPage() {
+
         return "security/signInPage";
     }
 
     @GetMapping("/accessDenied")
     public String getAccessDeniedPage() {
+
         return "exceptions/accessDenied";
     }
 
     @GetMapping("/logoutSuccessPage")
     public String getLogoutPage() {
-        logger.info("resetting basket");
-        productInBascetService.resetProductInBascetTable();
+
         return "redirect:/catalog/resetFilterAfterLogout";
     }
 
     @GetMapping("/signUpPage")
     public ModelAndView getSignUpPage(@RequestParam(value = "passwordStatus", defaultValue = "0") int passwordStatus,
                                       @RequestParam(value = "emailStatus", defaultValue = "0") int emailStatus) {
+
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("security/signUpPage");
 
@@ -97,20 +100,16 @@ public class SecurityController {
         clientDTO.setClientAddress(ClientAddressConverter.toEntity(clientAddressDTO));
         clientDTO.setRole(RoleConverter.toEntity(clientService.getRoleByRoleName("ROLE_CLIENT")));
 
-        // needs refactor
-        try {
-            logger.info("adding client " + clientDTO.getId());
-            clientService.addClient(clientDTO);
-        } catch (PersistenceException exc) {
-            logger.info("fail adding client");
-            return "redirect:/signUpPage/?emailStatus=1";
-        }
+        String uniqEmailStatus = clientService.addClientAndReturnUniqEmailStatus(clientDTO);
+
+        if (!uniqEmailStatus.equals("okStatus")) return uniqEmailStatus;
 
         return "redirect:/signIn";
     }
 
     @GetMapping("/clientControl")
     public ModelAndView getClientList(@RequestParam(defaultValue = "1") int clientListPage) {
+
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("client/clientControlPage");
 
@@ -127,6 +126,7 @@ public class SecurityController {
 
     @GetMapping(value = "/clientControl/clientAddress/{id}")
     public ModelAndView getClientAddress(@PathVariable("id") int id) {
+
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("client/clientAddress");
 
@@ -139,6 +139,7 @@ public class SecurityController {
 
     @GetMapping(value = "/clientControl/deleteClient/{id}")
     public ModelAndView deleteClient(@PathVariable("id") int id) {
+
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("redirect:/clientControl/?clientListPage=" + this.clientListPage);
 
@@ -150,6 +151,7 @@ public class SecurityController {
 
     @GetMapping("/orderList")
     public ModelAndView getOrderList(@RequestParam(defaultValue = "1") int orderListPage) {
+
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("order/orderListPage");
 
@@ -166,6 +168,7 @@ public class SecurityController {
 
     @GetMapping("/orderList/clientDetails/{id}")
     public ModelAndView getClientsProfile(@PathVariable("id") int id) {
+
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("client/clientProfilePage");
 
@@ -178,6 +181,7 @@ public class SecurityController {
     @GetMapping("/orderList/orderDetails/{id}")
     public ModelAndView getOrderDetails(@PathVariable("id") int id,
                                         @RequestParam(defaultValue = "1") int orderProductsListPage) {
+
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("client/orderDetails");
 
@@ -198,6 +202,7 @@ public class SecurityController {
     @PostMapping("/orderList/orderDetails/changeOrderStatus")
     public ModelAndView setNewStatusForOrder(@RequestParam("orderStatusName") String statusName,
                                              @RequestParam("enterOrderId") int enterOrderId) {
+
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("redirect:/orderList/orderDetails/" + enterOrderId + "?orderProductsListPage=" + this.orderProductsListPage);
 
@@ -205,6 +210,33 @@ public class SecurityController {
         OrderDTO orderDTO = orderService.getOrder(enterOrderId);
         orderDTO.setOrderStatus(OrderStatusConverter.toEntity(orderStatusService.getOrderStatusByName(statusName)));
         orderService.editOrder(orderDTO);
+
+        return modelAndView;
+    }
+
+    @GetMapping(value = "/statistics")
+    public ModelAndView getStatisticsPage() {
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("stats/statisticsPage");
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        calendar.add(Calendar.DATE, -1);
+        Date dateMinusOneDay = calendar.getTime();
+        calendar.add(Calendar.DATE, -2);
+        Date dateMinusThreeDays = calendar.getTime();
+        calendar.add(Calendar.DATE, -4);
+        Date dateMinusSevenDays = calendar.getTime();
+        calendar.add(Calendar.DATE, -27);
+        Date dateMinusMonth = calendar.getTime();
+
+        modelAndView.addObject("topTenProducts", orderedProductForHistoryService.getTop10ProductsBySoldNumber());
+        modelAndView.addObject("top10clientsByProfit", orderedProductForHistoryService.getTop10clientsByProfit());
+        modelAndView.addObject("totalProfitOfTheDay", orderedProductForHistoryService.getTotalProfitByNumberOfDays(dateFormat.format(dateMinusOneDay)));
+        modelAndView.addObject("totalProfitOfTheThreeDays", orderedProductForHistoryService.getTotalProfitByNumberOfDays(dateFormat.format(dateMinusThreeDays)));
+        modelAndView.addObject("totalProfitOfTheWeek", orderedProductForHistoryService.getTotalProfitByNumberOfDays(dateFormat.format(dateMinusSevenDays)));
+        modelAndView.addObject("totalProfitOfTheMonth", orderedProductForHistoryService.getTotalProfitByNumberOfDays(dateFormat.format(dateMinusMonth)));
 
         return modelAndView;
     }

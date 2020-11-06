@@ -9,15 +9,25 @@ import java.util.List;
 public interface ClientRepository {
 
     List<ClientEntity> findAllClients(int page, RoleEntity roleEntity);
+
     void saveClient(ClientEntity clientEntity);
+
     void deleteClient(ClientEntity clientEntity);
+
     void updateClient(ClientEntity clientEntity);
+
     ClientEntity findClientById(int id);
+
     int getClientCount(RoleEntity roleEntity);
+
     ClientEntity findByEmail(String inputEmail);
+
     RoleEntity findRoleByRoleName(String roleName);
+
     List<RoleEntity> findAllRoles();
+
     List<OrderEntity> findOrderListByClientId(int clientId, int page);
+
     List<ClientEntity> findAllClientsWithoutPages();
 
 }
