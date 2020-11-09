@@ -21,4 +21,10 @@ public interface OrderedProductForHistoryService {
 
     int getTotalProfitByNumberOfDays(String dateMinusNumberOfDays);
 
+    Map<String, Integer> getTop10ProductsBySoldNumberOptimizedVersion();
+
+    Map<String, Integer> getTop10clientsByProfitOptimizedVersion();
+
+    int getTotalProfitByNumberOfDaysOptimizedVersion(String currentDateMinusNumberOfDays);
+
 }

@@ -34,6 +34,11 @@
                         Added!
                     </div>
                 </c:if>
+                <c:if test="${isEdited == 4}">
+                    <div style="background-color: pink; float: left; padding: 5px; margin-left: 25px">
+                        Such category already exists!
+                    </div>
+                </c:if>
             </h3>
             <table class="table table-striped table-hover table-sm" style="background-color: cornsilk">
 
@@ -90,7 +95,7 @@
             </div>
 
             <div style="margin-top: 20px">
-                <a href="${pageContext.request.contextPath}/catalog">
+                <a href="${pageContext.request.contextPath}/catalog/resetFilter">
                     <button type="button" class="btn btn-info">Back</button>
                 </a>
             </div>

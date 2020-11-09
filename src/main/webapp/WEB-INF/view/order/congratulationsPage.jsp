@@ -15,7 +15,7 @@
 <jsp:include page="../basic/header.jsp"/>
 
 <div class="container">
-    <div class="row text-center">
+    <div class="row text-center" style="margin-left: 300px">
         <div class="col-sm-6 col-sm-offset-3">
             <br><br>
             <h2 style="color:#0fad00">Success!</h2>

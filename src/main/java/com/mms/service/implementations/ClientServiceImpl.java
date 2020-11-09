@@ -131,17 +131,39 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     @Transactional
-    public String checkExistingEmailsThenAddAnotherOneAndReturnStatus(ClientDTO clientDTO) {
+    public String checkExistingEmailsThenAddAnotherOneAndReturnStatus(ClientDTO client) {
 
+//        try {
+//            ClientEntity client = clientRepository.findByEmail(clientDTO.getEmail());
+//            if (client.getId() == clientDTO.getId()) {
+//                throw new NoResultException();
+//            }
+//            logger.info("editing fail");
+//            return "redirect:/myProfile/editProfile/?emailStatus=1";
+//        } catch (NoResultException exc) {
+//            editClient(clientDTO);
+//            return "okStatus";
+//        }
         try {
-            ClientEntity client = clientRepository.findByEmail(clientDTO.getEmail());
-            logger.info("editing fail");
-            return "redirect:/myProfile/editProfile/?emailStatus=1";
-        } catch (NoResultException exc) {
-            editClient(clientDTO);
-            return "okStatus";
+            ClientDTO clientDTO = ClientConverter.toDto(clientRepository.findByEmail(client.getEmail()));
+            if (client.getId() == clientDTO.getId()) {
+                ClientEntity clientToUpdate = clientRepository.findClientById(client.getId());
+                clientToUpdate.setName(client.getName());
+                clientToUpdate.setSecondName(client.getSecondName());
+                clientToUpdate.setBirthday(client.getBirthday());
+                clientToUpdate.setEmail(client.getEmail());
+                clientRepository.updateClient(clientToUpdate);
+            }
+            else {
+                logger.info("fail editing client");
+                return "redirect:/myProfile/editProfile/?emailStatus=1";
+            }
         }
-
+        catch (NoResultException exc) {
+            logger.info("editing client");
+            clientRepository.updateClient(ClientConverter.toEntity(client));
+        }
+        return "okStatus";
     }
 
     @Override

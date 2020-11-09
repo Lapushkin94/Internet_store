@@ -25,4 +25,8 @@ public interface CategoryService {
 
     void changeCategoriesForProductList(List<ProductDTO> productDTOS);
 
+    String addCategoryAndReturnResult(CategoryDTO categoryDTO);
+
+    String checkCategoryNameAndReturnStatus(String newNameOfCategory);
+
 }

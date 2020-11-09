@@ -17,7 +17,7 @@ public interface BasketForSessionService {
 
     Map<Integer, ProductInBasketForSession> resetBasket(Map<Integer, ProductInBasketForSession> sessionMap);
 
-    Map<String, Integer> getSummAndQuantity(Map<Integer, ProductInBasketForSession> productsInBasketForSession);
+    Map<String, Integer> getSumAndQuantity(Map<Integer, ProductInBasketForSession> productsInBasketForSession);
 
     Map<Integer, ProductInBasketForSession> addAllOrdersProductsToBasket(List<OrderedProductForHistoryDTO> productsToAdd);
 

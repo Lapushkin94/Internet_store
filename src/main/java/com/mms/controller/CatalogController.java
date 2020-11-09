@@ -41,6 +41,7 @@ public class CatalogController {
     private String temporaryNameOfCategory;
 
     private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd G 'at' HH:mm:ss z");
+    private boolean refreshToOrderBlocker;
 
     @ModelAttribute
     public BasketForSession getBasketForSession() {
@@ -190,7 +191,7 @@ public class CatalogController {
      *
      * @param product        new Product object to edit existing
      * @param nameOfCategory chosen category for new product to edit existing
-     * @return redirect to catalog oage after editing product
+     * @return redirect to catalog page after editing product
      */
     @PostMapping(value = "/editProduct")
     public String editProduct(@ModelAttribute("product") ProductDTO product,
@@ -198,9 +199,9 @@ public class CatalogController {
 
         product.setCategory(CategoryConverter.toEntity(categoryService.getCategoryByName(nameOfCategory)));
 
-        String unicNameStatus = productService.editProductAndReturnNameStatus(product);
+        String uniqNameStatus = productService.editProductAndReturnNameStatus(product);
 
-        if (!unicNameStatus.equals("okStatus")) return unicNameStatus;
+        if (!uniqNameStatus.equals("okStatus")) return uniqNameStatus;
 
         return "redirect:/catalog/?existingProductListPage=" + this.existingProductListPage + "&productInBascetListPage=" + productInBascetListPage;
 
@@ -238,9 +239,9 @@ public class CatalogController {
 
         product.setCategory(CategoryConverter.toEntity(categoryService.getCategoryByName(nameOfCategory)));
 
-        String unicNameStatus = productService.addProductAndReturnUnicNameStatus(product);
+        String uniqNameStatus = productService.addProductAndReturnUnicNameStatus(product);
 
-        if (!unicNameStatus.equals("okStatus")) return unicNameStatus;
+        if (!uniqNameStatus.equals("okStatus")) return uniqNameStatus;
 
         return "redirect:/catalog/?existingProductListPage=" + this.existingProductListPage +
                 "&productInBascetListPage=" + productInBascetListPage;
@@ -295,7 +296,7 @@ public class CatalogController {
     @PostMapping(value = "/get/{id}")
     public ModelAndView getProductIntBascet(@ModelAttribute BasketForSession basketForSession,
                                             @PathVariable("id") int productId,
-                                            @RequestParam("quantity") int numberOfOrderedProducts) {
+                                            @RequestParam(name = "quantity", defaultValue = "1") int numberOfOrderedProducts) {
         ModelAndView modelAndView = new ModelAndView();
 
         logger.info("getting " + numberOfOrderedProducts + " products " + productId);
@@ -429,10 +430,10 @@ public class CatalogController {
 
         this.productInBascetListPage = productInBascetListPage;
         int productsInBascetCount = basketForSession.getProductsInBasket().size();
-        Map<String, Integer> basketParams = basketForSessionService.getSummAndQuantity(basketForSession.getProductsInBasket());
+        Map<String, Integer> basketParams = basketForSessionService.getSumAndQuantity(basketForSession.getProductsInBasket());
 
-        modelAndView.addObject("summPrice", basketParams.get("summ"));
-        modelAndView.addObject("summQuantity", basketParams.get("quantity"));
+        modelAndView.addObject("sumPrice", basketParams.get("sum"));
+        modelAndView.addObject("sumQuantity", basketParams.get("quantity"));
         modelAndView.addObject("productInBascetListPage", productInBascetListPage);
         modelAndView.addObject("productInBascetList", basketForSessionService
                 .getTemporaryBasketByPage(productInBascetListPage, basketForSession.getProductsInBasket()));
@@ -448,6 +449,7 @@ public class CatalogController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("order/orderRegistrationPage");
 
+        refreshToOrderBlocker = false;
         modelAndView.addObject("client", clientService.getClientByEmail(user.getUsername()));
 
         return modelAndView;
@@ -467,6 +469,9 @@ public class CatalogController {
                                       @ModelAttribute("order") OrderDTO orderDTO,
                                       @ModelAttribute("clientAddress") ClientAddressDTO clientAddressDTO,
                                       @AuthenticationPrincipal User user) {
+
+        if (refreshToOrderBlocker) return "redirect:/catalog/order";
+        refreshToOrderBlocker = true;
 
         ClientDTO clientDTO = clientService.getClientByEmail(user.getUsername());
         clientDTO.setClientAddress(ClientAddressConverter.toEntity(clientAddressDTO));
@@ -536,10 +541,10 @@ public class CatalogController {
         modelAndView.addObject("missingProducts", orderService.getMissingProductsByOrderId(orderId));
 
         modelAndView.addObject("productInBascetList", basketForSession.getProductsInBasket());
-        modelAndView.addObject("summPrice",
-                basketForSessionService.getSummAndQuantity(basketForSession.getProductsInBasket()).get("summ"));
-        modelAndView.addObject("summQuantity",
-                basketForSessionService.getSummAndQuantity(basketForSession.getProductsInBasket()).get("quantity"));
+        modelAndView.addObject("sumPrice",
+                basketForSessionService.getSumAndQuantity(basketForSession.getProductsInBasket()).get("sum"));
+        modelAndView.addObject("sumQuantity",
+                basketForSessionService.getSumAndQuantity(basketForSession.getProductsInBasket()).get("quantity"));
 
         return modelAndView;
     }

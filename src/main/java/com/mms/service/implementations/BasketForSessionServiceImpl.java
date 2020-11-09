@@ -97,18 +97,18 @@ public class BasketForSessionServiceImpl implements BasketForSessionService {
 
     @Override
     @Transactional
-    public Map<String, Integer> getSummAndQuantity(Map<Integer, ProductInBasketForSession> productsInBasketForSession) {
+    public Map<String, Integer> getSumAndQuantity(Map<Integer, ProductInBasketForSession> productsInBasketForSession) {
 
         Map<String, Integer> basketParams = new HashMap<>();
-        int summ = 0;
+        int sum = 0;
         int quantity = 0;
 
         for (Map.Entry<Integer, ProductInBasketForSession> entry : productsInBasketForSession.entrySet()) {
-            summ += entry.getValue().getPrice();
+            sum = sum + (entry.getValue().getPrice()) * (entry.getValue().getQuantity());
             quantity += entry.getValue().getQuantity();
         }
 
-        basketParams.put("summ", summ);
+        basketParams.put("sum", sum);
         basketParams.put("quantity", quantity);
 
         return basketParams;
@@ -165,6 +165,7 @@ public class BasketForSessionServiceImpl implements BasketForSessionService {
 
 
     @Override
+    @Transactional
     public Map<Integer, ProductInBasketForSession> getTemporaryBasketByPage(int productInBascetListPage, Map<Integer, ProductInBasketForSession> inputBasket) {
 
         Map<Integer, ProductInBasketForSession> result = new HashMap<>();

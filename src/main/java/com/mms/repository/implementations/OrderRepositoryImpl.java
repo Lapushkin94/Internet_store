@@ -75,36 +75,49 @@ public class OrderRepositoryImpl implements OrderRepository {
     @Override
     public int getOrderCountByClientId(int inputClientId) {
         Session session = sessionFactory.getCurrentSession();
-        return session.createQuery("select count (*) from OrderEntity WHERE client.id =: inputClientId", Number.class).setParameter("inputClientId", inputClientId).getSingleResult().intValue();
+        return session.createQuery("select count (*) from OrderEntity WHERE client.id =: inputClientId", Number.class)
+                .setParameter("inputClientId", inputClientId)
+                .getSingleResult()
+                .intValue();
     }
 
     @Override
     public int getProductsCountByOrdersId(int orderId) {
         Session session = sessionFactory.getCurrentSession();
-        return session.createQuery("select count (*) from OrderedProductForHistoryEntity WHERE orderInHistory.id =: orderId", Number.class).setParameter("orderId", orderId).getSingleResult().intValue();
+        return session.createQuery("select count (*) from OrderedProductForHistoryEntity WHERE orderInHistory.id =: orderId", Number.class)
+                .setParameter("orderId", orderId)
+                .getSingleResult()
+                .intValue();
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public List<OrderedProductForHistoryEntity> findOrdersProductHistoryByOrderId(int orderId, int orderHistoryPage) {
         Session session = sessionFactory.getCurrentSession();
-        return session.createQuery("from OrderedProductForHistoryEntity orderedProductForHistory WHERE orderedProductForHistory.orderInHistory.id =: orderId").setParameter("orderId", orderId).setFirstResult(10 * (orderHistoryPage - 1)).setMaxResults(10).list();
+        return session.createQuery("from OrderedProductForHistoryEntity orderedProductForHistory " +
+                "WHERE orderedProductForHistory.orderInHistory.id =: orderId").setParameter("orderId", orderId)
+                .setFirstResult(10 * (orderHistoryPage - 1))
+                .setMaxResults(10)
+                .list();
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public List<OrderedProductForHistoryEntity> findOrdersProductHistoryByOrderIdWithoutPages(int orderId) {
         Session session = sessionFactory.getCurrentSession();
-        return session.createQuery("from OrderedProductForHistoryEntity orderedProductForHistory WHERE orderedProductForHistory.orderInHistory.id =: orderId").setParameter("orderId", orderId).list();
+        return session.createQuery("from OrderedProductForHistoryEntity orderedProductForHistory " +
+                "WHERE orderedProductForHistory.orderInHistory.id =: orderId")
+                .setParameter("orderId", orderId)
+                .list();
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public List<OrderEntity> findListOrdersByNumberOfDays(String currentDateMinusNumberOfDays) {
-
         Session session = sessionFactory.getCurrentSession();
-
-        return session.createQuery("from OrderEntity myOrder where myOrder.date > :currentDateMinusNumberOfDays").setParameter("currentDateMinusNumberOfDays", currentDateMinusNumberOfDays).list();
+        return session.createQuery("from OrderEntity myOrder where myOrder.date > :currentDateMinusNumberOfDays")
+                .setParameter("currentDateMinusNumberOfDays", currentDateMinusNumberOfDays)
+                .list();
     }
 
 }

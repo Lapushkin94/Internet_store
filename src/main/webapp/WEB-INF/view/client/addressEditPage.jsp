@@ -41,8 +41,8 @@
                 </div>
                 <div class="col-md-4 mb-3">
                     <label for="postalCode">Postal code</label>
-                    <input type="text" name="postalCode" value="${client.clientAddress.postalCode}" class="form-control"
-                           id="postalCode" required>
+                    <input type="number" name="postalCode" value="${client.clientAddress.postalCode}" class="form-control"
+                           id="postalCode" required min="0" minlength="3">
                 </div>
                 <div class="col-md-5 mb-3">
                     <label for="street">Street</label>
@@ -51,13 +51,13 @@
                 </div>
                 <div class="col-md-5 mb-3">
                     <label for="houseNumber">House number</label>
-                    <input type="text" name="houseNumber" value="${client.clientAddress.houseNumber}"
-                           class="form-control" id="houseNumber" required>
+                    <input type="number" name="houseNumber" value="${client.clientAddress.houseNumber}"
+                           class="form-control" id="houseNumber" min="1" required>
                 </div>
                 <div class="col-md-5 mb-3">
                     <label for="flatNumber">Flat number</label>
-                    <input type="text" name="flatNumber" value="${client.clientAddress.flatNumber}" class="form-control"
-                           id="flatNumber" required>
+                    <input type="number" name="flatNumber" value="${client.clientAddress.flatNumber}" class="form-control"
+                           id="flatNumber" min="1" required>
                 </div>
 
             </div>

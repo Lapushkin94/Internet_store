@@ -36,7 +36,7 @@ public class ProductsForStandServiceImpl implements ProductForStandService {
     @Override
     public List<ProductForStand> getProductsForStandList() {
 
-        Map<String, Integer> productsForStandMap = orderedProductForHistoryService.getTop10ProductsBySoldNumber();
+        Map<String, Integer> productsForStandMap = orderedProductForHistoryService.getTop10ProductsBySoldNumberOptimizedVersion();
 
         List<ProductForStand> productForStandList = new ArrayList<>();
 

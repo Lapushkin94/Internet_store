@@ -32,7 +32,9 @@ public class ProductRepositoryImpl implements ProductRepository {
     @SuppressWarnings("unchecked")
     public List<ProductEntity> findAllProductsInStoreNotNullQuantity(int page) {
         Session session = sessionFactory.getCurrentSession();
-        return session.createQuery("from ProductEntity WHERE quantityInStore!=0").setFirstResult(10 * (page - 1)).setMaxResults(10).list();
+        return session.createQuery("from ProductEntity WHERE quantityInStore!=0").setFirstResult(10 * (page - 1))
+                .setMaxResults(10)
+                .list();
     }
 
     @Override
@@ -139,14 +141,18 @@ public class ProductRepositoryImpl implements ProductRepository {
     @Override
     public int getProductCountNotNullQuantity() {
         Session session = sessionFactory.getCurrentSession();
-        return session.createQuery("select count (*) from ProductEntity WHERE quantityInStore!=0", Number.class).getSingleResult().intValue();
+        return session.createQuery("select count (*) from ProductEntity WHERE quantityInStore!=0", Number.class)
+                .getSingleResult()
+                .intValue();
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public List<ProductEntity> findAllProductsByCategoryId(int categoryId) {
         Session session = sessionFactory.getCurrentSession();
-        return session.createQuery("from ProductEntity productEn WHERE productEn.category.id =: categoryId").setParameter("categoryId", categoryId).list();
+        return session.createQuery("from ProductEntity productEn WHERE productEn.category.id =: categoryId")
+                .setParameter("categoryId", categoryId)
+                .list();
     }
 
     @Override
@@ -165,6 +171,7 @@ public class ProductRepositoryImpl implements ProductRepository {
     public ProductEntity findProductsByName(String productName) {
         Session session = sessionFactory.getCurrentSession();
         return session.createQuery("from ProductEntity productEn WHERE productEn.name =: productName", ProductEntity.class)
-                .setParameter("productName", productName).getSingleResult();
+                .setParameter("productName", productName)
+                .getSingleResult();
     }
 }

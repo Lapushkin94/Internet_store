@@ -68,21 +68,21 @@
         </c:forEach>
     </div>
     <div class="row">
-        <c:if test="${summQuantity != 0}">
-            <c:if test="${summQuantity == 1}">
+        <c:if test="${sumQuantity != 0}">
+            <c:if test="${sumQuantity == 1}">
                 <div class="row-3; border border-danger"
                      style="background-color: khaki; margin-left: 15px; padding: 10px; margin-top: 10px">
-                    Book price: ${summPrice}
+                    Book price: ${sumPrice}
                 </div>
             </c:if>
-            <c:if test="${summQuantity != 1}">
+            <c:if test="${sumQuantity != 1}">
                 <div class="row-3; border border-danger"
                      style="background-color: khaki; margin-left: 15px; padding: 10px; margin-top: 10px">
-                    Total price for ${summQuantity} books: ${summPrice}
+                    Total price for ${sumQuantity} books: ${sumPrice}
                 </div>
             </c:if>
         </c:if>
-        <c:if test="${summQuantity == 0}">
+        <c:if test="${sumQuantity == 0}">
             <div class="row-3; border border-danger"
                  style="background-color: khaki; margin-left: 15px; padding: 10px; margin-top: 10px">
                 No books

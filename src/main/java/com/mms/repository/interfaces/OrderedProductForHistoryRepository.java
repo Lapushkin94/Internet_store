@@ -19,4 +19,10 @@ public interface OrderedProductForHistoryRepository {
 
     List<OrderedProductForHistoryEntity> findAllProductsInHistoryByOrderId(int orderId);
 
+    List<Object[]> getTop10ProductsByPurchaseNumber();
+
+    List<Object[]> getTop10ClientsByPurchase();
+
+    int getProfitByDate(String currentDateMinusNumberOfDays);
+
 }

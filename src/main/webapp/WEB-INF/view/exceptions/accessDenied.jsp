@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
           integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 
-    <title>Success!</title>
+    <title>No access</title>
 
 </head>
 <body>
@@ -23,7 +23,6 @@
                  width="250px">
             <h3>Sorry!</h3>
             <p style="font-size:20px;color:#5C5C5C;">You have no access for this page!</p>
-            <p style="font-size:20px;color:#5C5C5C;">It could also be a developer's fault!</p>
             <a href="${pageContext.request.contextPath}/" class="btn btn-success">Home</a>
             <br><br>
         </div>

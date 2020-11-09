@@ -89,16 +89,16 @@
                 <c:if test="${!empty temporaryMinPrice}">
                     <div class="col-md-5 mb-3" style="margin-top: 30px">
                         <label for="minPrice1"><h3>Min price</h3></label>
-                        <input type="text" name="minPrice" class="form-control" id="minPrice1"
-                               value="${temporaryMinPrice + 1}">
+                        <input type="number" name="minPrice" class="form-control" id="minPrice1"
+                               value="${temporaryMinPrice + 1}" min="0">
                     </div>
                 </c:if>
 
                 <c:if test="${empty temporaryMinPrice}">
                     <div class="col-md-5 mb-3" style="margin-top: 30px">
                         <label for="minPrice2"><h3>Min price</h3></label>
-                        <input type="text" name="minPrice" class="form-control" id="minPrice2"
-                               placeholder="${minPrice}">
+                        <input type="number" name="minPrice" class="form-control" id="minPrice2"
+                               placeholder="${minPrice}" min="0">
                     </div>
                 </c:if>
 
@@ -106,16 +106,16 @@
                 <c:if test="${!empty temporaryMaxPrice}">
                     <div class="col-md-5 mb-3" style="margin-top: 30px">
                         <label for="maxPrice1"><h3>Max price</h3></label>
-                        <input type="text" name="maxPrice" class="form-control" id="maxPrice1"
-                               value="${temporaryMaxPrice - 1}">
+                        <input type="number" name="maxPrice" class="form-control" id="maxPrice1"
+                               value="${temporaryMaxPrice - 1}" min="0">
                     </div>
                 </c:if>
 
                 <c:if test="${empty temporaryMaxPrice}">
                     <div class="col-md-5 mb-3" style="margin-top: 30px">
                         <label for="maxPrice2"><h3>Max price</h3></label>
-                        <input type="text" name="maxPrice" class="form-control" id="maxPrice2"
-                               placeholder="${maxPrice}">
+                        <input type="number" name="maxPrice" class="form-control" id="maxPrice2"
+                               placeholder="${maxPrice}" min="0">
                     </div>
                 </c:if>
 

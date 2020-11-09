@@ -26,7 +26,6 @@ public class StatisticsController {
     public List<ProductForStand> getProductsForStand() {
 
         logger.info("getting products for stand");
-        logger.info(productForStandService.getProductsForStandList().toString());
 
         return productForStandService.getProductsForStandList();
     }

@@ -1,0 +1,45 @@
+2020-10-29 15:40:53,738 INFO o.h.Version [RMI TCP Connection(2)-127.0.0.1] HHH000412: Hibernate ORM core version 5.4.21.Final
+2020-10-29 15:40:54,624 INFO o.h.a.c.Version [RMI TCP Connection(2)-127.0.0.1] HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+2020-10-29 15:40:55,898 INFO o.h.d.Dialect [RMI TCP Connection(2)-127.0.0.1] HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2020-10-29 15:40:58,832 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [RMI TCP Connection(2)-127.0.0.1] HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2020-10-29 15:41:01,711 INFO o.h.d.Dialect [RMI TCP Connection(2)-127.0.0.1] HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2020-10-29 15:41:01,938 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [RMI TCP Connection(2)-127.0.0.1] HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2020-10-29 15:41:14,695 WARN o.h.d.f.TemplateRenderer [http-nio-8888-exec-7] HHH000174: Function template anticipated 4 arguments, but 1 arguments encountered
+2020-10-29 15:41:14,696 WARN o.h.d.f.TemplateRenderer [http-nio-8888-exec-7] HHH000174: Function template anticipated 4 arguments, but 1 arguments encountered
+2020-10-29 15:41:14,696 WARN o.h.d.f.TemplateRenderer [http-nio-8888-exec-7] HHH000174: Function template anticipated 4 arguments, but 1 arguments encountered
+2020-10-29 15:41:14,937 WARN o.h.d.f.TemplateRenderer [http-nio-8888-exec-7] HHH000174: Function template anticipated 4 arguments, but 1 arguments encountered
+2020-10-29 15:41:14,937 WARN o.h.d.f.TemplateRenderer [http-nio-8888-exec-7] HHH000174: Function template anticipated 4 arguments, but 1 arguments encountered
+2020-10-29 15:41:14,938 WARN o.h.d.f.TemplateRenderer [http-nio-8888-exec-7] HHH000174: Function template anticipated 4 arguments, but 1 arguments encountered
+2020-10-29 15:41:14,938 WARN o.h.d.f.TemplateRenderer [http-nio-8888-exec-7] HHH000174: Function template anticipated 4 arguments, but 1 arguments encountered
+2020-10-29 16:02:30,707 INFO o.h.Version [RMI TCP Connection(2)-127.0.0.1] HHH000412: Hibernate ORM core version 5.4.21.Final
+2020-10-29 16:02:31,476 INFO o.h.a.c.Version [RMI TCP Connection(2)-127.0.0.1] HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+2020-10-29 16:02:32,470 INFO o.h.d.Dialect [RMI TCP Connection(2)-127.0.0.1] HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2020-10-29 16:02:35,330 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [RMI TCP Connection(2)-127.0.0.1] HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2020-10-29 16:02:38,391 INFO o.h.d.Dialect [RMI TCP Connection(2)-127.0.0.1] HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2020-10-29 16:02:38,621 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [RMI TCP Connection(2)-127.0.0.1] HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2020-10-29 17:34:11,525 INFO o.h.Version [RMI TCP Connection(3)-127.0.0.1] HHH000412: Hibernate ORM core version 5.4.21.Final
+2020-10-29 17:34:12,245 INFO o.h.a.c.Version [RMI TCP Connection(3)-127.0.0.1] HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+2020-10-29 17:34:13,386 INFO o.h.d.Dialect [RMI TCP Connection(3)-127.0.0.1] HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2020-10-29 17:34:16,227 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [RMI TCP Connection(3)-127.0.0.1] HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2020-10-29 17:34:19,499 INFO o.h.d.Dialect [RMI TCP Connection(3)-127.0.0.1] HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2020-10-29 17:34:19,759 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [RMI TCP Connection(3)-127.0.0.1] HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2020-10-29 17:49:02,841 WARN o.h.d.f.TemplateRenderer [http-nio-8888-exec-7] HHH000174: Function template anticipated 4 arguments, but 1 arguments encountered
+2020-10-29 17:49:02,841 WARN o.h.d.f.TemplateRenderer [http-nio-8888-exec-7] HHH000174: Function template anticipated 4 arguments, but 1 arguments encountered
+2020-10-29 17:49:02,841 WARN o.h.d.f.TemplateRenderer [http-nio-8888-exec-7] HHH000174: Function template anticipated 4 arguments, but 1 arguments encountered
+2020-10-29 17:49:03,138 WARN o.h.d.f.TemplateRenderer [http-nio-8888-exec-7] HHH000174: Function template anticipated 4 arguments, but 1 arguments encountered
+2020-10-29 17:49:03,138 WARN o.h.d.f.TemplateRenderer [http-nio-8888-exec-7] HHH000174: Function template anticipated 4 arguments, but 1 arguments encountered
+2020-10-29 17:49:03,138 WARN o.h.d.f.TemplateRenderer [http-nio-8888-exec-7] HHH000174: Function template anticipated 4 arguments, but 1 arguments encountered
+2020-10-29 17:49:03,138 WARN o.h.d.f.TemplateRenderer [http-nio-8888-exec-7] HHH000174: Function template anticipated 4 arguments, but 1 arguments encountered
+2020-10-29 18:28:12,724 INFO o.h.Version [RMI TCP Connection(3)-127.0.0.1] HHH000412: Hibernate ORM core version 5.4.21.Final
+2020-10-29 18:28:13,521 INFO o.h.a.c.Version [RMI TCP Connection(3)-127.0.0.1] HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+2020-10-29 18:28:14,913 INFO o.h.d.Dialect [RMI TCP Connection(3)-127.0.0.1] HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2020-10-29 18:28:17,791 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [RMI TCP Connection(3)-127.0.0.1] HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2020-10-29 18:28:21,102 INFO o.h.d.Dialect [RMI TCP Connection(3)-127.0.0.1] HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2020-10-29 18:28:21,378 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [RMI TCP Connection(3)-127.0.0.1] HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2020-10-29 18:28:27,448 WARN o.h.d.f.TemplateRenderer [http-nio-8888-exec-5] HHH000174: Function template anticipated 4 arguments, but 1 arguments encountered
+2020-10-29 18:28:27,449 WARN o.h.d.f.TemplateRenderer [http-nio-8888-exec-5] HHH000174: Function template anticipated 4 arguments, but 1 arguments encountered
+2020-10-29 18:28:27,449 WARN o.h.d.f.TemplateRenderer [http-nio-8888-exec-5] HHH000174: Function template anticipated 4 arguments, but 1 arguments encountered
+2020-10-29 18:28:27,723 WARN o.h.d.f.TemplateRenderer [http-nio-8888-exec-5] HHH000174: Function template anticipated 4 arguments, but 1 arguments encountered
+2020-10-29 18:28:27,723 WARN o.h.d.f.TemplateRenderer [http-nio-8888-exec-5] HHH000174: Function template anticipated 4 arguments, but 1 arguments encountered
+2020-10-29 18:28:27,723 WARN o.h.d.f.TemplateRenderer [http-nio-8888-exec-5] HHH000174: Function template anticipated 4 arguments, but 1 arguments encountered
+2020-10-29 18:28:27,724 WARN o.h.d.f.TemplateRenderer [http-nio-8888-exec-5] HHH000174: Function template anticipated 4 arguments, but 1 arguments encountered

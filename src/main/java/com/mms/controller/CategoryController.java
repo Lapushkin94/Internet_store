@@ -50,17 +50,19 @@ public class CategoryController {
 
 
     @PostMapping(value = "/editCategory/{categoryId}")
-    public ModelAndView editCategory(@PathVariable("categoryId") int categoryId,
+    public String editCategory(@PathVariable("categoryId") int categoryId,
                                      @RequestParam("nameOfCategory") String newNameOfCategory) {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("redirect:/categories?isEdited=1");
 
         logger.info("getting category params to edit: id - " + categoryId + " name - " + newNameOfCategory);
+
+        String categoryNameStatus = categoryService.checkCategoryNameAndReturnStatus(newNameOfCategory);
+        if (!categoryNameStatus.equals("okStatus")) return categoryNameStatus;
+
         CategoryDTO categoryDTO = categoryService.getCategory(categoryId);
         categoryDTO.setNameOfCategory(newNameOfCategory);
         categoryService.editCategory(categoryDTO);
 
-        return modelAndView;
+        return "redirect:/categories?isEdited=1";
     }
 
     @GetMapping(value = "/deleteCategory/{categoryId}")
@@ -77,14 +79,13 @@ public class CategoryController {
 
 
     @PostMapping(value = "/addCategory")
-    public ModelAndView addCategory(@ModelAttribute CategoryDTO categoryDTO) {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("redirect:/categories?isEdited=3");
+    public String addCategory(@ModelAttribute CategoryDTO categoryDTO) {
 
-        logger.info("adding category");
-        categoryService.addCategory(categoryDTO);
+        String result = categoryService.addCategoryAndReturnResult(categoryDTO);
 
-        return modelAndView;
+        if (!result.equals("okStatus")) return result;
+
+        return "redirect:/categories?isEdited=3";
     }
 
 }

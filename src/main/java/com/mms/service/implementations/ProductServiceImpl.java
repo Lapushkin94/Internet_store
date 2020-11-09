@@ -1,5 +1,6 @@
 package com.mms.service.implementations;
 
+import com.mms.model.ProductEntity;
 import com.mms.repository.interfaces.ProductRepository;
 import com.mms.dto.ProductDTO;
 import com.mms.dto.converterDTO.ProductConverter;
@@ -123,9 +124,38 @@ public class ProductServiceImpl implements ProductService {
     public String editProductAndReturnNameStatus(ProductDTO product) {
 
         try {
-            logger.info("fail editing product " + product.getId());
-            productRepository.findProductsByName(product.getName());
-            return "redirect:/catalog/editProduct/" + product.getId() + "/?uniqName=0";
+            ProductDTO productDTO = ProductConverter.toDto(productRepository.findProductsByName(product.getName()));
+            if (product.getId() == productDTO.getId()) {
+                logger.info("editing product with id = " + product.getId());
+                ProductEntity productToUpdate = productRepository.findProductById(product.getId());
+                productToUpdate.setName(product.getName());
+                productToUpdate.setAlternative_name(product.getAlternative_name());
+                productToUpdate.setBrandName(product.getBrandName());
+                productToUpdate.setPrice(product.getPrice());
+                productToUpdate.setCategory(product.getCategory());
+                productToUpdate.setQuantityInStore(product.getQuantityInStore());
+                productToUpdate.setColor(product.getColor());
+                productToUpdate.setWeight(product.getWeight());
+                productToUpdate.setCountry(product.getCountry());
+                productToUpdate.setDescription(product.getDescription());
+                productRepository.updateProduct(productToUpdate);
+
+//                ProductDTO productDTO1 = ProductConverter.toDto(productRepository.findProductById(product.getId()));
+//                productDTO1.setName(product.getName());
+//                productDTO1.setAlternative_name(product.getAlternative_name());
+//                productDTO1.setBrandName(product.getBrandName());
+//                productDTO1.setPrice(product.getPrice());
+//                productDTO1.setCategory(product.getCategory());
+//                productDTO1.setQuantityInStore(product.getQuantityInStore());
+//                productDTO1.setColor(product.getColor());
+//                productDTO1.setWeight(product.getWeight());
+//                productDTO1.setCountry(product.getCountry());
+//                productDTO1.setDescription(product.getDescription());
+//                productRepository.updateProduct(ProductConverter.toEntity(productDTO1));
+            } else {
+                logger.info("fail editing product " + product.getId());
+                return "redirect:/catalog/editProduct/" + product.getId() + "/?uniqName=0";
+            }
         } catch (NoResultException exc) {
             logger.info("editing product with id = " + product.getId());
             productRepository.updateProduct(ProductConverter.toEntity(product));

@@ -7,6 +7,7 @@ import com.mms.dto.OrderedProductForHistoryDTO;
 import com.mms.dto.converterDTO.ClientConverter;
 import com.mms.dto.converterDTO.OrderConverter;
 import com.mms.dto.converterDTO.OrderedProductForHistoryConverter;
+import com.mms.model.OrderedProductForHistoryEntity;
 import com.mms.repository.interfaces.ClientRepository;
 import com.mms.repository.interfaces.OrderRepository;
 import com.mms.repository.interfaces.OrderedProductForHistoryRepository;
@@ -82,7 +83,9 @@ public class OrderedProductForHistoryServiceImpl implements OrderedProductForHis
 
         logger.info("getting top 10 products stat");
 
-        List<OrderedProductForHistoryDTO> orderedProductForHistoryDTOList = orderedProductForHistoryRepository.findAllProductsWithoutPages().stream()
+        List<OrderedProductForHistoryDTO> orderedProductForHistoryDTOList = orderedProductForHistoryRepository
+                .findAllProductsWithoutPages()
+                .stream()
                 .map(OrderedProductForHistoryConverter::toDto)
                 .collect(Collectors.toList());
 
@@ -101,7 +104,6 @@ public class OrderedProductForHistoryServiceImpl implements OrderedProductForHis
                 .collect(Collectors.toMap(
                         Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
     }
-
 
     @Override
     @Transactional
@@ -172,4 +174,66 @@ public class OrderedProductForHistoryServiceImpl implements OrderedProductForHis
 
         return totalProfit;
     }
+
+    @Override
+    @Transactional
+    public Map<String, Integer> getTop10ProductsBySoldNumberOptimizedVersion() {
+
+        Map<String, Integer> top10productsMap = new LinkedHashMap<>();
+
+        logger.info("getting top 10 products");
+        List<Object[]> list = orderedProductForHistoryRepository.getTop10ProductsByPurchaseNumber();
+
+        int counter = 0;
+        String temporaryName = "";
+        int temporaryQuantity = 0;
+
+        for (Object[] object : list) {
+            for (Object obj : object) {
+                counter++;
+                if (counter == 1) temporaryName = obj.toString();
+                if (counter == 2) temporaryQuantity = Integer.parseInt(obj.toString());
+            }
+            counter = 0;
+            top10productsMap.put(temporaryName, temporaryQuantity);
+        }
+
+        return top10productsMap;
+    }
+
+    @Override
+    @Transactional
+    public Map<String, Integer> getTop10clientsByProfitOptimizedVersion() {
+
+        Map<String, Integer> top10clientsByProfit = new LinkedHashMap<>();
+
+        List<Object[]> list = orderedProductForHistoryRepository.getTop10ClientsByPurchase();
+
+        int counter = 0;
+        String temporaryName = "";
+        int temporaryPrice = 0;
+
+        for (Object[] objects : list) {
+            for (Object clientTuple : objects) {
+                counter++;
+                if (counter == 1) temporaryName = clientTuple.toString();
+                if (counter == 2) temporaryPrice = Integer.parseInt(clientTuple.toString());
+            }
+            counter = 0;
+            top10clientsByProfit.put(temporaryName, temporaryPrice);
+        }
+
+        return top10clientsByProfit;
+    }
+
+    @Override
+    @Transactional
+    public int getTotalProfitByNumberOfDaysOptimizedVersion(String currentDateMinusNumberOfDays) {
+
+        logger.info("getting total profit by " + currentDateMinusNumberOfDays + " days stat");
+
+        return orderedProductForHistoryRepository.getProfitByDate(currentDateMinusNumberOfDays);
+    }
+
+
 }

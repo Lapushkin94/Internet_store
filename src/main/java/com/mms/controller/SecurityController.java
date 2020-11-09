@@ -231,12 +231,13 @@ public class SecurityController {
         calendar.add(Calendar.DATE, -27);
         Date dateMinusMonth = calendar.getTime();
 
-        modelAndView.addObject("topTenProducts", orderedProductForHistoryService.getTop10ProductsBySoldNumber());
-        modelAndView.addObject("top10clientsByProfit", orderedProductForHistoryService.getTop10clientsByProfit());
-        modelAndView.addObject("totalProfitOfTheDay", orderedProductForHistoryService.getTotalProfitByNumberOfDays(dateFormat.format(dateMinusOneDay)));
-        modelAndView.addObject("totalProfitOfTheThreeDays", orderedProductForHistoryService.getTotalProfitByNumberOfDays(dateFormat.format(dateMinusThreeDays)));
-        modelAndView.addObject("totalProfitOfTheWeek", orderedProductForHistoryService.getTotalProfitByNumberOfDays(dateFormat.format(dateMinusSevenDays)));
-        modelAndView.addObject("totalProfitOfTheMonth", orderedProductForHistoryService.getTotalProfitByNumberOfDays(dateFormat.format(dateMinusMonth)));
+
+        modelAndView.addObject("topTenProducts", orderedProductForHistoryService.getTop10ProductsBySoldNumberOptimizedVersion());
+        modelAndView.addObject("top10clientsByProfit", orderedProductForHistoryService.getTop10clientsByProfitOptimizedVersion());
+        modelAndView.addObject("totalProfitOfTheDay", orderedProductForHistoryService.getTotalProfitByNumberOfDaysOptimizedVersion(dateFormat.format(dateMinusOneDay)));
+        modelAndView.addObject("totalProfitOfTheThreeDays", orderedProductForHistoryService.getTotalProfitByNumberOfDaysOptimizedVersion(dateFormat.format(dateMinusThreeDays)));
+        modelAndView.addObject("totalProfitOfTheWeek", orderedProductForHistoryService.getTotalProfitByNumberOfDaysOptimizedVersion(dateFormat.format(dateMinusSevenDays)));
+        modelAndView.addObject("totalProfitOfTheMonth", orderedProductForHistoryService.getTotalProfitByNumberOfDaysOptimizedVersion(dateFormat.format(dateMinusMonth)));
 
         return modelAndView;
     }

@@ -20,7 +20,7 @@
                 <ul class="navbar-nav mr-auto">
 
                     <li class="nav-item" style="margin-left: 40px">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/catalog">Catalog</a>
+                        <a class="nav-link" href="${pageContext.request.contextPath}/catalog/resetFilter">Catalog</a>
                     </li>
 
                     <li class="nav-item" style="margin-left: 15px">

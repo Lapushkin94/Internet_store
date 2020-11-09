@@ -46,7 +46,7 @@
                 </div>
                 <div class="col-md-4 mb-3">
                     <label for="birthday">Birthday</label>
-                    <input type="date" name="birthday" value="${client.birthday}" class="form-control" id="birthday">
+                    <input type="date" name="birthday" value="${client.birthday}" class="form-control" id="birthday" min="1930-01-01" max="2020-01-01">
                 </div>
                 <div class="col-md-5 mb-3">
                     <label for="email">Email</label>

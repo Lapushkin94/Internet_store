@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.NoResultException;
 import java.util.List;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -58,6 +59,37 @@ public class CategoryServiceImpl implements CategoryService {
     public void addCategory(CategoryDTO categoryDTO) {
         logger.info("adding category");
         categoryRepository.saveCategory(toEntity(categoryDTO));
+    }
+
+    @Override
+    @Transactional
+    public String addCategoryAndReturnResult(CategoryDTO categoryDTO) {
+
+        try {
+            categoryRepository.findCategoryByName(categoryDTO.getNameOfCategory());
+            logger.info("such category already exists");
+            return "redirect:/categories?isEdited=4";
+        }
+        catch (NoResultException exc) {
+            logger.info("adding category");
+            categoryRepository.saveCategory(CategoryConverter.toEntity(categoryDTO));
+        }
+
+        return "okStatus";
+    }
+
+    @Override
+    @Transactional
+    public String checkCategoryNameAndReturnStatus(String newNameOfCategory) {
+
+        try {
+            categoryRepository.findCategoryByName(newNameOfCategory);
+            logger.info("such category already exists");
+            return "redirect:/categories?isEdited=4";
+        }
+        catch (NoResultException exc) {
+            return "okStatus";
+        }
     }
 
     @Override
