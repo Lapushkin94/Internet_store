@@ -7,7 +7,6 @@ import com.mms.dto.OrderedProductForHistoryDTO;
 import com.mms.dto.converterDTO.ClientConverter;
 import com.mms.dto.converterDTO.OrderConverter;
 import com.mms.dto.converterDTO.OrderedProductForHistoryConverter;
-import com.mms.model.OrderedProductForHistoryEntity;
 import com.mms.repository.interfaces.ClientRepository;
 import com.mms.repository.interfaces.OrderRepository;
 import com.mms.repository.interfaces.OrderedProductForHistoryRepository;
@@ -184,18 +183,8 @@ public class OrderedProductForHistoryServiceImpl implements OrderedProductForHis
         logger.info("getting top 10 products");
         List<Object[]> list = orderedProductForHistoryRepository.getTop10ProductsByPurchaseNumber();
 
-        int counter = 0;
-        String temporaryName = "";
-        int temporaryQuantity = 0;
-
         for (Object[] object : list) {
-            for (Object obj : object) {
-                counter++;
-                if (counter == 1) temporaryName = obj.toString();
-                if (counter == 2) temporaryQuantity = Integer.parseInt(obj.toString());
-            }
-            counter = 0;
-            top10productsMap.put(temporaryName, temporaryQuantity);
+            top10productsMap.put(object[0].toString(), Integer.parseInt(object[1].toString()));
         }
 
         return top10productsMap;
@@ -209,18 +198,8 @@ public class OrderedProductForHistoryServiceImpl implements OrderedProductForHis
 
         List<Object[]> list = orderedProductForHistoryRepository.getTop10ClientsByPurchase();
 
-        int counter = 0;
-        String temporaryName = "";
-        int temporaryPrice = 0;
-
         for (Object[] objects : list) {
-            for (Object clientTuple : objects) {
-                counter++;
-                if (counter == 1) temporaryName = clientTuple.toString();
-                if (counter == 2) temporaryPrice = Integer.parseInt(clientTuple.toString());
-            }
-            counter = 0;
-            top10clientsByProfit.put(temporaryName, temporaryPrice);
+            top10clientsByProfit.put(objects[0].toString(), Integer.parseInt(objects[1].toString()));
         }
 
         return top10clientsByProfit;
@@ -230,9 +209,13 @@ public class OrderedProductForHistoryServiceImpl implements OrderedProductForHis
     @Transactional
     public int getTotalProfitByNumberOfDaysOptimizedVersion(String currentDateMinusNumberOfDays) {
 
-        logger.info("getting total profit by " + currentDateMinusNumberOfDays + " days stat");
-
-        return orderedProductForHistoryRepository.getProfitByDate(currentDateMinusNumberOfDays);
+        try {
+            return orderedProductForHistoryRepository.getProfitByDate(currentDateMinusNumberOfDays);
+        }
+        catch (NullPointerException exc) {
+            logger.info("No sales");
+            return 0;
+        }
     }
 
 

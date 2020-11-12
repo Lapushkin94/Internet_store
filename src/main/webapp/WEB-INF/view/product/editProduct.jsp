@@ -61,18 +61,18 @@
                         <label for="alternative_name2">Author</label>
                         <input type="text" name="alternative_name" value="${product.alternative_name}"
                                id="alternative_name2"
-                               class="form-control" minlength="1">
+                               class="form-control" minlength="1" required>
                     </div>
 
                     <div class="col-md-4 mb-3">
                         <label for="brandName2">Publisher</label>
                         <input type="text" name="brandName" id="brandName2" value="${product.brandName}"
-                               class="form-control" minlength="1">
+                               class="form-control" minlength="1" required>
                     </div>
 
                     <div class="col-md-1 mb-3">
                         <label for="color2">Color</label>
-                        <input type="color" name="color" id="color2" value="${product.color}" class="form-control">
+                        <input type="color" name="color" id="color2" value="${product.color}" class="form-control" required>
                     </div>
 
                 </div>
@@ -87,7 +87,7 @@
 
                     <div class="col-md-4 mb-3">
                         <label for="country2">Country</label>
-                        <input type="text" name="country" id="country2" value="${product.country}" class="form-control">
+                        <input type="text" name="country" id="country2" value="${product.country}" class="form-control" required>
                     </div>
 
                     <div class="col-md-4 mb-3">

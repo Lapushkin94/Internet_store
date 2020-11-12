@@ -6,12 +6,9 @@ import com.mms.service.interfaces.ProductForStandService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.jms.core.JmsTemplate;
-import org.springframework.jms.core.MessageCreator;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.jms.JMSException;
-import javax.jms.Message;
-import javax.jms.Session;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +31,7 @@ public class ProductsForStandServiceImpl implements ProductForStandService {
     }
 
     @Override
+    @Transactional
     public List<ProductForStand> getProductsForStandList() {
 
         Map<String, Integer> productsForStandMap = orderedProductForHistoryService.getTop10ProductsBySoldNumberOptimizedVersion();
@@ -53,15 +51,11 @@ public class ProductsForStandServiceImpl implements ProductForStandService {
     }
 
     @Override
+    @Transactional
     public void sendMessageToStandApp() {
         logger.info("sending message to second app");
         try {
-            jmsTemplate.send(new MessageCreator() {
-                @Override
-                public Message createMessage(Session session) throws JMSException {
-                    return session.createTextMessage("DB changes!");
-                }
-            });
+            jmsTemplate.send(session -> session.createTextMessage("DB changes!"));
         }
 
         // need to change exception type
@@ -71,6 +65,7 @@ public class ProductsForStandServiceImpl implements ProductForStandService {
     }
 
     @Override
+    @Transactional
     public void initMessage() {
         logger.info("init message");
         try {

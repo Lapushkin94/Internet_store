@@ -6,7 +6,6 @@ import com.mms.model.OrderEntity;
 import com.mms.model.ProductEntity;
 import com.mms.repository.interfaces.OrderRepository;
 import com.mms.repository.interfaces.OrderedProductForHistoryRepository;
-import com.mms.repository.interfaces.ProductInBascetRepository;
 import com.mms.repository.interfaces.ProductRepository;
 import com.mms.service.interfaces.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.NoResultException;
-import java.sql.SQLDataException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -30,19 +28,12 @@ public class OrderServiceImpl implements OrderService {
     private static final Logger logger = Logger.getLogger(OrderStatusServiceImpl.class.getName());
 
     private OrderRepository orderRepository;
-    private ProductInBascetRepository productInBascetRepository;
     private ProductRepository productRepository;
     private OrderedProductForHistoryRepository orderedProductForHistoryRepository;
-
 
     @Autowired
     public void setOrderRepository(OrderRepository orderRepository) {
         this.orderRepository = orderRepository;
-    }
-
-    @Autowired
-    public void setProductInBascetRepository(ProductInBascetRepository productInBascetRepository) {
-        this.productInBascetRepository = productInBascetRepository;
     }
 
     @Autowired
@@ -103,7 +94,7 @@ public class OrderServiceImpl implements OrderService {
             return calculateProductNumberInStoreAlsoCopyProductInfoToTheHistoryTableAndResetProductBascet(productsInBasket, orderId);
         }
 
-        // need to edit Exception type
+        // need to add custom exception
         catch (RuntimeException exc) {
             logger.info("Not enough products" + exc.getMessage());
             return "NotEnoughProducts";
@@ -112,7 +103,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public String calculateProductNumberInStoreAlsoCopyProductInfoToTheHistoryTableAndResetProductBascet(Map<Integer, ProductInBasketForSession> productsInBasket, int orderId) {
+    public String calculateProductNumberInStoreAlsoCopyProductInfoToTheHistoryTableAndResetProductBascet(Map<Integer,
+            ProductInBasketForSession> productsInBasket, int orderId) {
 
         logger.info("creating order history " + orderId);
 
@@ -134,8 +126,6 @@ public class OrderServiceImpl implements OrderService {
                 throw new RuntimeException();
             }
 
-//            productDTO.setQuantityInStore(productDTO.getQuantityInStore() - entry.getValue().getQuantity());
-//            productRepository.updateProduct(ProductConverter.toEntity(productDTO));
             productEntity.setQuantityInStore(productEntity.getQuantityInStore() - entry.getValue().getQuantity());
             productRepository.updateProduct(productEntity);
 

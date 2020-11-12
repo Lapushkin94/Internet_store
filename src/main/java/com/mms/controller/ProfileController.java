@@ -112,6 +112,14 @@ public class ProfileController {
         return modelAndView;
     }
 
+    /**
+     * editing password
+     *
+     * @param usersPassword current password
+     * @param firstNewPassword first version of new password
+     * @param secondNewPassword second version of new password
+     * @return prodfile page with edited password
+     */
     @PostMapping(value = "/editPassword")
     public String editPassword(@RequestParam(name = "usersPassword") String usersPassword,
                                @RequestParam(name = "firstNewPassword") String firstNewPassword,
@@ -138,6 +146,13 @@ public class ProfileController {
         return "redirect:/myProfile";
     }
 
+    /**
+     * getting clients orders
+     *
+     * @param user authorized client
+     * @param orderListPage page number
+     * @return clients order list
+     */
     @GetMapping(value = "/myOrders")
     public ModelAndView getMyOrders(@AuthenticationPrincipal User user,
                                     @RequestParam(defaultValue = "1") int orderListPage) {
@@ -156,6 +171,13 @@ public class ProfileController {
         return modelAndView;
     }
 
+    /**
+     * getting orders list of products
+     *
+     * @param id order id
+     * @param orderHistoryListPage page number
+     * @return orders plist of products
+     */
     @GetMapping(value = "/myOrders/checkOrdersProducts/{id}")
     public ModelAndView getOrdersProductList(@PathVariable("id") int id,
                                              @RequestParam(defaultValue = "1") int orderHistoryListPage) {

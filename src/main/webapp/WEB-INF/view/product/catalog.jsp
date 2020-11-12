@@ -248,7 +248,7 @@
             <div class="alert alert-success" role="alert" style="margin-top: 5px">
                 Product successful added to your
                 <a href="${pageContext.request.contextPath}/catalog/order" class="alert-link">
-                    bascet
+                    basket
                 </a>.
                 Nice choice!
             </div>

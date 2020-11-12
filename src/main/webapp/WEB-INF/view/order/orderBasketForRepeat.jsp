@@ -128,7 +128,7 @@
                 <c:if test="${empty quantityDifferenceOfNotAddedProducts}">
                     <div class="row-3; border border-dark"
                          style="background-color: yellowgreen; margin-left: 15px; padding: 10px; margin-top: 10px">
-                        All existing products have been added to the basket
+                        All required products have been added to the basket
                     </div>
                 </c:if>
 

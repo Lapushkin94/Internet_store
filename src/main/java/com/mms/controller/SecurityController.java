@@ -62,13 +62,11 @@ public class SecurityController {
 
     @GetMapping("/accessDenied")
     public String getAccessDeniedPage() {
-
         return "exceptions/accessDenied";
     }
 
     @GetMapping("/logoutSuccessPage")
     public String getLogoutPage() {
-
         return "redirect:/catalog/resetFilterAfterLogout";
     }
 
@@ -85,6 +83,15 @@ public class SecurityController {
         return modelAndView;
     }
 
+    /**
+     * sign up process
+     *
+     * @param clientDTO client to sign up
+     * @param clientAddressDTO clients address
+     * @param firstPassword first password
+     * @param secondPassword password copy
+     * @return sign in page
+     */
     @PostMapping("/signUp")
     public String addClient(@ModelAttribute ClientDTO clientDTO,
                             @ModelAttribute ClientAddressDTO clientAddressDTO,
@@ -107,6 +114,12 @@ public class SecurityController {
         return "redirect:/signIn";
     }
 
+    /**
+     * getting all register clients
+     *
+     * @param clientListPage page number
+     * @return page with client list
+     */
     @GetMapping("/clientControl")
     public ModelAndView getClientList(@RequestParam(defaultValue = "1") int clientListPage) {
 
@@ -178,6 +191,13 @@ public class SecurityController {
         return modelAndView;
     }
 
+    /**
+     * show order details: products, client, date
+     *
+     * @param id order id
+     * @param orderProductsListPage page number
+     * @return order details page
+     */
     @GetMapping("/orderList/orderDetails/{id}")
     public ModelAndView getOrderDetails(@PathVariable("id") int id,
                                         @RequestParam(defaultValue = "1") int orderProductsListPage) {
@@ -214,6 +234,11 @@ public class SecurityController {
         return modelAndView;
     }
 
+    /**
+     * calculate purchase statistics
+     *
+     * @return statistics page
+     */
     @GetMapping(value = "/statistics")
     public ModelAndView getStatisticsPage() {
 
@@ -230,7 +255,6 @@ public class SecurityController {
         Date dateMinusSevenDays = calendar.getTime();
         calendar.add(Calendar.DATE, -27);
         Date dateMinusMonth = calendar.getTime();
-
 
         modelAndView.addObject("topTenProducts", orderedProductForHistoryService.getTop10ProductsBySoldNumberOptimizedVersion());
         modelAndView.addObject("top10clientsByProfit", orderedProductForHistoryService.getTop10clientsByProfitOptimizedVersion());

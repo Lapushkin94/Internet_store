@@ -48,7 +48,13 @@ public class CategoryController {
         return modelAndView;
     }
 
-
+    /**
+     * editing category and editing products with such category
+     *
+     * @param categoryId category id
+     * @param newNameOfCategory new category name
+     * @return category page with edited category and result status
+     */
     @PostMapping(value = "/editCategory/{categoryId}")
     public String editCategory(@PathVariable("categoryId") int categoryId,
                                      @RequestParam("nameOfCategory") String newNameOfCategory) {

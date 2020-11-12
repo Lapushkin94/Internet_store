@@ -75,11 +75,11 @@
                 </div>
 
                 <div class="col-md-3 mb-3" style="margin-top: 20px">
-                    <label for="payStatus">Pay status</label>
+                    <label for="payStatus">Payment type</label>
                     <select name="payStatus" class="custom-select" id="payStatus">
                         <option>Card online</option>
-                        <option>Card (upon receipt)</option>
-                        <option>Cash (upon receipt)</option>
+                        <option>Card (upon receive)</option>
+                        <option>Cash (upon receive)</option>
                     </select>
                 </div>
 

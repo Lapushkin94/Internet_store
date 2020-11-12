@@ -418,7 +418,7 @@ public class CatalogController {
     /**
      * first step to create order
      *
-     * @param basketForSession client's basket
+     * @param basketForSession        client's basket
      * @param productInBascetListPage basket page
      * @return basket full table
      */
@@ -459,9 +459,9 @@ public class CatalogController {
      * creating order and getting client info
      *
      * @param basketForSession client's basket
-     * @param orderDTO order object
+     * @param orderDTO         order object
      * @param clientAddressDTO client address object
-     * @param user current client
+     * @param user             current client
      * @return creating order result
      */
     @PostMapping(value = "/order/confirmation")
@@ -522,7 +522,7 @@ public class CatalogController {
      * page to repeat client's order
      *
      * @param basketForSession client's basket
-     * @param orderId complete order id
+     * @param orderId          complete order id
      * @return created basket of products by repeating order
      */
     @GetMapping(value = "/repeatOrder/{id}")
