@@ -12,20 +12,20 @@ IDE - IntelliJ IDEA
 Maven
 
 Technologies:
-ActiveMQ 5.7
-Bootstrap 3.3.7
-DB - MySQL 5.7
-EJB 3
-Java 8
-Javascript
-Jquery
-o JSF 2.2.13
-JSP 2.1
-Junit 4.12
-o Log4j 1.2.17
-Lombok 1.16.4
-Mockito 1.10.19
-Spring 4.3.9
-Spring Security 4.2.3
-Tomcat 8.5.161
-WildFly 10
+ActiveMQ;
+Bootstrap;
+DB - MySQL;
+EJB;
+Java 8;
+Javascript;
+Jquery;
+JSF;
+JSP;
+Junit;
+Log4j;
+Lombok;
+Mockito;
+Spring;
+Spring Security;
+Tomcat;
+WildFly;
