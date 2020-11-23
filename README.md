@@ -8,24 +8,24 @@ Data of users and their options store in reliable database.
 
 Used technologies:
 Instruments:
-IDE - IntelliJ IDEA
-Maven
+IDE - IntelliJ IDEA; 
+Maven; 
 
-Technologies:
-ActiveMQ;
-Bootstrap;
-DB - MySQL;
-EJB;
-Java 8;
-Javascript;
-Jquery;
-JSF;
-JSP;
-Junit;
-Log4j;
-Lombok;
-Mockito;
-Spring;
-Spring Security;
-Tomcat;
+Technologies: 
+ActiveMQ; 
+Bootstrap; 
+DB - MySQL; 
+EJB; 
+Java 8; 
+Javascript; 
+Jquery; 
+JSF; 
+JSP; 
+Junit; 
+Log4j; 
+Lombok; 
+Mockito; 
+Spring; 
+Spring Security; 
+Tomcat; 
 WildFly;
